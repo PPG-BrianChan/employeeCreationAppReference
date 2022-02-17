@@ -264,11 +264,16 @@
           "cardinality": {
             "max": 1
           },
-          "target": "sap.employee.OrganisationalUnitNameAndAddressCollection",
+          "target": "sap.employee.OrgUnit",
           "keys": [
             {
               "ref": [
                 "ID"
+              ]
+            },
+            {
+              "ref": [
+                "Code"
               ]
             }
           ]
@@ -332,11 +337,16 @@
           "cardinality": {
             "max": 1
           },
-          "target": "sap.employee.OrganisationalUnitNameAndAddressCollection",
+          "target": "sap.employee.SalesOrgs",
           "keys": [
             {
               "ref": [
                 "ID"
+              ]
+            },
+            {
+              "ref": [
+                "Code"
               ]
             }
           ]
@@ -621,13 +631,14 @@
         }
       }
     },
-    "sap.employee.OrganisationalUnitNameAndAddressCollection": {
+    "sap.employee.OrganisationalUnitCollection": {
       "kind": "entity",
+      "@cds.odata.valuelist": true,
       "@cds.persistence.skip": true,
       "projection": {
         "from": {
           "ref": [
-            "organisationalunit.OrganisationalUnitNameAndAddressCollection"
+            "organisationalunit.OrganisationalUnitCollection"
           ]
         },
         "columns": [
@@ -640,29 +651,187 @@
           },
           {
             "ref": [
-              "Name"
+              "MarkAsDeleted"
+            ]
+          },
+          {
+            "ref": [
+              "OrganisationalUnitNameAndAddress"
             ],
-            "as": "Description"
+            "as": "To_Names",
+            "cast": {
+              "target": "sap.employee.OrganisationalUnitNameAndAddressCollection",
+              "keys": []
+            }
+          },
+          {
+            "ref": [
+              "OrganisationalUnitFunctions"
+            ],
+            "as": "To_Functions",
+            "cast": {
+              "target": "organisationalunit.OrganisationalUnitFunctionsCollection",
+              "keys": []
+            }
           }
         ]
       },
       "elements": {
         "ID": {
           "@sap.creatable": "true",
-          "@sap.updatable": "false",
+          "@sap.updatable": "true",
           "@sap.filterable": "true",
           "@sap.label": "Organisational Unit ID",
           "key": true,
           "type": "cds.String",
           "length": 20
         },
+        "MarkAsDeleted": {
+          "@sap.creatable": "false",
+          "@sap.updatable": "true",
+          "@sap.filterable": "false",
+          "@sap.label": "Mark as deleted",
+          "type": "cds.Boolean"
+        },
+        "To_Names": {
+          "@cds.ambiguous": "missing on condition?",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.employee.OrganisationalUnitNameAndAddressCollection",
+          "keys": []
+        },
+        "To_Functions": {
+          "@cds.ambiguous": "missing on condition?",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "organisationalunit.OrganisationalUnitFunctionsCollection",
+          "keys": []
+        }
+      }
+    },
+    "sap.employee.SalesOrgs": {
+      "kind": "entity",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Code": {
+          "key": true,
+          "type": "cds.String"
+        },
         "Description": {
+          "type": "cds.String"
+        },
+        "SalesOrgIndicator": {
+          "type": "cds.Boolean"
+        }
+      }
+    },
+    "sap.employee.OrgUnit": {
+      "kind": "entity",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Code": {
+          "key": true,
+          "type": "cds.String"
+        },
+        "Description": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "sap.employee.OrganisationalUnitNameAndAddressCollection": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "organisationalunit.OrganisationalUnitNameAndAddressCollection"
+          ]
+        },
+        "columns": [
+          {
+            "ref": [
+              "OrganisationalUnitID"
+            ]
+          },
+          {
+            "ref": [
+              "Name"
+            ]
+          }
+        ]
+      },
+      "elements": {
+        "OrganisationalUnitID": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Organisational Unit ID",
+          "type": "cds.String",
+          "length": 20
+        },
+        "Name": {
           "@sap.creatable": "true",
           "@sap.updatable": "true",
           "@sap.filterable": "true",
           "@sap.label": "Name",
           "type": "cds.String",
           "length": 40
+        }
+      }
+    },
+    "sap.employee.OrganisationalUnitFunctionsCollection": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "organisationalunit.OrganisationalUnitFunctionsCollection"
+          ]
+        },
+        "columns": [
+          {
+            "ref": [
+              "OrganisationalUnitID"
+            ]
+          },
+          {
+            "ref": [
+              "SalesOrganisationIndicator"
+            ]
+          }
+        ]
+      },
+      "elements": {
+        "OrganisationalUnitID": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Organisational Unit ID",
+          "type": "cds.String",
+          "length": 20
+        },
+        "SalesOrganisationIndicator": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "true",
+          "@sap.filterable": "true",
+          "@sap.label": "Sales Organization",
+          "type": "cds.Boolean"
         }
       }
     },
@@ -995,6 +1164,12 @@
       ],
       "@UI.FieldGroup#BasicInfo.$Type": "UI.FieldGroupType",
       "@UI.FieldGroup#BasicInfo.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "UserLogin"
+          }
+        },
         {
           "$Type": "UI.DataField",
           "Value": {
@@ -1452,37 +1627,6 @@
         }
       }
     },
-    "EmployeeCreationService.OrgUnit": {
-      "kind": "entity",
-      "@readonly": true,
-      "@cds.persistence.skip": true,
-      "projection": {
-        "from": {
-          "ref": [
-            "sap.employee.OrganisationalUnitNameAndAddressCollection"
-          ]
-        }
-      },
-      "elements": {
-        "ID": {
-          "@sap.creatable": "true",
-          "@sap.updatable": "false",
-          "@sap.filterable": "true",
-          "@sap.label": "Organisational Unit ID",
-          "key": true,
-          "type": "cds.String",
-          "length": 20
-        },
-        "Description": {
-          "@sap.creatable": "true",
-          "@sap.updatable": "true",
-          "@sap.filterable": "true",
-          "@sap.label": "Name",
-          "type": "cds.String",
-          "length": 40
-        }
-      }
-    },
     "EmployeeCreationService.Job": {
       "kind": "entity",
       "@readonly": true,
@@ -1637,6 +1781,55 @@
         }
       },
       "elements": {
+        "Code": {
+          "key": true,
+          "type": "cds.String"
+        },
+        "Description": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "EmployeeCreationService.SalesOrgs": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.employee.SalesOrgs"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "Code": {
+          "key": true,
+          "type": "cds.String"
+        },
+        "Description": {
+          "type": "cds.String"
+        },
+        "SalesOrgIndicator": {
+          "type": "cds.Boolean"
+        }
+      }
+    },
+    "EmployeeCreationService.OrgUnit": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.employee.OrgUnit"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
         "Code": {
           "key": true,
           "type": "cds.String"
@@ -7030,7 +7223,7 @@
         {
           "$Type": "UI.DataField",
           "Value": {
-            "=": "UnitID_ID"
+            "=": "UnitID_Code"
           },
           "Label": "{i18n>UnitID}"
         },
@@ -7082,9 +7275,9 @@
             {
               "$Type": "Common.ValueListParameterInOut",
               "LocalDataProperty": {
-                "=": "UnitID_ID"
+                "=": "UnitID_Code"
               },
-              "ValueListProperty": "ID"
+              "ValueListProperty": "Code"
             },
             {
               "$Type": "Common.ValueListParameterDisplayOnly",
@@ -7100,6 +7293,11 @@
             {
               "ref": [
                 "ID"
+              ]
+            },
+            {
+              "ref": [
+                "Code"
               ]
             }
           ]
@@ -7172,7 +7370,7 @@
         {
           "$Type": "UI.DataField",
           "Value": {
-            "=": "SalesOrgID_ID"
+            "=": "SalesOrgID_Code"
           },
           "Label": "{i18n>SalesOrgID}"
         },
@@ -7226,14 +7424,20 @@
         },
         "SalesOrgID": {
           "@Common.ValueListWithFixedValues": true,
-          "@Common.ValueList.CollectionPath": "OrgUnit",
+          "@Common.Text": {
+            "=": "SalesOrgID.Description"
+          },
+          "@Common.TextArrangement": {
+            "#": "TextLast"
+          },
+          "@Common.ValueList.CollectionPath": "SalesOrgs",
           "@Common.ValueList.Parameters": [
             {
               "$Type": "Common.ValueListParameterInOut",
               "LocalDataProperty": {
-                "=": "SalesOrgID_ID"
+                "=": "SalesOrgID_Code"
               },
-              "ValueListProperty": "ID"
+              "ValueListProperty": "Code"
             },
             {
               "$Type": "Common.ValueListParameterDisplayOnly",
@@ -7244,11 +7448,16 @@
           "cardinality": {
             "max": 1
           },
-          "target": "EmployeeCreationService.OrgUnit",
+          "target": "EmployeeCreationService.SalesOrgs",
           "keys": [
             {
               "ref": [
                 "ID"
+              ]
+            },
+            {
+              "ref": [
+                "Code"
               ]
             }
           ]
@@ -7441,15 +7650,6 @@
       }
     }
   },
-  "extensions": [
-    {
-      "annotate": "EmployeeCreationService.EmpCreationForm.Language"
-    },
-    {
-      "annotate": "sap.employee.OrganisationalUnitCollection",
-      "@cds.odata.valuelist": true
-    }
-  ],
   "meta": {
     "creator": "CDS Compiler v2.12.0",
     "flavor": "inferred"

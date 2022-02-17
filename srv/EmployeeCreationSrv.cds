@@ -28,6 +28,7 @@ service EmployeeCreationService
     entity OrgUnitRoles as projection on employee.EmployeeOrgaUnitAssignmentRoleCodeCollection;
     entity SalesOrgs as projection on employee.SalesOrgs;
     entity OrgUnit as projection on employee.OrgUnit;
+    entity RemoteSystem as projection on employee.RemoteSystem;
 
 }
 

@@ -2,7 +2,8 @@
 COLUMN TABLE EmployeeCreationService_SalesResponsability_drafts (
   ID NVARCHAR(36) NOT NULL,
   To_CreationForm_ID NVARCHAR(36) NULL,
-  SalesOrgID_ID NVARCHAR(20) NULL,
+  SalesOrgID_ID NVARCHAR(36) NULL,
+  SalesOrgID_Code NVARCHAR(5000) NULL,
   DistributionChanelCode_ID NCLOB NULL,
   DivisionCode_ID NCLOB NULL,
   MainIndicator BOOLEAN NULL,
@@ -13,5 +14,6 @@ COLUMN TABLE EmployeeCreationService_SalesResponsability_drafts (
   PRIMARY KEY(ID)
 ) WITH ASSOCIATIONS (
   MANY TO ONE JOIN EmployeeCreationService_EmpCreationForm_drafts AS To_CreationForm ON (To_CreationForm.ID = To_CreationForm_ID),
+  MANY TO ONE JOIN EmployeeCreationService_SalesOrgs AS SalesOrgID ON (SalesOrgID.ID = SalesOrgID_ID AND SalesOrgID.Code = SalesOrgID_Code),
   MANY TO ONE JOIN EmployeeCreationService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
 )

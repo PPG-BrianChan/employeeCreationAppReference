@@ -2,11 +2,13 @@
 COLUMN TABLE sap_employee_SalesResponsability (
   ID NVARCHAR(36) NOT NULL,
   To_CreationForm_ID NVARCHAR(36),
-  SalesOrgID_ID NVARCHAR(20),
+  SalesOrgID_ID NVARCHAR(36),
+  SalesOrgID_Code NVARCHAR(5000),
   DistributionChanelCode_ID NCLOB,
   DivisionCode_ID NCLOB,
   MainIndicator BOOLEAN,
   PRIMARY KEY(ID)
 ) WITH ASSOCIATIONS (
-  MANY TO ONE JOIN sap_employee_EmpCreationForm AS To_CreationForm ON (To_CreationForm.ID = To_CreationForm_ID)
+  MANY TO ONE JOIN sap_employee_EmpCreationForm AS To_CreationForm ON (To_CreationForm.ID = To_CreationForm_ID),
+  MANY TO ONE JOIN sap_employee_SalesOrgs AS SalesOrgID ON (SalesOrgID.ID = SalesOrgID_ID AND SalesOrgID.Code = SalesOrgID_Code)
 )

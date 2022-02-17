@@ -50,7 +50,7 @@ entity BusinessRoles:cuid {
 entity Mapping:cuid {
     To_CreationForm : Association to one EmpCreationForm;
     RemoteObjectID : String;
-    RemoteSystemID : String;
+    RemoteSystemID : Association to one RemoteSystem;
 }
 
 
@@ -125,4 +125,9 @@ entity Roles {
     key CROOT_ID_CONTENT : String;
     CDESCRIPTION_NAME : String;
 };
+
+entity RemoteSystem {
+    key ID : String;
+    Description : String;
+}
 

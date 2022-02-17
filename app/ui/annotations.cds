@@ -121,7 +121,7 @@ annotate service.Mapping with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : RemoteSystemID,
+            Value : RemoteSystemID_ID,
             Label : '{i18n>RemoteSystemID}',
         },]
 );

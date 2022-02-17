@@ -42,11 +42,6 @@ annotate scp.EmpCreationForm {
     };
 };
 
-annotate scp.EmpCreationForm.Language {
-    
-}
-
-
 
 annotate scp.EmployeeOrgUnitAssigment {
     JobID @Common.ValueListWithFixedValues : true;  
@@ -136,6 +131,21 @@ annotate scp.BusinessRoles with {
                 ValueListProperty: 'CROOT_ID_CONTENT'},  
             {   $Type: 'Common.ValueListParameterDisplayOnly', 
                 ValueListProperty: 'CDESCRIPTION_NAME'},
+            ]
+    };
+};
+
+annotate scp.Mapping with {
+
+    RemoteSystemID @Common.ValueListWithFixedValues;
+    RemoteSystemID @Common.ValueList: {
+        CollectionPath : 'RemoteSystem',
+        Parameters : [
+            {   $Type: 'Common.ValueListParameterInOut',       
+                LocalDataProperty: RemoteSystemID_ID, 
+                ValueListProperty: 'ID'},  
+            {   $Type: 'Common.ValueListParameterDisplayOnly', 
+                ValueListProperty: 'Description'},
             ]
     };
 };

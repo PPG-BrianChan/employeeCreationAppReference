@@ -2,7 +2,8 @@
 COLUMN TABLE EmployeeCreationService_EmployeeOrgUnitAssigment_drafts (
   ID NVARCHAR(36) NOT NULL,
   To_CreationForm_ID NVARCHAR(36) NULL,
-  UnitID_ID NVARCHAR(20) NULL,
+  UnitID_ID NVARCHAR(36) NULL,
+  UnitID_Code NVARCHAR(5000) NULL,
   RoleCode_Code NVARCHAR(5000) NULL,
   JobID_ID NVARCHAR(20) NULL,
   IsActiveEntity BOOLEAN,
@@ -12,6 +13,7 @@ COLUMN TABLE EmployeeCreationService_EmployeeOrgUnitAssigment_drafts (
   PRIMARY KEY(ID)
 ) WITH ASSOCIATIONS (
   MANY TO ONE JOIN EmployeeCreationService_EmpCreationForm_drafts AS To_CreationForm ON (To_CreationForm.ID = To_CreationForm_ID),
+  MANY TO ONE JOIN EmployeeCreationService_OrgUnit AS UnitID ON (UnitID.ID = UnitID_ID AND UnitID.Code = UnitID_Code),
   MANY TO ONE JOIN EmployeeCreationService_OrgUnitRoles AS RoleCode ON (RoleCode.Code = RoleCode_Code),
   MANY TO ONE JOIN EmployeeCreationService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
 )
