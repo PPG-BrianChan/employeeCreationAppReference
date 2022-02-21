@@ -108,16 +108,20 @@ resources:
             ProxyType: Internet
             Type: HTTP
             URL: https://ui5.sap.com
+            existing_destinations_policy: ignore
           - Authentication: BasicAuthentication
             Name: EmployeeAndUser
             ProxyType: Internet
             Type: HTTP
             URL: https://my345039.crm.ondemand.com//sap/c4c/odata/v1/c4codataapi
+            existing_destinations_policy: ignore
           - Authentication: BasicAuthentication
             Name: c4c_odata
             ProxyType: Internet
             Type: HTTP
             URL: https://my345039.crm.ondemand.com/sap/c4c/odata/ana_businessanalytics_analytics.svc
+            existing_destinations_policy: ignore
+          existing_destinations_policy: ignore
       version: 1.0.0
     service: destination
     service-name: EmployeeCreationApp-dest-srv
