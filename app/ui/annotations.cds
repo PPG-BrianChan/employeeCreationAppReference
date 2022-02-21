@@ -91,6 +91,10 @@ annotate service.SalesResponsability with @(
             Label : '{i18n>SalesOrgID}',
         },{
             $Type : 'UI.DataField',
+            Value : SalesTerritory_ID,
+            Label : '{i18n>SalesTerritory}',
+        },{
+            $Type : 'UI.DataField',
             Value : DistributionChanelCode_ID,
             Label : '{i18n>DistributionChanelCode}',
         },{

@@ -2,9 +2,14 @@ const cds = require('@sap/cds');
 
 module.exports = cds.service.impl(async function() {
     cds.env.features.fetch_csrf = true;
-	const { EmpCreationForm, Job, OrgUnit, RoleCode, Roles, EmployeeUserPasswordPolicy, Country, Language, DistributionChanelCode, DivisionCode, SalesOrgs, RemoteSystem} = this.entities;
+	const { EmpCreationForm, Job, OrgUnit, RoleCode, Roles, EmployeeUserPasswordPolicy, Country, 
+        SalesTerritoryCollection, Language, DistributionChanelCode, DivisionCode, SalesOrgs, RemoteSystem} = this.entities;
 	const service = await cds.connect.to('employeeanduser');
     const c4c_odata = await cds.connect.to('rolesAPI');
+
+    this.on('READ', SalesTerritoryCollection, request => {
+		return service.tx(request).run(request.query);
+	});
 
     this.on('READ', EmployeeUserPasswordPolicy, request => {
 		return service.tx(request).run(request.query);
@@ -91,66 +96,88 @@ module.exports = cds.service.impl(async function() {
         return e.d.results;
 	});
 
-    this.after('CREATE', EmpCreationForm, async request => {
+    this.on('CREATE', EmpCreationForm,async request => {
+        
         var empInst = {};
         var businessRoles = [];
         var salesResp = [];
         var orgAssigment = [];
-        empInst.UserID = request.UserLogin;
-        empInst.EmployeeValidityStartDate = request.ValidatyStartDate + "T00:00:00";
-        empInst.EmployeeValidityEndDate = request.ValidatyEndDate + "T00:00:00";
-        empInst.FirstName = request.FirstName;
-        empInst.LastName = request.LastName;
-        empInst.LanguageCode = request.Language_ID;
-        empInst.CountryCode = request.Country_ID;
-        empInst.MobilePhoneNumber = request.MobilePhone;
-        empInst.UserValidityStartDate = request.ValidatyStartDate + "T00:00:00";
-        empInst.UserValidityEndDate = request.ValidatyEndDate + "T00:00:00";
-        empInst.Email = request.Email;
-        empInst.UserPasswordPolicyCode = request.UserPasswordPolicy_ID;
-        if (empInst.UserPasswordPolicy_ID == "") empInst.UserPasswordPolicyCode = "S_BUSINESS_USER_WITHOUT_PASSWORD";
-        var arr = request.To_BusinessRoles
+        empInst.UserID = request.data.UserLogin;
+        empInst.EmployeeValidityStartDate = request.data.ValidatyStartDate + "T00:00:00";
+        empInst.EmployeeValidityEndDate = request.data.ValidatyEndDate + "T00:00:00";
+        empInst.FirstName = request.data.FirstName;
+        empInst.LastName = request.data.LastName;
+        empInst.LanguageCode = request.data.Language_ID;
+        empInst.CountryCode = request.data.Country_ID;
+        empInst.MobilePhoneNumber = request.data.MobilePhone;
+        empInst.UserValidityStartDate = request.data.ValidatyStartDate + "T00:00:00";
+        empInst.UserValidityEndDate = request.data.ValidatyEndDate + "T00:00:00";
+        empInst.Email = request.data.Email;
+        empInst.UserPasswordPolicyCode = request.data.UserPasswordPolicy_ID;
+        if (empInst.UserPasswordPolicy_ID == "") empInst.data.UserPasswordPolicyCode = "S_BUSINESS_USER_WITHOUT_PASSWORD";
+        var arr = request.data.To_BusinessRoles
         arr.forEach(element => {
             var newRoleInst = {};
-            newRoleInst.UserID = request.UserLogin;
+            newRoleInst.UserID = request.data.UserLogin;
             newRoleInst.BusinessRoleID = element.Role_CROOT_ID_CONTENT;
             businessRoles.push(newRoleInst);
         })
-        arr = request.To_OrgUnits
+        arr = request.data.To_OrgUnits
         arr.forEach(element => {
             var newOrgInst = {};
             newOrgInst.RoleCode = element.RoleCode_Code;
             newOrgInst.OrgUnitID = element.UnitID_Code;           
             newOrgInst.JobID = element.JobID_ID;
-            newOrgInst.StartDate = request.ValidatyStartDate + "T00:00:00";
-            newOrgInst.EndDate = request.ValidatyEndDate + "T00:00:00";
+            newOrgInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
+            newOrgInst.EndDate = request.data.ValidatyEndDate + "T00:00:00";
             orgAssigment.push(newOrgInst);
         })
-        arr = request.To_SalesResponsobilities
+        arr = request.data.To_SalesResponsobilities
         arr.forEach(element => {
             var newSalesRespInst = {};
             newSalesRespInst.SalesOrganisationID = element.SalesOrgID_Code;
             newSalesRespInst.DistributionChannelCode = element.DistributionChanelCode_ID;
             newSalesRespInst.DivisionCode = element.DivisionCode_ID;
             newSalesRespInst.MainIndicator = element.MainIndicator;
+            newSalesRespInst.SalesTerritoryID = element.SalesTerritory_ID;
+            newSalesRespInst.ObjectID = element.ObjectID;
             salesResp.push(newSalesRespInst);
         })
         empInst.EmployeeUserBusinessRoleAssignment = businessRoles;
         empInst.EmployeeSalesResponsibility = salesResp;
         empInst.EmployeeOrganisationalUnitAssignment = orgAssigment;
-        var executedRes = await service.tx(request).post("/EmployeeCollection",empInst);
-        var buPaID = executedRes.BusinessPartnerID;
-        arr = request.To_Mappings;
-        var te = [];
-        arr.forEach(async element => {
-            var newMappingInst = {};
-            newMappingInst.LocalObjectID = buPaID;
-            newMappingInst.RemoteObjectID = element.RemoteObjectID;
-            newMappingInst.RemoteIdentifierDefiningSchemeCode = "3";
-            newMappingInst.RemoteBusinessSystemID = element.RemoteSystemID_ID;
-            te.push(newMappingInst);
-        })
-        var qqq = await service.tx(request).post("/ObjectIdentifierMappingCollection",te);
-            var e = 0;
+        try{
+           var executedRes = await service.tx(request).post("/EmployeeCollection",empInst);
+           var empID = executedRes.EmployeeID;//'1283302';   
+           var buPaID = executedRes.BusinessPartnerID;// '8000004299';
+           for (const element of salesResp) {
+                var newTerrInst = {};
+                newTerrInst.TerritoryId = element.SalesTerritoryID;
+                newTerrInst.EmployeeID = empID;
+                newTerrInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
+                newTerrInst.EndDate = request.data.ValidatyEndDate + "T00:00:00";
+                var query = "/SalesTerritoryCollection?$filter=Id eq '" + element.SalesTerritoryID + "'&$select=ObjectID";
+                var terData = await service.tx(request).get(query);
+                var currentObjectID = terData[0].ObjectID;
+                var endPoint = "/SalesTerritoryCollection('" + currentObjectID + "')/SalesTerritoryTeam";
+                var resTer = await service.tx(request).post(endPoint,newTerrInst);
+                var q = 0;
+            }
+            arr = request.data.To_Mappings;
+            await arr.forEach((element, index) => {
+                setTimeout (async() => {
+                var newMappingInst = {};
+                newMappingInst.LocalObjectID = buPaID;
+                newMappingInst.RemoteObjectID = element.RemoteObjectID;
+                newMappingInst.RemoteIdentifierDefiningSchemeCode = "3";
+                newMappingInst.RemoteBusinessSystemID = element.RemoteSystemID_ID;
+                var resObjMapping = await service.tx(request).post("/ObjectIdentifierMappingCollection",newMappingInst);
+                }, index * 2000);
+                
+            })
+        }catch(e){
+            var error = e.innererror.response.body.error.message.value;
+            request.reject(e.innererror.response.status, error);
+        }    
     })
 });

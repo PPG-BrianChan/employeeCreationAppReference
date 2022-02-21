@@ -6,6 +6,7 @@ COLUMN TABLE sap_employee_SalesResponsability (
   SalesOrgID_Code NVARCHAR(5000),
   DistributionChanelCode_ID NCLOB,
   DivisionCode_ID NCLOB,
+  SalesTerritory_ID NVARCHAR(6),
   MainIndicator BOOLEAN,
   PRIMARY KEY(ID)
 ) WITH ASSOCIATIONS (

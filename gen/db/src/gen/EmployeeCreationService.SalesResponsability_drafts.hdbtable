@@ -6,6 +6,7 @@ COLUMN TABLE EmployeeCreationService_SalesResponsability_drafts (
   SalesOrgID_Code NVARCHAR(5000) NULL,
   DistributionChanelCode_ID NCLOB NULL,
   DivisionCode_ID NCLOB NULL,
+  SalesTerritory_ID NVARCHAR(6) NULL,
   MainIndicator BOOLEAN NULL,
   IsActiveEntity BOOLEAN,
   HasActiveEntity BOOLEAN,

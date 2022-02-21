@@ -5,6 +5,7 @@ using { cuid, managed, temporal, sap } from '@sap/cds/common';
 using { employeeanduser as external} from '../srv/external/employeeanduser.csn';
 using { jobdefinition as extjob } from '../srv/external/jobdefinition.csn';
 using { organisationalunit as extunit } from '../srv/external/organisationalunit.csn';
+using { salesterritory as extterritory } from '../srv/external/salesterritory.csn';
 
 entity EmpCreationForm : cuid, managed {
     EmployeeIDInternal : Integer;
@@ -38,6 +39,7 @@ entity SalesResponsability:cuid {
     SalesOrgID : Association to one SalesOrgs;
     DistributionChanelCode : Association to one OrganisationalUnitDistributionChannelAndDivisionDistributionChannelCodeCollection;
     DivisionCode : Association to one OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection;
+    SalesTerritory : Association to one SalesTerritoryCollection;
     MainIndicator : Boolean;
 };
 
@@ -120,6 +122,10 @@ entity OrganisationalUnitDistributionChannelAndDivisionDistributionChannelCodeCo
 entity OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection as projection on extunit.OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection {
     key Code as ID, Description
 };
+
+entity SalesTerritoryCollection as projection on extterritory.SalesTerritoryCollection {
+    key Id as ID, Name as Description
+}
 
 entity Roles {
     key CROOT_ID_CONTENT : String;

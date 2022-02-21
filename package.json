@@ -73,6 +73,10 @@
       "objectidentifiermapping": {
         "kind": "odata-v2",
         "model": "srv/external/objectidentifiermapping"
+      },
+      "salesterritory": {
+        "kind": "odata-v2",
+        "model": "srv/external/salesterritory"
       }
     },
     "hana": {

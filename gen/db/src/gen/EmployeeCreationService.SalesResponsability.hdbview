@@ -6,6 +6,7 @@ VIEW EmployeeCreationService_SalesResponsability AS SELECT
   SalesResponsability_0.SalesOrgID_Code,
   SalesResponsability_0.DistributionChanelCode_ID,
   SalesResponsability_0.DivisionCode_ID,
+  SalesResponsability_0.SalesTerritory_ID,
   SalesResponsability_0.MainIndicator
 FROM sap_employee_SalesResponsability AS SalesResponsability_0
 WITH ASSOCIATIONS (

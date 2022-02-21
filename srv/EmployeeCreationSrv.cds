@@ -22,6 +22,8 @@ service EmployeeCreationService
     entity DistributionChanelCode as projection on employee.OrganisationalUnitDistributionChannelAndDivisionDistributionChannelCodeCollection;
     @readonly
     entity DivisionCode as projection on employee.OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection;    
+    @readonly
+    entity SalesTerritoryCollection as projection on employee.SalesTerritoryCollection;      
     @readonly   
     entity Roles as projection on employee.Roles;
     @readonly

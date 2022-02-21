@@ -7,6 +7,15 @@ using { sap.employee as e } from '../db/schema';
 //
 
 annotate scp.EmpCreationForm {
+    UserLogin @mandatory;
+    FirstName @mandatory;
+    LastName  @mandatory;
+    Email     @mandatory;
+    Country   @mandatory;
+    Language  @mandatory;
+    UserPasswordPolicy @mandatory;
+    ValidatyStartDate @mandatory;
+    ValidatyEndDate @mandatory;
     Language @Common.ValueListWithFixedValues : true;  
     Language @Common.ValueList: {
         CollectionPath : 'Language',
@@ -44,6 +53,7 @@ annotate scp.EmpCreationForm {
 
 
 annotate scp.EmployeeOrgUnitAssigment {
+    UnitID @mandatory;
     JobID @Common.ValueListWithFixedValues : true;  
     JobID @Common.ValueList: {
         CollectionPath : 'Job',
@@ -80,6 +90,7 @@ annotate scp.EmployeeOrgUnitAssigment {
 }
 
 annotate scp.SalesResponsability with {
+    SalesOrgID @mandatory;
     DistributionChanelCode @Common.ValueListWithFixedValues : true;  
     DistributionChanelCode @Common.ValueList: {
         CollectionPath : 'DistributionChanelCode',
@@ -117,10 +128,22 @@ annotate scp.SalesResponsability with {
                 ValueListProperty: 'Description'},
             ]
     };
+    SalesTerritory @Common.ValueListWithFixedValues : true;
+    SalesTerritory @Common.ValueList: {
+        CollectionPath : 'SalesTerritoryCollection',
+        Parameters : [
+            {   $Type: 'Common.ValueListParameterInOut',       
+                LocalDataProperty: SalesTerritory_ID, 
+                ValueListProperty: 'ID'},  
+            {   $Type: 'Common.ValueListParameterDisplayOnly', 
+                ValueListProperty: 'Description'},
+            ]
+    };
     
 };
 
 annotate scp.BusinessRoles with {
+    Role @mandatory;
 
     Role @Common.ValueListWithFixedValues;
     Role @Common.ValueList: {

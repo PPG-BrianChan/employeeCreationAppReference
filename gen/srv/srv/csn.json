@@ -379,6 +379,20 @@
             }
           ]
         },
+        "SalesTerritory": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "sap.employee.SalesTerritoryCollection",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
         "MainIndicator": {
           "type": "cds.Boolean"
         }
@@ -452,7 +466,18 @@
           "type": "cds.String"
         },
         "RemoteSystemID": {
-          "type": "cds.String"
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "sap.employee.RemoteSystem",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
         }
       }
     },
@@ -976,6 +1001,51 @@
         }
       }
     },
+    "sap.employee.SalesTerritoryCollection": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "salesterritory.SalesTerritoryCollection"
+          ]
+        },
+        "columns": [
+          {
+            "key": true,
+            "ref": [
+              "Id"
+            ],
+            "as": "ID"
+          },
+          {
+            "ref": [
+              "Name"
+            ],
+            "as": "Description"
+          }
+        ]
+      },
+      "elements": {
+        "ID": {
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Territory ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 6
+        },
+        "Description": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "true",
+          "@sap.filterable": "true",
+          "@sap.label": "Territory Name",
+          "type": "cds.String",
+          "length": 40
+        }
+      }
+    },
     "sap.employee.Roles": {
       "kind": "entity",
       "@cds.odata.valuelist": true,
@@ -985,6 +1055,18 @@
           "type": "cds.String"
         },
         "CDESCRIPTION_NAME": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "sap.employee.RemoteSystem": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.String"
+        },
+        "Description": {
           "type": "cds.String"
         }
       }
@@ -1340,6 +1422,7 @@
           "type": "cds.String"
         },
         "UserLogin": {
+          "@mandatory": true,
           "@title": "{i18n>UserLogin}",
           "type": "cds.String"
         },
@@ -1347,14 +1430,17 @@
           "type": "cds.String"
         },
         "FirstName": {
+          "@mandatory": true,
           "@title": "{i18n>FirstName}",
           "type": "cds.String"
         },
         "LastName": {
+          "@mandatory": true,
           "@title": "{i18n>LastName}",
           "type": "cds.String"
         },
         "Email": {
+          "@mandatory": true,
           "@title": "{i18n>Email}",
           "type": "cds.String"
         },
@@ -1363,6 +1449,7 @@
           "type": "cds.String"
         },
         "Country": {
+          "@mandatory": true,
           "@Common.ValueListWithFixedValues": true,
           "@Common.ValueList.CollectionPath": "Country",
           "@Common.ValueList.Parameters": [
@@ -1390,6 +1477,7 @@
           ]
         },
         "Language": {
+          "@mandatory": true,
           "@Common.ValueListWithFixedValues": true,
           "@Common.ValueList.CollectionPath": "Language",
           "@Common.ValueList.Parameters": [
@@ -1417,14 +1505,17 @@
           ]
         },
         "ValidatyStartDate": {
+          "@mandatory": true,
           "@title": "{i18n>ValidatyStartDate}",
           "type": "cds.Date"
         },
         "ValidatyEndDate": {
+          "@mandatory": true,
           "@title": "{i18n>ValidatyEndDate}",
           "type": "cds.Date"
         },
         "UserPasswordPolicy": {
+          "@mandatory": true,
           "@Common.ValueListWithFixedValues": true,
           "@Common.ValueList.CollectionPath": "EmployeeUserPasswordPolicy",
           "@Common.ValueList.Parameters": [
@@ -1749,6 +1840,37 @@
         }
       }
     },
+    "EmployeeCreationService.SalesTerritoryCollection": {
+      "kind": "entity",
+      "@readonly": true,
+      "@cds.persistence.skip": true,
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.employee.SalesTerritoryCollection"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Territory ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 6
+        },
+        "Description": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "true",
+          "@sap.filterable": "true",
+          "@sap.label": "Territory Name",
+          "type": "cds.String",
+          "length": 40
+        }
+      }
+    },
     "EmployeeCreationService.Roles": {
       "kind": "entity",
       "@readonly": true,
@@ -1831,6 +1953,25 @@
           "type": "cds.UUID"
         },
         "Code": {
+          "key": true,
+          "type": "cds.String"
+        },
+        "Description": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "EmployeeCreationService.RemoteSystem": {
+      "kind": "entity",
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.employee.RemoteSystem"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
           "key": true,
           "type": "cds.String"
         },
@@ -6660,6 +6801,329 @@
         }
       }
     },
+    "salesterritory": {
+      "@source": "srv/external/salesterritory.csn",
+      "kind": "service",
+      "@cds.external": "odata-v2"
+    },
+    "salesterritory.SalesTerritoryCollection": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "elements": {
+        "ObjectID": {
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Object ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 70
+        },
+        "Id": {
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Territory ID",
+          "type": "cds.String",
+          "length": 6
+        },
+        "Name": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "true",
+          "@sap.filterable": "true",
+          "@sap.label": "Territory Name",
+          "type": "cds.String",
+          "length": 40
+        },
+        "ParentID": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "true",
+          "@sap.filterable": "true",
+          "@sap.label": "Parent Territory ID",
+          "type": "cds.String",
+          "length": 6
+        },
+        "EmployeeResponsible": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "true",
+          "@sap.filterable": "true",
+          "@sap.label": "Employee Responsible",
+          "type": "cds.String",
+          "length": 20
+        },
+        "HierarchyLevelCode": {
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.text": "HierarchyLevelCodeText",
+          "@sap.label": "Hierarchy Level",
+          "type": "cds.String",
+          "length": 4
+        },
+        "HierarchyLevelCodeText": {
+          "@sap.label": "Hierarchy Level Text",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "type": "cds.LargeString"
+        },
+        "EntityLastChangedOn": {
+          "@odata.type": "Edm.DateTimeOffset",
+          "@odata.precision": 7,
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Entity Last Changed On",
+          "type": "cds.Timestamp"
+        },
+        "ETag": {
+          "@odata.type": "Edm.DateTimeOffset",
+          "@odata.precision": 7,
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "false",
+          "@sap.label": "Entity Tag",
+          "type": "cds.Timestamp"
+        },
+        "SalesTerritoryAccount": {
+          "@cds.ambiguous": "missing on condition?",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "salesterritory.SalesTerritoryAccountCollection",
+          "keys": []
+        },
+        "SalesTerritoryTeam": {
+          "@cds.ambiguous": "missing on condition?",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "salesterritory.SalesTerritoryTeamCollection",
+          "keys": []
+        }
+      }
+    },
+    "salesterritory.SalesTerritoryAccountCollection": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "elements": {
+        "ObjectID": {
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Object ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 70
+        },
+        "ParentObjectID": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Parent Object ID",
+          "type": "cds.String",
+          "length": 70
+        },
+        "TerritoryId": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Territory ID",
+          "type": "cds.String",
+          "length": 6
+        },
+        "CustomerID": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "true",
+          "@sap.filterable": "true",
+          "@sap.label": "Customer ID",
+          "type": "cds.String",
+          "length": 60
+        },
+        "TerritoryAssignmentManualOverrideAllowedIndicator": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "true",
+          "@sap.filterable": "true",
+          "@sap.label": "Manual Assignment Indicator",
+          "type": "cds.Boolean"
+        },
+        "ETag": {
+          "@odata.type": "Edm.DateTimeOffset",
+          "@odata.precision": 7,
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "false",
+          "@sap.label": "Entity Tag",
+          "type": "cds.Timestamp"
+        },
+        "SalesTerritory": {
+          "@cds.ambiguous": "missing on condition?",
+          "type": "cds.Association",
+          "target": "salesterritory.SalesTerritoryCollection",
+          "keys": []
+        }
+      }
+    },
+    "salesterritory.SalesTerritoryTeamCollection": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "elements": {
+        "ObjectID": {
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Object ID",
+          "key": true,
+          "type": "cds.String",
+          "length": 70
+        },
+        "ParentObjectID": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Parent Object ID",
+          "type": "cds.String",
+          "length": 70
+        },
+        "TerritoryId": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Territory ID",
+          "type": "cds.String",
+          "length": 6
+        },
+        "PartyRole": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "true",
+          "@sap.filterable": "true",
+          "@sap.text": "PartyRoleText",
+          "@sap.label": "Party Role",
+          "type": "cds.String",
+          "length": 10
+        },
+        "PartyRoleText": {
+          "@sap.label": "Party Role Text",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "type": "cds.LargeString"
+        },
+        "EmployeeID": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "true",
+          "@sap.filterable": "true",
+          "@sap.label": "Employee ID",
+          "type": "cds.String",
+          "length": 20
+        },
+        "StartDate": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "true",
+          "@sap.filterable": "true",
+          "@sap.label": "Start Date",
+          "@sap.display.format": "Date",
+          "type": "cds.Date"
+        },
+        "EndDate": {
+          "@sap.creatable": "true",
+          "@sap.updatable": "true",
+          "@sap.filterable": "true",
+          "@sap.label": "End Date",
+          "@sap.display.format": "Date",
+          "type": "cds.Date"
+        },
+        "EntityLastChangedOn": {
+          "@odata.type": "Edm.DateTimeOffset",
+          "@odata.precision": 7,
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Entity Last Changed On",
+          "type": "cds.Timestamp"
+        },
+        "ETag": {
+          "@odata.type": "Edm.DateTimeOffset",
+          "@odata.precision": 7,
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "false",
+          "@sap.label": "Entity Tag",
+          "type": "cds.Timestamp"
+        },
+        "SalesTerritory": {
+          "@cds.ambiguous": "missing on condition?",
+          "type": "cds.Association",
+          "target": "salesterritory.SalesTerritoryCollection",
+          "keys": []
+        }
+      }
+    },
+    "salesterritory.SalesTerritoryHierarchyLevelCodeCollection": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "elements": {
+        "Code": {
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Code",
+          "key": true,
+          "type": "cds.LargeString"
+        },
+        "Description": {
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Description",
+          "type": "cds.LargeString"
+        }
+      }
+    },
+    "salesterritory.SalesTerritorySubordinateSalesTerritoryHierarchyLevelCodeCollection": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "elements": {
+        "Code": {
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Code",
+          "key": true,
+          "type": "cds.LargeString"
+        },
+        "Description": {
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Description",
+          "type": "cds.LargeString"
+        }
+      }
+    },
+    "salesterritory.SalesTerritoryTeamPartyRoleCollection": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "elements": {
+        "Code": {
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Code",
+          "key": true,
+          "type": "cds.LargeString"
+        },
+        "Description": {
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.filterable": "true",
+          "@sap.label": "Description",
+          "type": "cds.LargeString"
+        }
+      }
+    },
     "Language": {
       "kind": "type",
       "@title": "{i18n>Language}",
@@ -7269,6 +7733,7 @@
           ]
         },
         "UnitID": {
+          "@mandatory": true,
           "@Common.ValueListWithFixedValues": true,
           "@Common.ValueList.CollectionPath": "OrgUnit",
           "@Common.ValueList.Parameters": [
@@ -7377,6 +7842,13 @@
         {
           "$Type": "UI.DataField",
           "Value": {
+            "=": "SalesTerritory_ID"
+          },
+          "Label": "{i18n>SalesTerritory}"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
             "=": "DistributionChanelCode_ID"
           },
           "Label": "{i18n>DistributionChanelCode}"
@@ -7423,6 +7895,7 @@
           ]
         },
         "SalesOrgID": {
+          "@mandatory": true,
           "@Common.ValueListWithFixedValues": true,
           "@Common.Text": {
             "=": "SalesOrgID.Description"
@@ -7520,6 +7993,35 @@
             }
           ]
         },
+        "SalesTerritory": {
+          "@Common.ValueListWithFixedValues": true,
+          "@Common.ValueList.CollectionPath": "SalesTerritoryCollection",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "SalesTerritory_ID"
+              },
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Description"
+            }
+          ],
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.SalesTerritoryCollection",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
         "MainIndicator": {
           "type": "cds.Boolean"
         }
@@ -7565,6 +8067,7 @@
           ]
         },
         "Role": {
+          "@mandatory": true,
           "@Common.ValueListWithFixedValues": true,
           "@Common.ValueList.CollectionPath": "Roles",
           "@Common.ValueList.Parameters": [
@@ -7610,7 +8113,7 @@
         {
           "$Type": "UI.DataField",
           "Value": {
-            "=": "RemoteSystemID"
+            "=": "RemoteSystemID_ID"
           },
           "Label": "{i18n>RemoteSystemID}"
         }
@@ -7645,7 +8148,33 @@
           "type": "cds.String"
         },
         "RemoteSystemID": {
-          "type": "cds.String"
+          "@Common.ValueListWithFixedValues": true,
+          "@Common.ValueList.CollectionPath": "RemoteSystem",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "RemoteSystemID_ID"
+              },
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Description"
+            }
+          ],
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.RemoteSystem",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
         }
       }
     }
