@@ -8,7 +8,7 @@ using { organisationalunit as extunit } from '../srv/external/organisationalunit
 using { salesterritory as extterritory } from '../srv/external/salesterritory.csn';
 
 entity EmpCreationForm : cuid, managed {
-    EmployeeIDInternal : Integer;
+    EmployeeIDInternal : String;
     EmployeeIDExternal : String;
     UserLogin : String;
     Tenant : String;

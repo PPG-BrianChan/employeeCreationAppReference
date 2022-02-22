@@ -71,10 +71,9 @@ annotate scp.EmpCreationForm with @UI : {
     FieldGroup #HeaderGroup: {
         $Type : 'UI.FieldGroupType',
         Data  : [
-            {   $Type : 'UI.DataField', Value : UserLogin   },
-            {   $Type : 'UI.DataField', Value : FirstName },
-            {   $Type : 'UI.DataField', Value : LastName },
-            {   $Type : 'UI.DataField', Value : Email },
+            {   $Type : 'UI.DataField', Value : EmployeeIDInternal   },
+            {   $Type : 'UI.DataField', Value : EmployeeIDExternal },
+            {   $Type : 'UI.DataField', Value : UserLogin }
         ]
     },
     
