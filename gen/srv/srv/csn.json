@@ -1416,7 +1416,6 @@
           "type": "cds.String"
         },
         "UserLogin": {
-          "@mandatory": true,
           "@title": "{i18n>UserLogin}",
           "type": "cds.String"
         },
@@ -1424,17 +1423,14 @@
           "type": "cds.String"
         },
         "FirstName": {
-          "@mandatory": true,
           "@title": "{i18n>FirstName}",
           "type": "cds.String"
         },
         "LastName": {
-          "@mandatory": true,
           "@title": "{i18n>LastName}",
           "type": "cds.String"
         },
         "Email": {
-          "@mandatory": true,
           "@title": "{i18n>Email}",
           "type": "cds.String"
         },
@@ -1443,7 +1439,6 @@
           "type": "cds.String"
         },
         "Country": {
-          "@mandatory": true,
           "@Common.ValueListWithFixedValues": true,
           "@Common.ValueList.CollectionPath": "Country",
           "@Common.ValueList.Parameters": [
@@ -1471,7 +1466,6 @@
           ]
         },
         "Language": {
-          "@mandatory": true,
           "@Common.ValueListWithFixedValues": true,
           "@Common.ValueList.CollectionPath": "Language",
           "@Common.ValueList.Parameters": [
@@ -1499,17 +1493,14 @@
           ]
         },
         "ValidatyStartDate": {
-          "@mandatory": true,
           "@title": "{i18n>ValidatyStartDate}",
           "type": "cds.Date"
         },
         "ValidatyEndDate": {
-          "@mandatory": true,
           "@title": "{i18n>ValidatyEndDate}",
           "type": "cds.Date"
         },
         "UserPasswordPolicy": {
-          "@mandatory": true,
           "@Common.ValueListWithFixedValues": true,
           "@Common.ValueList.CollectionPath": "EmployeeUserPasswordPolicy",
           "@Common.ValueList.Parameters": [

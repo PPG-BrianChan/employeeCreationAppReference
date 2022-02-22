@@ -7,7 +7,7 @@ using { sap.employee as e } from '../db/schema';
 //
 
 annotate scp.EmpCreationForm {
-    UserLogin @mandatory;
+  /*  UserLogin @mandatory;
     FirstName @mandatory;
     LastName  @mandatory;
     Email     @mandatory;
@@ -15,7 +15,7 @@ annotate scp.EmpCreationForm {
     Language  @mandatory;
     UserPasswordPolicy @mandatory;
     ValidatyStartDate @mandatory;
-    ValidatyEndDate @mandatory;
+    ValidatyEndDate @mandatory;*/
     Language @Common.ValueListWithFixedValues : true;  
     Language @Common.ValueList: {
         CollectionPath : 'Language',

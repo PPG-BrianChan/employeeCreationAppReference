@@ -96,86 +96,99 @@ module.exports = cds.service.impl(async function() {
         return e.d.results;
 	});
 
+    this.before('CREATE', EmpCreationForm,async request => {
+        
+        for (const element of request.data.To_BusinessRoles) {
+            if(element.Role_CROOT_ID_CONTENT == null){
+                request.reject(400, "Business Role is mandatory.");
+            }
+        }
+
+        for (const element of request.data.To_OrgUnits) {
+            if(element.UnitID_Code == null){
+                request.reject(400, "Unit ID is mandatory.");
+            }
+        }
+
+        for (const element of request.data.To_SalesResponsobilities) {
+            if(element.SalesOrgID_Code == null){
+                request.reject(400, "Sales Organisation ID is mandatory.");
+            }
+        }
+    })
 
     this.after('CREATE', EmpCreationForm,async (data, request) => {
-        try{
+
+        var businessRoles = [];
+        var salesResp = [];
+        var orgAssigment = [];
+        var territories = [];
+        var empInst = {
+            "UserID" : request.data.UserLogin,
+            "EmployeeValidityStartDate" : request.data.ValidatyStartDate + "T00:00:00",
+            "EmployeeValidityEndDate" :  request.data.ValidatyEndDate + "T00:00:00",
+            "FirstName" :  request.data.FirstName,
+            "LastName" :  request.data.LastName,
+            "LanguageCode" :  request.data.Language_ID,
+            "CountryCode" :  request.data.Country_ID,
+            "MobilePhoneNumber" :  request.data.MobilePhone,
+            "UserValidityStartDate" :  request.data.ValidatyStartDate + "T00:00:00",
+            "UserValidityEndDate" :  request.data.ValidatyEndDate + "T00:00:00",
+            "Email" :  request.data.Email,
+            "UserPasswordPolicyCode" :  request.data.UserPasswordPolicy_ID
+        }; 
+        if (request.data.UserPasswordPolicy_ID == null) empInst.UserPasswordPolicyCode = "S_BUSINESS_USER_WITHOUT_PASSWORD";
+        var arr = request.data.To_BusinessRoles
+        for (const element of arr) {
+            var newRoleInst = {};
+            newRoleInst.UserID = request.data.UserLogin;
+            newRoleInst.BusinessRoleID = element.Role_CROOT_ID_CONTENT;
+            businessRoles.push(newRoleInst);
+        }
+        arr = request.data.To_OrgUnits
+        for (const element of arr) {
+            var newOrgInst = {};
+            newOrgInst.RoleCode = element.RoleCode_Code;
+            newOrgInst.OrgUnitID = element.UnitID_Code;           
+            newOrgInst.JobID = element.JobID_ID;
+            newOrgInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
+            newOrgInst.EndDate = request.data.ValidatyEndDate + "T00:00:00";
+            orgAssigment.push(newOrgInst);
+        }
+        arr = request.data.To_SalesResponsobilities
+        for (const element of arr) {
+            var newSalesRespInst = {};
             
-                
-            var businessRoles = [];
-            var salesResp = [];
-            var orgAssigment = [];
-            var territories = [];
-            var empInst = {
-                "UserID" : request.data.UserLogin,
-                "EmployeeValidityStartDate" : request.data.ValidatyStartDate + "T00:00:00",
-                "EmployeeValidityEndDate" :  request.data.ValidatyEndDate + "T00:00:00",
-                "FirstName" :  request.data.FirstName,
-                "LastName" :  request.data.LastName,
-                "LanguageCode" :  request.data.Language_ID,
-                "CountryCode" :  request.data.Country_ID,
-                "MobilePhoneNumber" :  request.data.MobilePhone,
-                "UserValidityStartDate" :  request.data.ValidatyStartDate + "T00:00:00",
-                "UserValidityEndDate" :  request.data.ValidatyEndDate + "T00:00:00",
-                "Email" :  request.data.Email,
-                "UserPasswordPolicyCode" :  request.data.UserPasswordPolicy_ID
-            }; 
-            if (request.data.UserPasswordPolicy_ID == null) empInst.UserPasswordPolicyCode = "S_BUSINESS_USER_WITHOUT_PASSWORD";
-            var arr = request.data.To_BusinessRoles
-            arr.forEach(element => {
-                var newRoleInst = {};
-                if(element.Role_CROOT_ID_CONTENT == null){
-                   request.reject(1,"Business Role is mandatory.");
-                }
-                newRoleInst.UserID = request.data.UserLogin;
-                newRoleInst.BusinessRoleID = element.Role_CROOT_ID_CONTENT;
-                businessRoles.push(newRoleInst);
-            })
-            arr = request.data.To_OrgUnits
-            arr.forEach(element => {
-                var newOrgInst = {};
-                if(element.UnitID_Code == null){
-                   request.reject(1,"Unit ID is mandatory.");
-                }
-                newOrgInst.RoleCode = element.RoleCode_Code;
-                newOrgInst.OrgUnitID = element.UnitID_Code;           
-                newOrgInst.JobID = element.JobID_ID;
-                newOrgInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
-                newOrgInst.EndDate = request.data.ValidatyEndDate + "T00:00:00";
-                orgAssigment.push(newOrgInst);
-            })
-            arr = request.data.To_SalesResponsobilities
-            for (const element of arr) {
-                var newSalesRespInst = {};
-                if(element.SalesOrgID_Code == null){
-                   request.reject(1,"Sales Organisation ID is mandatory.");
-                }
-                newSalesRespInst.SalesOrganisationID = element.SalesOrgID_Code;
-                newSalesRespInst.DistributionChannelCode = element.DistributionChanelCode_ID;
-                newSalesRespInst.DivisionCode = element.DivisionCode_ID;
-                newSalesRespInst.MainIndicator = element.MainIndicator;
-                if(element.SalesTerritory_ID != null){
-                    var territoryInst = {};
-                    territoryInst.SalesTerritoryID = element.SalesTerritory_ID;
-                    territories.push(territoryInst);
-                }
-                newSalesRespInst.ObjectID = element.ObjectID;
-                salesResp.push(newSalesRespInst);
+            newSalesRespInst.SalesOrganisationID = element.SalesOrgID_Code;
+            newSalesRespInst.DistributionChannelCode = element.DistributionChanelCode_ID;
+            newSalesRespInst.DivisionCode = element.DivisionCode_ID;
+            newSalesRespInst.MainIndicator = element.MainIndicator;
+            if(element.SalesTerritory_ID != null){
+                var territoryInst = {};
+                territoryInst.SalesTerritoryID = element.SalesTerritory_ID;
+                territories.push(territoryInst);
             }
-            empInst.EmployeeUserBusinessRoleAssignment = businessRoles;
-            empInst.EmployeeSalesResponsibility = salesResp;
-            empInst.EmployeeOrganisationalUnitAssignment = orgAssigment;
+            newSalesRespInst.ObjectID = element.ObjectID;
+            salesResp.push(newSalesRespInst);
+        }
+        empInst.EmployeeUserBusinessRoleAssignment = businessRoles;
+        empInst.EmployeeSalesResponsibility = salesResp;
+        empInst.EmployeeOrganisationalUnitAssignment = orgAssigment;
+
+        try{           
        
            var executedRes = await service.tx(request).post("/EmployeeCollection",empInst);
-           var empID = executedRes.EmployeeID;//'1283302';  // 
-           var buPaID = executedRes.BusinessPartnerID;// '8000004299';
+           var empID =  executedRes.EmployeeID;//'1283302';  //
+           var buPaID =  executedRes.BusinessPartnerID;//'8000004299';//
            for (const element of territories) {
                 var newTerrInst = {};
                 newTerrInst.TerritoryId = element.SalesTerritoryID;
                 newTerrInst.EmployeeID = empID;
                 newTerrInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
                 newTerrInst.EndDate = request.data.ValidatyEndDate + "T00:00:00";
-                newTerrInst.PartyRole = "142";
+                newTerrInst.PartyRole = "46";
                 var query = "/SalesTerritoryCollection?$filter=Id eq '" + element.SalesTerritoryID + "'&$select=ObjectID";
+                
                 var terData = await service.tx(request).get(query);
                 var currentObjectID = terData[0].ObjectID;
                 var endPoint = "/SalesTerritoryCollection('" + currentObjectID + "')/SalesTerritoryTeam";
@@ -195,10 +208,8 @@ module.exports = cds.service.impl(async function() {
             request.data.EmployeeIDExternal = empID;
             request.data.EmployeeIDInternal = request.data.ID;
         }catch(e){
-            if(e.code != 1){
-                var error = e.innererror.response.body.error.message.value;
-                request.reject(e.innererror.response.status, error);
-            }
+            var error = e.innererror.response.body.error.message.value;
+            request.reject(e.innererror.response.status, error);
         }
     })
 });
