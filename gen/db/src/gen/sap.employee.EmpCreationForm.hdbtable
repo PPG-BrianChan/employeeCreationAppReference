@@ -5,7 +5,7 @@ COLUMN TABLE sap_employee_EmpCreationForm (
   createdBy NVARCHAR(255),
   modifiedAt TIMESTAMP,
   modifiedBy NVARCHAR(255),
-  EmployeeIDInternal INTEGER,
+  EmployeeIDInternal NVARCHAR(5000),
   EmployeeIDExternal NVARCHAR(5000),
   UserLogin NVARCHAR(5000),
   Tenant NVARCHAR(5000),

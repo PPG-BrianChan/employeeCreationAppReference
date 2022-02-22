@@ -5,7 +5,7 @@ COLUMN TABLE EmployeeCreationService_EmpCreationForm_drafts (
   createdBy NVARCHAR(255) NULL,
   modifiedAt TIMESTAMP NULL,
   modifiedBy NVARCHAR(255) NULL,
-  EmployeeIDInternal INTEGER NULL,
+  EmployeeIDInternal NVARCHAR(5000) NULL,
   EmployeeIDExternal NVARCHAR(5000) NULL,
   UserLogin NVARCHAR(5000) NULL,
   Tenant NVARCHAR(5000) NULL,

@@ -7,7 +7,7 @@ using { sap.employee as e } from '../db/schema';
 //
 
 annotate scp.EmpCreationForm {
-  /*  UserLogin @mandatory;
+    UserLogin @mandatory;
     FirstName @mandatory;
     LastName  @mandatory;
     Email     @mandatory;
@@ -15,7 +15,7 @@ annotate scp.EmpCreationForm {
     Language  @mandatory;
     UserPasswordPolicy @mandatory;
     ValidatyStartDate @mandatory;
-    ValidatyEndDate @mandatory;*/
+    ValidatyEndDate @mandatory;
     Language @Common.ValueListWithFixedValues : true;  
     Language @Common.ValueList: {
         CollectionPath : 'Language',
@@ -53,7 +53,6 @@ annotate scp.EmpCreationForm {
 
 
 annotate scp.EmployeeOrgUnitAssigment {
-    UnitID @mandatory;
     JobID @Common.ValueListWithFixedValues : true;  
     JobID @Common.ValueList: {
         CollectionPath : 'Job',
@@ -90,7 +89,6 @@ annotate scp.EmployeeOrgUnitAssigment {
 }
 
 annotate scp.SalesResponsability with {
-    SalesOrgID @mandatory;
     DistributionChanelCode @Common.ValueListWithFixedValues : true;  
     DistributionChanelCode @Common.ValueList: {
         CollectionPath : 'DistributionChanelCode',
@@ -143,8 +141,6 @@ annotate scp.SalesResponsability with {
 };
 
 annotate scp.BusinessRoles with {
-    Role @mandatory;
-
     Role @Common.ValueListWithFixedValues;
     Role @Common.ValueList: {
         CollectionPath : 'Roles',
@@ -159,7 +155,6 @@ annotate scp.BusinessRoles with {
 };
 
 annotate scp.Mapping with {
-
     RemoteSystemID @Common.ValueListWithFixedValues;
     RemoteSystemID @Common.ValueList: {
         CollectionPath : 'RemoteSystem',

@@ -76,7 +76,7 @@
         },
         "EmployeeIDInternal": {
           "@title": "{i18n>EmployeeIDInternal}",
-          "type": "cds.Integer"
+          "type": "cds.String"
         },
         "EmployeeIDExternal": {
           "@title": "{i18n>EmployeeIDExternal}",
@@ -1222,25 +1222,19 @@
         {
           "$Type": "UI.DataField",
           "Value": {
+            "=": "EmployeeIDInternal"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "EmployeeIDExternal"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
             "=": "UserLogin"
-          }
-        },
-        {
-          "$Type": "UI.DataField",
-          "Value": {
-            "=": "FirstName"
-          }
-        },
-        {
-          "$Type": "UI.DataField",
-          "Value": {
-            "=": "LastName"
-          }
-        },
-        {
-          "$Type": "UI.DataField",
-          "Value": {
-            "=": "Email"
           }
         }
       ],
@@ -1415,7 +1409,7 @@
         },
         "EmployeeIDInternal": {
           "@title": "{i18n>EmployeeIDInternal}",
-          "type": "cds.Integer"
+          "type": "cds.String"
         },
         "EmployeeIDExternal": {
           "@title": "{i18n>EmployeeIDExternal}",
@@ -7733,7 +7727,6 @@
           ]
         },
         "UnitID": {
-          "@mandatory": true,
           "@Common.ValueListWithFixedValues": true,
           "@Common.ValueList.CollectionPath": "OrgUnit",
           "@Common.ValueList.Parameters": [
@@ -7895,7 +7888,6 @@
           ]
         },
         "SalesOrgID": {
-          "@mandatory": true,
           "@Common.ValueListWithFixedValues": true,
           "@Common.Text": {
             "=": "SalesOrgID.Description"
@@ -8067,7 +8059,6 @@
           ]
         },
         "Role": {
-          "@mandatory": true,
           "@Common.ValueListWithFixedValues": true,
           "@Common.ValueList.CollectionPath": "Roles",
           "@Common.ValueList.Parameters": [
