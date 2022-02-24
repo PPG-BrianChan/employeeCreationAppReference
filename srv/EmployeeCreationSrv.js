@@ -178,6 +178,11 @@ module.exports = cds.service.impl(async function() {
         try{           
        
            var executedRes = await service.tx(request).post("/EmployeeCollection",empInst);
+        }catch(e){
+            var error = 'Employee creation error: '+e.innererror.response.body.error.message.value;
+            request.reject(400, error);
+        }
+        try{
            var empID =  executedRes.EmployeeID;//'1283302';  //
            var buPaID =  executedRes.BusinessPartnerID;//'8000004299';//
            for (const element of territories) {
@@ -208,8 +213,8 @@ module.exports = cds.service.impl(async function() {
             request.data.EmployeeIDExternal = empID;
             request.data.EmployeeIDInternal = request.data.ID;
         }catch(e){
-            var error = e.innererror.response.body.error.message.value;
-            request.reject(e.innererror.response.status, error);
+            var error = "Mapping creation error: " +e.innererror.response.body.error.message.value;
+            request.reject(400, error);
         }
     })
 });

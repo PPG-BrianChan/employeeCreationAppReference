@@ -100,19 +100,19 @@ module.exports = cds.service.impl(async function() {
         
         for (const element of request.data.To_BusinessRoles) {
             if(element.Role_CROOT_ID_CONTENT == null){
-                request.reject("Business Role is mandatory.");
+                request.reject(400, "Business Role is mandatory.");
             }
         }
 
         for (const element of request.data.To_OrgUnits) {
             if(element.UnitID_Code == null){
-                request.reject("Unit ID is mandatory.");
+                request.reject(400, "Unit ID is mandatory.");
             }
         }
 
         for (const element of request.data.To_SalesResponsobilities) {
             if(element.SalesOrgID_Code == null){
-                request.reject("Sales Organisation ID is mandatory.");
+                request.reject(400, "Sales Organisation ID is mandatory.");
             }
         }
     })
@@ -178,6 +178,11 @@ module.exports = cds.service.impl(async function() {
         try{           
        
            var executedRes = await service.tx(request).post("/EmployeeCollection",empInst);
+        }catch(e){
+            var error = 'Employee creation error: '+e.innererror.response.body.error.message.value;
+            request.reject(400, error);
+        }
+        try{
            var empID =  executedRes.EmployeeID;//'1283302';  //
            var buPaID =  executedRes.BusinessPartnerID;//'8000004299';//
            for (const element of territories) {
@@ -208,8 +213,8 @@ module.exports = cds.service.impl(async function() {
             request.data.EmployeeIDExternal = empID;
             request.data.EmployeeIDInternal = request.data.ID;
         }catch(e){
-            var error = e.innererror.response.body.error.message.value;
-            request.reject(e.innererror.response.status, error);
+            var error = "Mapping creation error: " +e.innererror.response.body.error.message.value;
+            request.reject(400, error);
         }
     })
 });
