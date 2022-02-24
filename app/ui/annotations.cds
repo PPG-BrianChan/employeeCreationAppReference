@@ -73,11 +73,6 @@ annotate service.EmployeeOrgUnitAssigment with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : RoleCode_Code,
-            Label : '{i18n>RoleCode}',
-        },
-        {
-            $Type : 'UI.DataField',
             Value : JobID_ID,
             Label : '{i18n>JobID}',
         }

@@ -88,7 +88,6 @@ annotate scp.EmpCreationForm with @UI : {
             {   $Type : 'UI.DataField', Value : Country_ID                     },
             {   $Type : 'UI.DataField', Value : Language_ID                    },
             {   $Type : 'UI.DataField', Value : ValidatyStartDate              },
-            {   $Type : 'UI.DataField', Value : ValidatyEndDate                },
             {   $Type : 'UI.DataField', Value : UserPasswordPolicy_ID          }
         ]
     },

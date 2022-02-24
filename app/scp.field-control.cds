@@ -63,7 +63,7 @@ annotate scp.EmployeeOrgUnitAssigment {
             {   $Type: 'Common.ValueListParameterDisplayOnly', 
                 ValueListProperty: 'Description'},
             ]
-    };
+    };/*
     RoleCode @Common.ValueListWithFixedValues : true;  
     RoleCode @Common.ValueList: {
         CollectionPath : 'RoleCode',
@@ -74,7 +74,7 @@ annotate scp.EmployeeOrgUnitAssigment {
             {   $Type: 'Common.ValueListParameterDisplayOnly', 
                 ValueListProperty: 'Description'},
             ]
-    };
+    };*/
     UnitID @Common.ValueListWithFixedValues : true;  
     UnitID @Common.ValueList: {
         CollectionPath : 'OrgUnit',
