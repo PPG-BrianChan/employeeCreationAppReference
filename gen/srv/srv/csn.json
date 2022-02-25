@@ -1291,12 +1291,6 @@
         {
           "$Type": "UI.DataField",
           "Value": {
-            "=": "ValidatyEndDate"
-          }
-        },
-        {
-          "$Type": "UI.DataField",
-          "Value": {
             "=": "UserPasswordPolicy_ID"
           }
         }
@@ -7679,13 +7673,6 @@
         {
           "$Type": "UI.DataField",
           "Value": {
-            "=": "RoleCode_Code"
-          },
-          "Label": "{i18n>RoleCode}"
-        },
-        {
-          "$Type": "UI.DataField",
-          "Value": {
             "=": "JobID_ID"
           },
           "Label": "{i18n>JobID}"
@@ -7752,21 +7739,6 @@
           ]
         },
         "RoleCode": {
-          "@Common.ValueListWithFixedValues": true,
-          "@Common.ValueList.CollectionPath": "RoleCode",
-          "@Common.ValueList.Parameters": [
-            {
-              "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": {
-                "=": "RoleCode_Code"
-              },
-              "ValueListProperty": "ID"
-            },
-            {
-              "$Type": "Common.ValueListParameterDisplayOnly",
-              "ValueListProperty": "Description"
-            }
-          ],
           "type": "cds.Association",
           "cardinality": {
             "max": 1

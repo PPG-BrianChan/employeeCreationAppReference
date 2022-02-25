@@ -119,6 +119,7 @@ module.exports = cds.service.impl(async function() {
 
     this.after('CREATE', EmpCreationForm,async (data, request) => {
 
+        var END_DATE = "9999-12-31";
         var businessRoles = [];
         var salesResp = [];
         var orgAssigment = [];
@@ -126,16 +127,17 @@ module.exports = cds.service.impl(async function() {
         var empInst = {
             "UserID" : request.data.UserLogin,
             "EmployeeValidityStartDate" : request.data.ValidatyStartDate + "T00:00:00",
-            "EmployeeValidityEndDate" :  request.data.ValidatyEndDate + "T00:00:00",
+            "EmployeeValidityEndDate" :  END_DATE + "T00:00:00",
             "FirstName" :  request.data.FirstName,
             "LastName" :  request.data.LastName,
             "LanguageCode" :  request.data.Language_ID,
             "CountryCode" :  request.data.Country_ID,
             "MobilePhoneNumber" :  request.data.MobilePhone,
             "UserValidityStartDate" :  request.data.ValidatyStartDate + "T00:00:00",
-            "UserValidityEndDate" :  request.data.ValidatyEndDate + "T00:00:00",
+            "UserValidityEndDate" :  END_DATE + "T00:00:00",
             "Email" :  request.data.Email,
-            "UserPasswordPolicyCode" :  request.data.UserPasswordPolicy_ID
+            "UserPasswordPolicyCode" :  request.data.UserPasswordPolicy_ID,
+            "UserLockedIndicator": false
         }; 
         if (request.data.UserPasswordPolicy_ID == null) empInst.UserPasswordPolicyCode = "S_BUSINESS_USER_WITHOUT_PASSWORD";
         var arr = request.data.To_BusinessRoles
@@ -148,11 +150,11 @@ module.exports = cds.service.impl(async function() {
         arr = request.data.To_OrgUnits
         for (const element of arr) {
             var newOrgInst = {};
-            newOrgInst.RoleCode = element.RoleCode_Code;
+            newOrgInst.RoleCode = "219";
             newOrgInst.OrgUnitID = element.UnitID_Code;           
             newOrgInst.JobID = element.JobID_ID;
             newOrgInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
-            newOrgInst.EndDate = request.data.ValidatyEndDate + "T00:00:00";
+            newOrgInst.EndDate = END_DATE + "T00:00:00";
             orgAssigment.push(newOrgInst);
         }
         arr = request.data.To_SalesResponsobilities
@@ -190,7 +192,7 @@ module.exports = cds.service.impl(async function() {
                 newTerrInst.TerritoryId = element.SalesTerritoryID;
                 newTerrInst.EmployeeID = empID;
                 newTerrInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
-                newTerrInst.EndDate = request.data.ValidatyEndDate + "T00:00:00";
+                newTerrInst.EndDate = END_DATE + "T00:00:00";
                 newTerrInst.PartyRole = "46";
                 var query = "/SalesTerritoryCollection?$filter=Id eq '" + element.SalesTerritoryID + "'&$select=ObjectID";
                 
