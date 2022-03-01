@@ -62,7 +62,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "ar": {
     "CreatedBy": "تم الإنشاء بواسطة",
@@ -127,7 +129,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "cs": {
     "CreatedBy": "Vytvořil",
@@ -192,7 +196,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "da": {
     "CreatedBy": "Oprettet af",
@@ -257,7 +263,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "de": {
     "CreatedBy": "Angelegt von",
@@ -322,7 +330,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "en": {
     "CreatedBy": "Created By",
@@ -387,7 +397,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "es": {
     "CreatedBy": "Creado por",
@@ -452,7 +464,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "fi": {
     "CreatedBy": "Tekijä",
@@ -517,7 +531,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "fr": {
     "CreatedBy": "Auteur de la création",
@@ -582,7 +598,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "hu": {
     "CreatedBy": "Létrehozó:",
@@ -647,7 +665,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "it": {
     "CreatedBy": "Autore creazione",
@@ -712,7 +732,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "ja": {
     "CreatedBy": "登録者",
@@ -777,7 +799,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "ko": {
     "CreatedBy": "생성자",
@@ -842,7 +866,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "ms": {
     "CreatedBy": "Dicipta oleh",
@@ -907,7 +933,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "nl": {
     "CreatedBy": "Gecreëerd door",
@@ -972,7 +1000,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "no": {
     "CreatedBy": "Opprettet av",
@@ -1037,7 +1067,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "pl": {
     "CreatedBy": "Utworzone przez",
@@ -1102,7 +1134,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "pt": {
     "CreatedBy": "Criado por",
@@ -1167,7 +1201,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "ro": {
     "CreatedBy": "Creat de",
@@ -1232,7 +1268,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "ru": {
     "CreatedBy": "Создал",
@@ -1297,7 +1335,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "sv": {
     "CreatedBy": "Uppläggning av",
@@ -1362,7 +1402,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "th": {
     "CreatedBy": "สร้างโดย",
@@ -1427,7 +1469,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "tr": {
     "CreatedBy": "Oluşturan",
@@ -1492,7 +1536,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "zh_CN": {
     "CreatedBy": "创建者",
@@ -1557,7 +1603,9 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   },
   "zh_TW": {
     "CreatedBy": "建立者",
@@ -1622,6 +1670,8 @@
     "Role": "Business Role",
     "RemoteObjectID": "Remote Object ID",
     "RemoteSystemID": "Remote Business System ID",
-    "SalesTerritory": "Sales Territory"
+    "SalesTerritory": "Sales Territory",
+    "blockUser": "Lock User",
+    "unblockUser": "UnLock User"
   }
 }

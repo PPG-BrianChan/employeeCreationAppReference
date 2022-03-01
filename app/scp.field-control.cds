@@ -16,6 +16,31 @@ annotate scp.EmpCreationForm {
     UserPasswordPolicy @mandatory;
     ValidatyStartDate @mandatory;
     ValidatyEndDate @mandatory;*/
+ /*   Language @Common.ValueListWithFixedValues : true;  
+            @(
+        Common : {
+            Text      : {
+                $value                 : 'fese',
+                ![@UI.TextArrangement] : #TextOnly
+            },
+            ValueList : {
+                SearchSupported : true,
+                CollectionPath  : 'Language',
+                Parameters      : [
+                    {
+                        $Type             : 'Common.ValueListParameterInOut',
+                        LocalDataProperty : Language_ID,
+                        ValueListProperty : 'ID'
+                    },
+                    {
+                        $Type             : 'Common.ValueListParameterInOut',
+                        LocalDataProperty : Description,
+                        ValueListProperty : 'Text'
+                    }
+                ]
+            }
+        }
+    );*/
     Language @Common.ValueListWithFixedValues : true;  
     Language @Common.ValueList: {
         CollectionPath : 'Language',
@@ -155,8 +180,9 @@ annotate scp.BusinessRoles with {
 };
 
 annotate scp.Mapping with {
-    RemoteSystemID @Common.ValueListWithFixedValues;
+   // RemoteSystemID @Common.ValueListWithFixedValues;
     RemoteSystemID @Common.ValueList: {
+        SearchSupported : true,
         CollectionPath : 'RemoteSystem',
         Parameters : [
             {   $Type: 'Common.ValueListParameterInOut',       
@@ -167,6 +193,19 @@ annotate scp.Mapping with {
             ]
     };
 };
+
+annotate scp.EmpCreationForm actions {
+    @(
+        cds.odata.bindingparameter.name : '_it',
+        Core.OperationAvailable : _it.unblockBtnEnabled
+    )
+    unblockUser;  
+    @(
+        cds.odata.bindingparameter.name : '_it',
+        Core.OperationAvailable : _it.blockBtnEnabled
+    )
+    blockUser;  
+}
 
 
 annotate e.Roles with @cds.odata.valuelist;

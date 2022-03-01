@@ -7,7 +7,12 @@ using { objectidentifiermapping as extmapping } from './external/objectidentifie
 
 service EmployeeCreationService
 {
-    entity EmpCreationForm as projection on employee.EmpCreationForm;
+    entity EmpCreationForm as projection on employee.EmpCreationForm
+    actions{ 
+            action blockUser() returns String;
+            //@Core.OperationAvailable: EmpCreationForm.unblockBtnEnabled
+            action unblockUser() returns String;  
+    };
     @readonly
     entity Language as projection on employee.EmployeeLanguageCodeCollection;
     @readonly

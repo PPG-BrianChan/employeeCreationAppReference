@@ -7,6 +7,13 @@ module.exports = cds.service.impl(async function() {
 	const service = await cds.connect.to('employeeanduser');
     const c4c_odata = await cds.connect.to('rolesAPI');
 
+    this.after('READ', EmpCreationForm, (each) => {
+		if(each.EmployeeIDExternal != null){
+            each.unblockBtnEnabled = true;
+            each.blockBtnEnabled = true;
+        }
+	});
+
     this.on('READ', SalesTerritoryCollection, request => {
 		return service.tx(request).run(request.query);
 	});
@@ -95,6 +102,46 @@ module.exports = cds.service.impl(async function() {
         var e = await c4c_odata.tx(request).get(query);       
         return e.d.results;
 	});
+
+    this.on('blockUser', EmpCreationForm, async(request) => {
+        try{
+            var ID = request.params[0].ID;
+            let creationForm = await SELECT.one .from (EmpCreationForm) .where({ID: ID});
+            var c4cID = creationForm.EmployeeIDExternal;
+            var data = {
+                "UserLockedIndicator": true
+            }
+            var query = "/EmployeeCollection?$filter=EmployeeID eq '" + c4cID + "'&$select=ObjectID";              
+            var empData = await service.tx(request).get(query);
+            var currentObjectID = empData[0].ObjectID;
+            var endPoint = "/EmployeeCollection('" + currentObjectID + "')";
+            var resTer = await service.tx(request).patch(endPoint,data);
+            request.info("User locked");
+        }catch(e){
+            var error = "User locking error: " +e.innererror.response.body.error.message.value;
+            request.reject(400, error);
+        }
+    })
+
+    this.on('unblockUser', EmpCreationForm, async(request) => {
+        try{
+            var ID = request.params[0].ID;
+            let creationForm = await SELECT.one .from (EmpCreationForm) .where({ID: ID});
+            var c4cID = creationForm.EmployeeIDExternal;
+            var data = {
+                "UserLockedIndicator": false
+            }
+            var query = "/EmployeeCollection?$filter=EmployeeID eq '" + c4cID + "'&$select=ObjectID";              
+            var empData = await service.tx(request).get(query);
+            var currentObjectID = empData[0].ObjectID;
+            var endPoint = "/EmployeeCollection('" + currentObjectID + "')";
+            var resTer = await service.tx(request).patch(endPoint,data);
+            request.info("User unlocked");
+        }catch(e){
+            var error = "User unlocking error: " +e.innererror.response.body.error.message.value;
+            request.reject(400, error);
+        }
+    })
 
     this.before('CREATE', EmpCreationForm,async request => {
         
@@ -214,6 +261,8 @@ module.exports = cds.service.impl(async function() {
             let updatedRecord = await UPDATE(EmpCreationForm).where({ID:request.data.ID}).with({EmployeeIDExternal: empID, EmployeeIDInternal : request.data.ID })
             request.data.EmployeeIDExternal = empID;
             request.data.EmployeeIDInternal = request.data.ID;
+            request.data.blockBtnEnabled = true;
+            request.data.unblockBtnEnabled = true;
         }catch(e){
             var error = "Mapping creation error: " +e.innererror.response.body.error.message.value;
             request.reject(400, error);

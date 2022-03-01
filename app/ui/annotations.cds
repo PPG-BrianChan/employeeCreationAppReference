@@ -136,3 +136,17 @@ annotate service.EmpCreationForm with @(
         TypeImageUrl : 'sap-icon://employee'
     }
 );
+annotate service.EmpCreationForm with @(
+    UI.Identification : [
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'EmployeeCreationService.blockUser',
+            Label : '{i18n>blockUser}',
+        },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'EmployeeCreationService.unblockUser',
+            Label : '{i18n>unblockUser}',
+        },
+    ]
+);

@@ -19,6 +19,7 @@ annotate dm.EmpCreationForm with @title: '{i18n>EmpCreationForm}'
     Language                            @title: '{i18n>Language}';
     Email                               @title: '{i18n>Email}';
     Country                             @title: '{i18n>Country}';
+    unblockBtnEnabled @title: '{i18n>Country}';
 
 
     createdAt                           @title: '{i18n>createdAt}'  @UI.HiddenFilter: false;
@@ -27,3 +28,15 @@ annotate dm.EmpCreationForm with @title: '{i18n>EmpCreationForm}'
     modifiedBy                          @title: '{i18n>modifiedBy}' @UI.HiddenFilter: false;
 
 }
+/*
+annotate dm.EmployeeLanguageCodeCollection with {
+    ID @(
+        title  : '{i18n>ID}',
+        UI.Hidden : true,
+        Common : {Text : {
+            $value                 : Description,
+            ![@UI.TextArrangement] : #TextOnly
+        }}
+    );
+};
+*/
