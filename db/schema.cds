@@ -25,6 +25,9 @@ entity EmpCreationForm : cuid, managed {
     To_SalesResponsobilities : Composition of many SalesResponsability on To_SalesResponsobilities.To_CreationForm = $self;
     To_BusinessRoles : Composition of many BusinessRoles on To_BusinessRoles.To_CreationForm = $self;
     To_Mappings : Composition of many Mapping on To_Mappings.To_CreationForm = $self;
+
+    virtual blockBtnEnabled : Boolean;
+    virtual unblockBtnEnabled : Boolean;
 }
 
 entity EmployeeOrgUnitAssigment:cuid {

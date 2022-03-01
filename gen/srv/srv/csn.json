@@ -232,6 +232,17 @@
               ]
             }
           ]
+        },
+        "blockBtnEnabled": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Boolean"
+        },
+        "unblockBtnEnabled": {
+          "@title": "{i18n>Country}",
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Boolean"
         }
       }
     },
@@ -1291,12 +1302,6 @@
         {
           "$Type": "UI.DataField",
           "Value": {
-            "=": "ValidatyEndDate"
-          }
-        },
-        {
-          "$Type": "UI.DataField",
-          "Value": {
             "=": "UserPasswordPolicy_ID"
           }
         }
@@ -1333,6 +1338,18 @@
       ],
       "@UI.HeaderInfo.Title.$Type": "UI.DataField",
       "@UI.HeaderInfo.TypeImageUrl": "sap-icon://employee",
+      "@UI.Identification": [
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "EmployeeCreationService.blockUser",
+          "Label": "{i18n>blockUser}"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "EmployeeCreationService.unblockUser",
+          "Label": "{i18n>unblockUser}"
+        }
+      ],
       "@title": "{i18n>EmpCreationForm}",
       "projection": {
         "from": {
@@ -1610,6 +1627,39 @@
               ]
             }
           ]
+        },
+        "blockBtnEnabled": {
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Boolean"
+        },
+        "unblockBtnEnabled": {
+          "@title": "{i18n>Country}",
+          "@Core.Computed": true,
+          "virtual": true,
+          "type": "cds.Boolean"
+        }
+      },
+      "actions": {
+        "blockUser": {
+          "kind": "action",
+          "@cds.odata.bindingparameter.name": "_it",
+          "@Core.OperationAvailable": {
+            "=": "_it.blockBtnEnabled"
+          },
+          "returns": {
+            "type": "cds.String"
+          }
+        },
+        "unblockUser": {
+          "kind": "action",
+          "@cds.odata.bindingparameter.name": "_it",
+          "@Core.OperationAvailable": {
+            "=": "_it.unblockBtnEnabled"
+          },
+          "returns": {
+            "type": "cds.String"
+          }
         }
       }
     },
@@ -7679,13 +7729,6 @@
         {
           "$Type": "UI.DataField",
           "Value": {
-            "=": "RoleCode_Code"
-          },
-          "Label": "{i18n>RoleCode}"
-        },
-        {
-          "$Type": "UI.DataField",
-          "Value": {
             "=": "JobID_ID"
           },
           "Label": "{i18n>JobID}"
@@ -7752,21 +7795,6 @@
           ]
         },
         "RoleCode": {
-          "@Common.ValueListWithFixedValues": true,
-          "@Common.ValueList.CollectionPath": "RoleCode",
-          "@Common.ValueList.Parameters": [
-            {
-              "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": {
-                "=": "RoleCode_Code"
-              },
-              "ValueListProperty": "ID"
-            },
-            {
-              "$Type": "Common.ValueListParameterDisplayOnly",
-              "ValueListProperty": "Description"
-            }
-          ],
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -8130,7 +8158,7 @@
           "type": "cds.String"
         },
         "RemoteSystemID": {
-          "@Common.ValueListWithFixedValues": true,
+          "@Common.ValueList.SearchSupported": true,
           "@Common.ValueList.CollectionPath": "RemoteSystem",
           "@Common.ValueList.Parameters": [
             {

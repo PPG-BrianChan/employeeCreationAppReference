@@ -7,6 +7,13 @@ module.exports = cds.service.impl(async function() {
 	const service = await cds.connect.to('employeeanduser');
     const c4c_odata = await cds.connect.to('rolesAPI');
 
+    this.after('READ', EmpCreationForm, (each) => {
+		if(each.EmployeeIDExternal != null){
+            each.unblockBtnEnabled = true;
+            each.blockBtnEnabled = true;
+        }
+	});
+
     this.on('READ', SalesTerritoryCollection, request => {
 		return service.tx(request).run(request.query);
 	});
@@ -96,6 +103,46 @@ module.exports = cds.service.impl(async function() {
         return e.d.results;
 	});
 
+    this.on('blockUser', EmpCreationForm, async(request) => {
+        try{
+            var ID = request.params[0].ID;
+            let creationForm = await SELECT.one .from (EmpCreationForm) .where({ID: ID});
+            var c4cID = creationForm.EmployeeIDExternal;
+            var data = {
+                "UserLockedIndicator": true
+            }
+            var query = "/EmployeeCollection?$filter=EmployeeID eq '" + c4cID + "'&$select=ObjectID";              
+            var empData = await service.tx(request).get(query);
+            var currentObjectID = empData[0].ObjectID;
+            var endPoint = "/EmployeeCollection('" + currentObjectID + "')";
+            var resTer = await service.tx(request).patch(endPoint,data);
+            request.info("User locked");
+        }catch(e){
+            var error = "User locking error: " +e.innererror.response.body.error.message.value;
+            request.reject(400, error);
+        }
+    })
+
+    this.on('unblockUser', EmpCreationForm, async(request) => {
+        try{
+            var ID = request.params[0].ID;
+            let creationForm = await SELECT.one .from (EmpCreationForm) .where({ID: ID});
+            var c4cID = creationForm.EmployeeIDExternal;
+            var data = {
+                "UserLockedIndicator": false
+            }
+            var query = "/EmployeeCollection?$filter=EmployeeID eq '" + c4cID + "'&$select=ObjectID";              
+            var empData = await service.tx(request).get(query);
+            var currentObjectID = empData[0].ObjectID;
+            var endPoint = "/EmployeeCollection('" + currentObjectID + "')";
+            var resTer = await service.tx(request).patch(endPoint,data);
+            request.info("User unlocked");
+        }catch(e){
+            var error = "User unlocking error: " +e.innererror.response.body.error.message.value;
+            request.reject(400, error);
+        }
+    })
+
     this.before('CREATE', EmpCreationForm,async request => {
         
         for (const element of request.data.To_BusinessRoles) {
@@ -119,6 +166,7 @@ module.exports = cds.service.impl(async function() {
 
     this.after('CREATE', EmpCreationForm,async (data, request) => {
 
+        var END_DATE = "9999-12-31";
         var businessRoles = [];
         var salesResp = [];
         var orgAssigment = [];
@@ -126,16 +174,17 @@ module.exports = cds.service.impl(async function() {
         var empInst = {
             "UserID" : request.data.UserLogin,
             "EmployeeValidityStartDate" : request.data.ValidatyStartDate + "T00:00:00",
-            "EmployeeValidityEndDate" :  request.data.ValidatyEndDate + "T00:00:00",
+            "EmployeeValidityEndDate" :  END_DATE + "T00:00:00",
             "FirstName" :  request.data.FirstName,
             "LastName" :  request.data.LastName,
             "LanguageCode" :  request.data.Language_ID,
             "CountryCode" :  request.data.Country_ID,
             "MobilePhoneNumber" :  request.data.MobilePhone,
             "UserValidityStartDate" :  request.data.ValidatyStartDate + "T00:00:00",
-            "UserValidityEndDate" :  request.data.ValidatyEndDate + "T00:00:00",
+            "UserValidityEndDate" :  END_DATE + "T00:00:00",
             "Email" :  request.data.Email,
-            "UserPasswordPolicyCode" :  request.data.UserPasswordPolicy_ID
+            "UserPasswordPolicyCode" :  request.data.UserPasswordPolicy_ID,
+            "UserLockedIndicator": false
         }; 
         if (request.data.UserPasswordPolicy_ID == null) empInst.UserPasswordPolicyCode = "S_BUSINESS_USER_WITHOUT_PASSWORD";
         var arr = request.data.To_BusinessRoles
@@ -148,11 +197,11 @@ module.exports = cds.service.impl(async function() {
         arr = request.data.To_OrgUnits
         for (const element of arr) {
             var newOrgInst = {};
-            newOrgInst.RoleCode = element.RoleCode_Code;
+            newOrgInst.RoleCode = "219";
             newOrgInst.OrgUnitID = element.UnitID_Code;           
             newOrgInst.JobID = element.JobID_ID;
             newOrgInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
-            newOrgInst.EndDate = request.data.ValidatyEndDate + "T00:00:00";
+            newOrgInst.EndDate = END_DATE + "T00:00:00";
             orgAssigment.push(newOrgInst);
         }
         arr = request.data.To_SalesResponsobilities
@@ -190,7 +239,7 @@ module.exports = cds.service.impl(async function() {
                 newTerrInst.TerritoryId = element.SalesTerritoryID;
                 newTerrInst.EmployeeID = empID;
                 newTerrInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
-                newTerrInst.EndDate = request.data.ValidatyEndDate + "T00:00:00";
+                newTerrInst.EndDate = END_DATE + "T00:00:00";
                 newTerrInst.PartyRole = "46";
                 var query = "/SalesTerritoryCollection?$filter=Id eq '" + element.SalesTerritoryID + "'&$select=ObjectID";
                 
@@ -212,6 +261,8 @@ module.exports = cds.service.impl(async function() {
             let updatedRecord = await UPDATE(EmpCreationForm).where({ID:request.data.ID}).with({EmployeeIDExternal: empID, EmployeeIDInternal : request.data.ID })
             request.data.EmployeeIDExternal = empID;
             request.data.EmployeeIDInternal = request.data.ID;
+            request.data.blockBtnEnabled = true;
+            request.data.unblockBtnEnabled = true;
         }catch(e){
             var error = "Mapping creation error: " +e.innererror.response.body.error.message.value;
             request.reject(400, error);
