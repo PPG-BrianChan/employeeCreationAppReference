@@ -14,31 +14,84 @@ module.exports = cds.service.impl(async function() {
         }
 	});
 
-    this.on('READ', SalesTerritoryCollection, request => {
-		return service.tx(request).run(request.query);
+    this.on('READ', SalesTerritoryCollection, async request => {
+		var search = request._query.$search;
+        if(search != undefined){
+            search = search.slice(1, search.length - 1);
+            console.log(search)
+            var res = await service.tx(request).run(request.query);
+            const result = res.filter(element => element.ID.includes(search));
+            return result;
+        }else{
+            return service.tx(request).run(request.query);
+        }
 	});
 
-    this.on('READ', EmployeeUserPasswordPolicy, request => {
-		return service.tx(request).run(request.query);
+    this.on('READ', EmployeeUserPasswordPolicy, async request => {
+		var search = request._query.$search;
+        if(search != undefined){
+            search = search.slice(1, search.length - 1);
+            console.log(search)
+            var res = await service.tx(request).run(request.query);
+            const result = res.filter(element => element.ID.includes(search));
+            return result;
+        }else{
+            return service.tx(request).run(request.query);
+        }
 	});
     
-    this.on('READ', Country, request => {
-		return service.tx(request).run(request.query);
+    this.on('READ', Country, async request => {
+        var search = request._query.$search;
+        if(search != undefined){
+            search = search.slice(1, search.length - 1);
+            console.log(search)
+            var res = await service.tx(request).run(request.query);
+            const result = res.filter(element => element.ID.includes(search));
+            return result;
+        }else{
+            return service.tx(request).run(request.query);
+        }
 	});
 
     this.on('READ', Language, async request => {
-		var res = await service.tx(request).run(request.query);
-        return res;
+		var search = request._query.$search;
+        if(search != undefined){
+            search = search.slice(1, search.length - 1);
+            console.log(search)
+            var res = await service.tx(request).run(request.query);
+            const result = res.filter(element => element.ID.includes(search));
+            return result;
+        }else{
+            return service.tx(request).run(request.query);
+        }
 	});
 
     this.on('READ', RemoteSystem, async request => {
 		var systemObj = [{ID:"TANGRAM", Description: "TANGRAM"},{ID:"NONSAP", Description: "NONSAP"},
         {ID:"DALI", Description: "DALI"},{ID:"INTERLINK", Description: "INTERLINK"},{ID:"T15",Description:"T15"}]
-        return systemObj;
+        var search = request._query.$search;
+        if(search != undefined){
+            search = search.slice(1, search.length - 1);
+            console.log(search)
+            var res = systemObj;
+            const result = res.filter(element => element.ID.includes(search));
+            return result;
+        }else{
+            return systemObj;
+        }
 	});
 
-    this.on('READ', Job, request => {
-		return service.tx(request).run(request.query);
+    this.on('READ', Job, async request => {
+        var search = request._query.$search;
+        if(search != undefined){
+            search = search.slice(1, search.length - 1);
+            console.log(search)
+            var res = await service.tx(request).run(request.query);
+            const result = res.filter(element => element.ID.includes(search));
+            return result;
+        }else{
+            return service.tx(request).run(request.query);
+        }
 	});
     
     this.on('READ', RoleCode, request => {
@@ -53,16 +106,24 @@ module.exports = cds.service.impl(async function() {
         }
         var query = `/OrganisationalUnitCollection?$expand=OrganisationalUnitNameAndAddress&$format=json&$top=`+top+'&$skip='+skip;
 		var executedRes = await service.tx(request).get(query);
-        var result = [];
+        var orgUnits = [];
         executedRes.forEach((element) => {
             if(element.MarkAsDeleted == false) {
                 var proxyInst = {};
                 proxyInst.Code = element.OrganisationalUnitID;
                 proxyInst.Description = element.OrganisationalUnitNameAndAddress[0].Name;
-                result.push(proxyInst);
+                orgUnits.push(proxyInst);
             }
         });
-        return result;
+        var search = request._query.$search;
+        if(search != undefined){
+            search = search.slice(1, search.length - 1);
+            var res = orgUnits;
+            const result = res.filter(element => element.Code.includes(search));
+            return result;
+        }else{
+            return orgUnits;
+        }
 	});
 
     this.on('READ', SalesOrgs,async request => {
@@ -73,25 +134,51 @@ module.exports = cds.service.impl(async function() {
         }
         var query = `/OrganisationalUnitCollection?$expand=OrganisationalUnitFunctions,OrganisationalUnitNameAndAddress&$format=json&$top=`+top+'&$skip='+skip;
 		var executedRes = await service.tx(request).get(query);
-        var result = [];
+        var orgUnits = [];
         executedRes.forEach((element) => {
             if(element.MarkAsDeleted == false && element.OrganisationalUnitFunctions[0].SalesOrganisationIndicator) {
                 var proxyInst = {};
                 proxyInst.Code = element.OrganisationalUnitID;
                 proxyInst.Description = element.OrganisationalUnitNameAndAddress[0].Name;
                 proxyInst.SalesOrgIndicator = element.OrganisationalUnitFunctions[0].SalesOrganisationIndicator;
-                result.push(proxyInst);
+                orgUnits.push(proxyInst);
             }
         });
-        return result;
+        var search = request._query.$search;
+        if(search != undefined){
+            search = search.slice(1, search.length - 1);
+            var res = orgUnits;
+            const result = res.filter(element => element.Code.includes(search));
+            return result;
+        }else{
+            return orgUnits;
+        }
 	});
 
-    this.on('READ', DistributionChanelCode, request => {
-		return service.tx(request).run(request.query);
+    this.on('READ', DistributionChanelCode, async request => {
+		var search = request._query.$search;
+        if(search != undefined){
+            search = search.slice(1, search.length - 1);
+            console.log(search)
+            var res = await service.tx(request).run(request.query);
+            const result = res.filter(element => element.ID.includes(search));
+            return result;
+        }else{
+            return service.tx(request).run(request.query);
+        }
 	});
 
-    this.on('READ', DivisionCode, request => {
-		return service.tx(request).run(request.query);
+    this.on('READ', DivisionCode, async request => {
+		var search = request._query.$search;
+        if(search != undefined){
+            search = search.slice(1, search.length - 1);
+            console.log(search)
+            var res = await service.tx(request).run(request.query);
+            const result = res.filter(element => element.ID.includes(search));
+            return result;
+        }else{
+            return service.tx(request).run(request.query);
+        }
 	});
 
     this.on('READ', Roles,  async request => {
@@ -100,7 +187,15 @@ module.exports = cds.service.impl(async function() {
         var query = `/RPCCABUSINESS_ROLEQueryResults?$select=CROOT_ID_CONTENT,CDESCRIPTION_NAME&$format=json&$skip=`+skip+`&$top=`+top;
         
         var e = await c4c_odata.tx(request).get(query);       
-        return e.d.results;
+        var search = request._query.$search;
+        if(search != undefined){
+            search = search.slice(1, search.length - 1);
+            var res = e.d.results;
+            const result = res.filter(element => element.CROOT_ID_CONTENT.includes(search));
+            return result;
+        }else{
+            return e.d.results;;
+        }
 	});
 
     this.on('blockUser', EmpCreationForm, async(request) => {
