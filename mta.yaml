@@ -1,0 +1,148 @@
+_schema-version: "3.1"
+ID: EmployeeCreationApp
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: EmployeeCreationApp-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: EmployeeCreationApp-db
+  - name: EmployeeCreationApp-dest-srv
+  - name: EmployeeCreationApp-uaa
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+  build-parameters:
+    builder: npm-ci
+- name: EmployeeCreationApp-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: EmployeeCreationApp-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: EmployeeCreation-dest-launchpad
+  type: com.sap.application.content
+  requires:
+  - name: EmployeeCreationApp-uaa
+    parameters:
+      service-key:
+        name: EmployeeCreationApp-uaa-key
+  - name: EmployeeCreationApp-repo-host
+    parameters:
+      service-key:
+        name: EmployeeCreationApp-repo-host-key
+  - name: srv-api
+  - name: EmployeeCreationApp-dest-srv
+    parameters:
+      content-target: true
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Authentication: OAuth2UserTokenExchange
+          Name: EmployeeCreationApp-app-srv
+          TokenServiceInstanceName: EmployeeCreationApp-uaa
+          TokenServiceKeyName: EmployeeCreationApp-uaa-key
+          URL: ~{srv-api/srv-url}
+          sap.cloud.service: employee.service
+        - Name: EmployeeCreationApp-repo-host
+          ServiceInstanceName: EmployeeCreationApp-repo-host
+          ServiceKeyName: EmployeeCreationApp-repo-host-key
+          sap.cloud.service: employee.service
+        - Authentication: OAuth2UserTokenExchange
+          Name: EmployeeCreationApp-uaa
+          ServiceInstanceName: EmployeeCreationApp-uaa
+          ServiceKeyName: EmployeeCreationApp-uaa-key
+          sap.cloud.service: employee.service
+        existing_destinations_policy: update
+  build-parameters:
+    no-source: true
+- name: EmployeeCreationApp-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: EmployeeCreationApp-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - ppgui.zip
+      name: ppgui
+      target-path: resources/
+- name: ppgui
+  type: html5
+  path: app/ui
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: EmployeeCreationApp-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+  properties:
+    hdi-service-name: ${service-name}
+- name: EmployeeCreationApp-dest-srv
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      existing_destinations_policy: ignore
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+            existing_destinations_policy: ignore
+          - Authentication: BasicAuthentication
+            Name: EmployeeAndUser
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://my345039.crm.ondemand.com//sap/c4c/odata/v1/c4codataapi
+            existing_destinations_policy: ignore
+          - Authentication: BasicAuthentication
+            Name: c4c_odata
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://my345039.crm.ondemand.com/sap/c4c/odata/ana_businessanalytics_analytics.svc
+            existing_destinations_policy: ignore
+          existing_destinations_policy: ignore
+      version: 1.0.0
+    service: destination
+    service-name: EmployeeCreationApp-dest-srv
+    service-plan: lite
+- name: EmployeeCreationApp-uaa
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
+- name: EmployeeCreationApp-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-host
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm ci
+    - npx -p @sap/cds-dk cds build --production

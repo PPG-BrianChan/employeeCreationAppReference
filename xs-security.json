@@ -1,0 +1,7 @@
+{
+  "xsappname": "EmployeeCreationApp",
+  "tenant-mode": "dedicated",
+  "scopes": [],
+  "attributes": [],
+  "role-templates": []
+}
