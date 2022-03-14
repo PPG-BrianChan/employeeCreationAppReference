@@ -20,7 +20,7 @@ module.exports = cds.service.impl(async function() {
             search = search.slice(1, search.length - 1);
             console.log(search)
             var res = await service.tx(request).run(request.query);
-            const result = res.filter(element => element.ID.includes(search));
+            const result = res.filter(element => element.ID.startsWith(search));
             return result;
         }else{
             return service.tx(request).run(request.query);
@@ -33,7 +33,7 @@ module.exports = cds.service.impl(async function() {
             search = search.slice(1, search.length - 1);
             console.log(search)
             var res = await service.tx(request).run(request.query);
-            const result = res.filter(element => element.ID.includes(search));
+            const result = res.filter(element => element.ID.startsWith(search));
             return result;
         }else{
             return service.tx(request).run(request.query);
@@ -46,7 +46,7 @@ module.exports = cds.service.impl(async function() {
             search = search.slice(1, search.length - 1);
             console.log(search)
             var res = await service.tx(request).run(request.query);
-            const result = res.filter(element => element.ID.includes(search));
+            const result = res.filter(element => element.ID.startsWith(search));
             return result;
         }else{
             return service.tx(request).run(request.query);
@@ -59,7 +59,7 @@ module.exports = cds.service.impl(async function() {
             search = search.slice(1, search.length - 1);
             console.log(search)
             var res = await service.tx(request).run(request.query);
-            const result = res.filter(element => element.ID.includes(search));
+            const result = res.filter(element => element.ID.startsWith(search));
             return result;
         }else{
             return service.tx(request).run(request.query);
@@ -74,7 +74,7 @@ module.exports = cds.service.impl(async function() {
             search = search.slice(1, search.length - 1);
             console.log(search)
             var res = systemObj;
-            const result = res.filter(element => element.ID.includes(search));
+            const result = res.filter(element => element.ID.startsWith(search));
             return result;
         }else{
             return systemObj;
@@ -87,7 +87,7 @@ module.exports = cds.service.impl(async function() {
             search = search.slice(1, search.length - 1);
             console.log(search)
             var res = await service.tx(request).run(request.query);
-            const result = res.filter(element => element.ID.includes(search));
+            const result = res.filter(element => element.ID.startsWith(search));
             return result;
         }else{
             return service.tx(request).run(request.query);
@@ -119,7 +119,7 @@ module.exports = cds.service.impl(async function() {
         if(search != undefined){
             search = search.slice(1, search.length - 1);
             var res = orgUnits;
-            const result = res.filter(element => element.Code.includes(search));
+            const result = res.filter(element => element.Code.startsWith(search));
             return result;
         }else{
             return orgUnits;
@@ -148,7 +148,7 @@ module.exports = cds.service.impl(async function() {
         if(search != undefined){
             search = search.slice(1, search.length - 1);
             var res = orgUnits;
-            const result = res.filter(element => element.Code.includes(search));
+            const result = res.filter(element => element.Code.startsWith(search));
             return result;
         }else{
             return orgUnits;
@@ -161,7 +161,7 @@ module.exports = cds.service.impl(async function() {
             search = search.slice(1, search.length - 1);
             console.log(search)
             var res = await service.tx(request).run(request.query);
-            const result = res.filter(element => element.ID.includes(search));
+            const result = res.filter(element => element.ID.startsWith(search));
             return result;
         }else{
             return service.tx(request).run(request.query);
@@ -174,7 +174,7 @@ module.exports = cds.service.impl(async function() {
             search = search.slice(1, search.length - 1);
             console.log(search)
             var res = await service.tx(request).run(request.query);
-            const result = res.filter(element => element.ID.includes(search));
+            const result = res.filter(element => element.ID.startsWith(search));
             return result;
         }else{
             return service.tx(request).run(request.query);
@@ -191,7 +191,7 @@ module.exports = cds.service.impl(async function() {
         if(search != undefined){
             search = search.slice(1, search.length - 1);
             var res = e.d.results;
-            const result = res.filter(element => element.CROOT_ID_CONTENT.includes(search));
+            const result = res.filter(element => element.CROOT_ID_CONTENT.startsWith(search));
             return result;
         }else{
             return e.d.results;;
@@ -329,6 +329,7 @@ module.exports = cds.service.impl(async function() {
         try{
            var empID =  executedRes.EmployeeID;//'1283302';  //
            var buPaID =  executedRes.BusinessPartnerID;//'8000004299';//
+           var UUID = executedRes.ObjectID;
            for (const element of territories) {
                 var newTerrInst = {};
                 newTerrInst.TerritoryId = element.SalesTerritoryID;
@@ -353,7 +354,7 @@ module.exports = cds.service.impl(async function() {
                 newMappingInst.RemoteBusinessSystemID = element.RemoteSystemID_ID;
                 var resObjMapping = await service.tx(request).post("/ObjectIdentifierMappingCollection",newMappingInst);               
             }
-            let updatedRecord = await UPDATE(EmpCreationForm).where({ID:request.data.ID}).with({EmployeeIDExternal: empID, EmployeeIDInternal : request.data.ID })
+            let updatedRecord = await UPDATE(EmpCreationForm).where({ID:request.data.ID}).with({EmployeeIDExternal: empID, EmployeeIDInternal : request.data.ID, EmployeeUUID : UUID })
             request.data.EmployeeIDExternal = empID;
             request.data.EmployeeIDInternal = request.data.ID;
             request.data.blockBtnEnabled = true;
@@ -361,6 +362,135 @@ module.exports = cds.service.impl(async function() {
         }catch(e){
             var error = "Mapping creation error: " +e.innererror.response.body.error.message.value;
             request.reject(400, error);
+        }
+    })
+
+    this.after('SAVE', EmpCreationForm,async (data, request) => {
+        var END_DATE = "9999-12-31";
+       // data.EmployeeIDExternal = "1283372";
+       // data.EmployeeUUID = '02DAEF1B97C21EDCA8EA65E46F47E145';
+        if(data.EmployeeIDExternal != null){
+        var businessRoles = [];
+        var salesResp = [];
+        var orgAssigment = [];
+        var territories = [];
+        var arr = request.data.To_BusinessRoles
+        for (const element of arr) {
+            var newRoleInst = {};
+            newRoleInst.UserID = request.data.UserLogin; //"QW2";
+            newRoleInst.BusinessRoleID = element.Role_CROOT_ID_CONTENT;
+            businessRoles.push(newRoleInst);
+        }
+        arr = request.data.To_OrgUnits
+        for (const element of arr) {
+            var newOrgInst = {};
+            newOrgInst.RoleCode = "219";
+            newOrgInst.OrgUnitID = element.UnitID_Code;           
+            newOrgInst.JobID = element.JobID_ID;
+            newOrgInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
+            newOrgInst.EndDate = END_DATE + "T00:00:00";
+            orgAssigment.push(newOrgInst);
+        }
+        arr = request.data.To_SalesResponsobilities
+        for (const element of arr) {
+            var newSalesRespInst = {};
+            
+            newSalesRespInst.SalesOrganisationID = element.SalesOrgID_Code;
+            newSalesRespInst.DistributionChannelCode = element.DistributionChanelCode_ID;
+            newSalesRespInst.DivisionCode = element.DivisionCode_ID;
+            newSalesRespInst.MainIndicator = element.MainIndicator;
+            if(element.SalesTerritory_ID != null){
+                var territoryInst = {};
+                territoryInst.SalesTerritoryID = element.SalesTerritory_ID;
+                territories.push(territoryInst);
+            }
+            newSalesRespInst.ObjectID = element.ObjectID;
+            salesResp.push(newSalesRespInst);
+        }
+
+        try{           
+            var path = "/EmployeeCollection('"+ data.EmployeeUUID +"')/EmployeeUserBusinessRoleAssignment";
+            var res = await service.tx(request).get(path);
+            for (const element of res){
+                var uri = element.$metadata.uri;
+                var index = uri.indexOf("(");
+                var new_path = "/EmployeeUserBusinessRoleAssignmentCollection" + uri.substr(index);
+                var resofDel = await service.tx(request).delete(new_path);               
+            } 
+            for (const element of businessRoles){
+                var resofDel = await service.tx(request).post(path,element);               
+            } 
+        }catch(e){
+            var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
+            request.reject(400, error);
+        }
+
+        try{           
+            var path = "/EmployeeCollection('"+ data.EmployeeUUID +"')/EmployeeSalesResponsibility";
+            var res = await service.tx(request).get(path);
+            for (const element of res){
+                var uri = element.$metadata.uri;
+                var index = uri.indexOf("(");
+                var new_path = "/EmployeeSalesResponsibilityCollection" + uri.substr(index);
+                var resofDel = await service.tx(request).delete(new_path);               
+            } 
+            for (const element of salesResp){
+                var resofDel = await service.tx(request).post(path,element);               
+            } 
+        }catch(e){
+            var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
+            request.reject(400, error);
+        }
+
+        try{           
+            var path = "/EmployeeCollection('"+ data.EmployeeUUID +"')/EmployeeOrganisationalUnitAssignment";
+            var res = await service.tx(request).get(path);
+            for (const element of res){
+                var uri = element.$metadata.uri;
+                var index = uri.indexOf("(");
+                var new_path = "/EmployeeOrganisationalUnitAssignmentCollection" + uri.substr(index);
+                var resofDel = await service.tx(request).delete(new_path);               
+            } 
+            for (const element of orgAssigment){
+                var resofDel = await service.tx(request).post(path,element);               
+            } 
+        }catch(e){
+            var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
+            request.reject(400, error);
+        }
+
+        try{           
+            var path = "/EmployeeCollection('"+ data.EmployeeUUID +"')/EmployeeOrganisationalUnitAssignment";
+            var res = await service.tx(request).get(path);
+            for (const element of res){
+                var uri = element.$metadata.uri;
+                var index = uri.indexOf("(");
+                var new_path = "/EmployeeOrganisationalUnitAssignmentCollection" + uri.substr(index);
+                var resofDel = await service.tx(request).delete(new_path);               
+            } 
+            for (const element of orgAssigment){
+                var resofDel = await service.tx(request).post(path,element);               
+            } 
+        }catch(e){
+            var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
+            request.reject(400, error);
+        }
+/*
+        for (const element of territories) {
+            var newTerrInst = {};
+            newTerrInst.TerritoryId = element.SalesTerritoryID;
+            newTerrInst.EmployeeID = data.EmployeeIDExternal;
+            newTerrInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
+            newTerrInst.EndDate = END_DATE + "T00:00:00";
+            newTerrInst.PartyRole = "46";
+            var query = "/SalesTerritoryCollection?$filter=Id eq '" + element.SalesTerritoryID + "'&$select=ObjectID";
+            
+            var terData = await service.tx(request).get(query);
+            var currentObjectID = terData[0].ObjectID;
+            var endPoint = "/SalesTerritoryCollection('" + currentObjectID + "')/SalesTerritoryTeam";
+            var resTer = await service.tx(request).post(endPoint,newTerrInst);
+            var q = 0;
+        }*/
         }
     })
 });
