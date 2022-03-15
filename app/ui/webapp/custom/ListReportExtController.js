@@ -11,6 +11,7 @@ sap.ui.define([],
                     }  
                 }
                 oFilterBar._oConditionModel.refresh();
+                oFilterBar.setFilterConditions(null);
             }
         };
     });
