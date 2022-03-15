@@ -3,8 +3,14 @@ sap.ui.define([],
         "use strict";
         return {
             ButtonClick: function(oEvent) {
-                alert('ButtonClick');
-                this._view.byId("ppg.ui::EmpCreationFormList--fe::FilterBar::EmpCreationForm")._createConditionModel();
+                var oFilterBar = this._view.byId("ppg.ui::EmpCreationFormList--fe::FilterBar::EmpCreationForm"),
+                    oConditions = oFilterBar._oConditionModel.oData.conditions;
+                for (var variable in oConditions) {
+                    if(variable !== "$editState" && oConditions[variable].length !== 0){
+                        oConditions[variable] = [];
+                    }  
+                }
+                oFilterBar._oConditionModel.refresh();
             }
         };
     });
