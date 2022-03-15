@@ -2,7 +2,7 @@ sap.ui.define([],
     function (){
         "use strict";
         return {
-            ButtonClick: function(oEvent) {
+            ButtonClick: function() {
                 var oFilterBar = this._view.byId("ppg.ui::EmpCreationFormList--fe::FilterBar::EmpCreationForm"),
                     oConditions = oFilterBar._oConditionModel.oData.conditions;
                 for (var variable in oConditions) {
