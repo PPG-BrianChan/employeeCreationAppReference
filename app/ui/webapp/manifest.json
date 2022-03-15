@@ -115,7 +115,7 @@
                                     "actions": {
                                         "REPLACE_WITH_ACTION_ID": {
                                             "id" : "REPLACE_WITH_ACTION_IDButton",
-                                            "text" : "Restore filter",
+                                            "text" : "{i18n>restoreButton}",
                                             "press" : "ppg.ui.custom.ListReportExtController.ButtonClick",
                                             "requiresSelection": false
                                         }
