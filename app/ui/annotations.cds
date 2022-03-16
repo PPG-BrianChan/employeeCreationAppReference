@@ -27,6 +27,12 @@ annotate service.EmpCreationForm with @(
             Label : '{i18n>SalesResp}',
             ID : 'i18nSalesResp',
             Target : 'To_SalesResponsobilities/@UI.LineItem#i18nSalesResp',
+            
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'i18nTerritories',
+            Target : 'To_Territories/@UI.LineItem#i18nTerritories',
         },
         {
             $Type : 'UI.ReferenceFacet',
@@ -86,10 +92,6 @@ annotate service.SalesResponsability with @(
             Label : '{i18n>SalesOrgID}',
         },{
             $Type : 'UI.DataField',
-            Value : SalesTerritory_ID,
-            Label : '{i18n>SalesTerritory}',
-        },{
-            $Type : 'UI.DataField',
             Value : DistributionChanelCode_ID,
             Label : '{i18n>DistributionChanelCode}',
         },{
@@ -102,6 +104,15 @@ annotate service.SalesResponsability with @(
             Label : '{i18n>MainIndicator}',
         },]
 );
+annotate service.Territories with @(
+    UI.LineItem #i18nTerritories : [
+        {
+            $Type : 'UI.DataField',
+            Value : SalesTerritory_ID,
+            Label : '{i18n>SalesTerritory}',
+        }]
+);
+
 annotate service.BusinessRoles with @(
     UI.LineItem #i18nBusinessRoles : [
         {

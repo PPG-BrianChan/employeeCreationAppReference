@@ -2,8 +2,8 @@ const cds = require('@sap/cds');
 
 module.exports = cds.service.impl(async function() {
     cds.env.features.fetch_csrf = true;
-	const { EmpCreationForm, Job, OrgUnit, RoleCode, Roles, EmployeeUserPasswordPolicy, Country, 
-        SalesTerritoryCollection, Language, DistributionChanelCode, DivisionCode, SalesOrgs, RemoteSystem} = this.entities;
+	const { EmpCreationForm, Job, OrgUnit, RoleCode, Roles, EmployeeUserPasswordPolicy, Country, Mapping, BusinessRoles, SalesResponsability, EmployeeOrgUnitAssigment,
+        SalesTerritoryCollection, Language, DistributionChanelCode, DivisionCode, SalesOrgs, RemoteSystem, Territories} = this.entities;
 	const service = await cds.connect.to('employeeanduser');
     const c4c_odata = await cds.connect.to('rolesAPI');
 
@@ -301,19 +301,19 @@ module.exports = cds.service.impl(async function() {
         }
         arr = request.data.To_SalesResponsobilities
         for (const element of arr) {
-            var newSalesRespInst = {};
-            
+            var newSalesRespInst = {};           
             newSalesRespInst.SalesOrganisationID = element.SalesOrgID_Code;
             newSalesRespInst.DistributionChannelCode = element.DistributionChanelCode_ID;
             newSalesRespInst.DivisionCode = element.DivisionCode_ID;
             newSalesRespInst.MainIndicator = element.MainIndicator;
-            if(element.SalesTerritory_ID != null){
-                var territoryInst = {};
-                territoryInst.SalesTerritoryID = element.SalesTerritory_ID;
-                territories.push(territoryInst);
-            }
-            newSalesRespInst.ObjectID = element.ObjectID;
             salesResp.push(newSalesRespInst);
+        }
+        
+        arr = request.data.To_Territories
+        for (const element of arr) {
+            var territoryInst = {};
+            territoryInst.SalesTerritoryID = element.SalesTerritory_ID;
+            territories.push(territoryInst);
         }
         empInst.EmployeeUserBusinessRoleAssignment = businessRoles;
         empInst.EmployeeSalesResponsibility = salesResp;
@@ -327,9 +327,59 @@ module.exports = cds.service.impl(async function() {
             request.reject(400, error);
         }
         try{
-           var empID =  executedRes.EmployeeID;//'1283302';  //
-           var buPaID =  executedRes.BusinessPartnerID;//'8000004299';//
-           var UUID = executedRes.ObjectID;
+            var empID =  executedRes.EmployeeID;//'1283302';  //
+            var buPaID =  executedRes.BusinessPartnerID;//'8000004299';//
+            var UUID = executedRes.ObjectID;
+
+            try{           
+                var path = "/EmployeeCollection('"+ UUID +"')/EmployeeUserBusinessRoleAssignment";
+                var res = await service.tx(request).get(path);
+                for (const element of request.data.To_BusinessRoles){
+                    var resEl = res.find(el => el.BusinessRoleID == element.Role_CROOT_ID_CONTENT);
+                    var uri = resEl.$metadata.uri;
+                    var index = uri.indexOf("(");
+                    var objID = uri.substr(index);
+                    let updatedRecord = await UPDATE(BusinessRoles).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false })
+                } 
+            }catch(e){
+                var error = 'Employee mapping business roles error: '+e.innererror.response.body.error.message.value;
+                request.reject(400, error);
+            }
+    
+            try{           
+                var path = "/EmployeeCollection('"+ UUID +"')/EmployeeSalesResponsibility";
+                var res = await service.tx(request).get(path);
+                for (const element of salesResp){
+                    var resEl = res.find(el => el.SalesOrganisationID == element.SalesOrganisationID && 
+                                                el.DistributionChannelCode == element.DistributionChannelCode && 
+                                                el.DivisionCode == element.DivisionCode && 
+                                                el.MainIndicator == element.MainIndicator);
+                    var uri = resEl.$metadata.uri;
+                    var index = uri.indexOf("(");
+                    var objID = uri.substr(index);
+                    let updatedRecord = await UPDATE(SalesResponsability).where({To_CreationForm_ID:request.data.ID}).with({ObjectID: objID })
+                } 
+            }catch(e){
+                var error = 'Employee mapping sales responsobilities error: '+e.innererror.response.body.error.message.value;
+                request.reject(400, error);
+            }
+    
+            try{           
+                var path = "/EmployeeCollection('"+ UUID +"')/EmployeeOrganisationalUnitAssignment";
+                var res = await service.tx(request).get(path);
+                for (const element of orgAssigment){
+                    var resEl = res.find(el => el.OrgUnitID == element.OrgUnitID && 
+                                            el.JobID == element.JobID);
+                    var uri = resEl.$metadata.uri;
+                    var index = uri.indexOf("(");
+                    var objID = uri.substr(index);     
+                    let updatedRecord = await UPDATE(EmployeeOrgUnitAssigment).where({To_CreationForm_ID:request.data.ID}).with({ObjectID: objID })
+                } 
+            }catch(e){
+                var error = 'Employee mapping org unit assignment error: '+e.innererror.response.body.error.message.value;
+                request.reject(400, error);
+            }
+
            for (const element of territories) {
                 var newTerrInst = {};
                 newTerrInst.TerritoryId = element.SalesTerritoryID;
@@ -343,6 +393,10 @@ module.exports = cds.service.impl(async function() {
                 var currentObjectID = terData[0].ObjectID;
                 var endPoint = "/SalesTerritoryCollection('" + currentObjectID + "')/SalesTerritoryTeam";
                 var resTer = await service.tx(request).post(endPoint,newTerrInst);
+                var uri = resTer.__metadata.uri;
+                var index = uri.indexOf("(");
+                var objID = uri.substr(index);     
+                let updatedRecord = await UPDATE(Territories).where({To_CreationForm_ID:request.data.ID}).with({ObjectID: objID })
                 var q = 0;
             }
             arr = request.data.To_Mappings;
@@ -352,7 +406,11 @@ module.exports = cds.service.impl(async function() {
                 newMappingInst.RemoteObjectID = element.RemoteObjectID;
                 newMappingInst.RemoteIdentifierDefiningSchemeCode = "3";
                 newMappingInst.RemoteBusinessSystemID = element.RemoteSystemID_ID;
-                var resObjMapping = await service.tx(request).post("/ObjectIdentifierMappingCollection",newMappingInst);               
+                var resObjMapping = await service.tx(request).post("/ObjectIdentifierMappingCollection",newMappingInst);       
+                var uri = resObjMapping.$metadata.uri;
+                var index = uri.indexOf("(");
+                var objID = uri.substr(index);     
+                let updatedRecord = await UPDATE(Mapping).where({To_CreationForm_ID:request.data.ID}).with({ObjectID: objID })        
             }
             let updatedRecord = await UPDATE(EmpCreationForm).where({ID:request.data.ID}).with({EmployeeIDExternal: empID, EmployeeIDInternal : request.data.ID, EmployeeUUID : UUID })
             request.data.EmployeeIDExternal = empID;
@@ -365,11 +423,113 @@ module.exports = cds.service.impl(async function() {
         }
     })
 
+    this.before('SAVE', EmpCreationForm,async (request) => {
+        if(request.data.EmployeeIDExternal != null){
+            var t = 0;
+            var businessRoles = [];
+            var salesResp = [];
+            var orgAssigment = [];
+            var territories = [];
+            for (const element of request.data.To_BusinessRoles) {
+                //------------------DELETE------------------
+                try{           
+                    var path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeUserBusinessRoleAssignment";
+                    var res = await service.tx(request).get(path);
+                    var arr = request.data.To_BusinessRoles;
+                    for (const elem of res){
+                        var uri_del = elem.$metadata.uri;
+                        var index_del = uri_del.indexOf("(");
+                        var resEl = arr.find(el => el.ObjectID == uri_del.substr(index_del));
+                        if(resEl == undefined){
+                            var uri = elem.$metadata.uri;
+                            var index = uri.indexOf("(");
+                            var new_path = "/EmployeeUserBusinessRoleAssignmentCollection" + uri_del.substr(index_del);
+                            var resofDel = await service.tx(request).delete(new_path);     
+                        }          
+                    }
+                }catch(e){
+                    var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
+                    request.reject(400, error);
+                }
+                //-------------------------UPDATE--------------------
+                if(element.IsUpdate && element.ObjectID != null){
+                    try{
+                        var newRoleInst = {};
+                        newRoleInst.UserID = request.data.UserLogin.toUpperCase();
+                        newRoleInst.BusinessRoleID = element.Role_CROOT_ID_CONTENT;
+                        var path = "/EmployeeUserBusinessRoleAssignmentCollection" + element.ObjectID;
+                        var resofDel = await service.tx(request).delete(path, newRoleInst);     
+                        var new_path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeUserBusinessRoleAssignment";
+                        var resofPOST = await service.tx(request).post(new_path,newRoleInst);     
+                        var uri = resofPOST.__metadata.uri;
+                        var index = uri.indexOf("(");
+                        var objID = uri.substr(index);
+                        element.ObjectID =  objID;
+                    }catch(e){
+                        var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
+                        request.reject(400, error);
+                    }
+                }
+                //--------------------------CREATE------------------
+                if(element.ObjectID == null){
+                    try{
+                        var newRoleInst = {};
+                        newRoleInst.UserID = request.data.UserLogin.toUpperCase(); //"QW2";
+                        newRoleInst.BusinessRoleID = element.Role_CROOT_ID_CONTENT;
+                        var path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeUserBusinessRoleAssignment";
+                        var resofPOST = await service.tx(request).post(path,newRoleInst);            
+                        var uri = resofPOST.__metadata.uri;
+                        var index = uri.indexOf("(");
+                        var objID = uri.substr(index);
+                        element.ObjectID =  objID;
+                    }catch(e){
+                        var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
+                        request.reject(400, error);
+                    }
+                }
+                element.IsUpdate = false;
+            }
+        }
+    })
+
+    this.before('PATCH', BusinessRoles, async (request) => {
+        request.data.IsUpdate = true;
+    })
+
+    this.before('PATCH', SalesResponsability,async (request) => {
+        request.data.IsUpdate = true;
+    })
+
+    this.before('PATCH', Territories,async (request) => {
+        request.data.IsUpdate = true;
+    })
+
+    this.before('PATCH', EmployeeOrgUnitAssigment,async (request) => {
+        request.data.IsUpdate = true;
+    })
+
+    this.before('PATCH', Mapping,async (request) => {
+        request.data.IsUpdate = true;
+    })
+
     this.after('SAVE', EmpCreationForm,async (data, request) => {
+        let updatedRecord = await SELECT(EmpCreationForm).where({ID:request.data.ID, IsActiveEntity:true});
+        let updatedRecord2 = await SELECT(EmpCreationForm).where({ID:request.data.ID, IsActiveEntity:false});
         var END_DATE = "9999-12-31";
+   /*     var businessRoles = [];
+        var salesResp = [];
+        var orgAssigment = [];
+        var territories = [];
+        var arr = request.data.To_BusinessRoles
+        for (const element of arr) {
+            var newRoleInst = {};
+            newRoleInst.UserID = request.data.UserLogin; //"QW2";
+            newRoleInst.BusinessRoleID = element.Role_CROOT_ID_CONTENT;
+            businessRoles.push(newRoleInst);
+        }*/
        // data.EmployeeIDExternal = "1283372";
        // data.EmployeeUUID = '02DAEF1B97C21EDCA8EA65E46F47E145';
-        if(data.EmployeeIDExternal != null){
+       /* if(data.EmployeeIDExternal != null){
         var businessRoles = [];
         var salesResp = [];
         var orgAssigment = [];
@@ -475,7 +635,7 @@ module.exports = cds.service.impl(async function() {
             var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
             request.reject(400, error);
         }
-/*
+
         for (const element of territories) {
             var newTerrInst = {};
             newTerrInst.TerritoryId = element.SalesTerritoryID;
@@ -491,6 +651,21 @@ module.exports = cds.service.impl(async function() {
             var resTer = await service.tx(request).post(endPoint,newTerrInst);
             var q = 0;
         }*/
-        }
-    })
+        })
+/*
+
+        this.on('NEW', Mapping ,(data, request) => {
+            var i = 0;
+            console.log(333333);
+        })
+
+        this.on('CANCEL', Mapping ,(data, request) => {
+            var i = 0;
+            console.log(3333334);
+        })
+
+        this.on('PATCH', Mapping ,(data, request) => {
+            var i = 0;
+            console.log(5);
+        })*/
 });

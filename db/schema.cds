@@ -26,9 +26,11 @@ entity EmpCreationForm : cuid, managed {
     To_SalesResponsobilities : Composition of many SalesResponsability on To_SalesResponsobilities.To_CreationForm = $self;
     To_BusinessRoles : Composition of many BusinessRoles on To_BusinessRoles.To_CreationForm = $self;
     To_Mappings : Composition of many Mapping on To_Mappings.To_CreationForm = $self;
+    To_Territories : Composition of many Territories on To_Territories.To_CreationForm = $self;
 
     virtual blockBtnEnabled : Boolean;
     virtual unblockBtnEnabled : Boolean;
+    IsUpdate : Boolean;
 }
 
 entity EmployeeOrgUnitAssigment:cuid {
@@ -36,6 +38,8 @@ entity EmployeeOrgUnitAssigment:cuid {
     UnitID : Association to one OrgUnit;
     RoleCode : Association to one EmployeeOrgaUnitAssignmentRoleCodeCollection;
     JobID : Association to one JobDefinitionCollection;
+    ObjectID : String;
+    IsUpdate : Boolean;
 };
 
 entity SalesResponsability:cuid {
@@ -43,20 +47,32 @@ entity SalesResponsability:cuid {
     SalesOrgID : Association to one SalesOrgs;
     DistributionChanelCode : Association to one OrganisationalUnitDistributionChannelAndDivisionDistributionChannelCodeCollection;
     DivisionCode : Association to one OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection;
-    SalesTerritory : Association to one SalesTerritoryCollection;
     MainIndicator : Boolean;
+    ObjectID : String;
+    IsUpdate : Boolean;
 };
+
+entity Territories:cuid {
+    To_CreationForm : Association to one EmpCreationForm;
+    SalesTerritory : Association to one SalesTerritoryCollection;
+    ObjectID : String;
+    IsUpdate : Boolean;
+}
 
 entity BusinessRoles:cuid {
     To_CreationForm : Association to one EmpCreationForm;
     Role : Association to one Roles;
-    
+    ObjectID : String;
+    IsUpdate : Boolean;
+    IsDelete : Boolean;
 }
 
 entity Mapping:cuid {
     To_CreationForm : Association to one EmpCreationForm;
     RemoteObjectID : String;
     RemoteSystemID : Association to one RemoteSystem;
+    ObjectID : String;
+    IsUpdate : Boolean;
 }
 
 
