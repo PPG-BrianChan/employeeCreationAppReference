@@ -11,6 +11,8 @@ entity EmpCreationForm : cuid, managed {
     EmployeeIDInternal : String;
     EmployeeIDExternal : String;
     UserLogin : String;
+    UserPassword : String;
+    identifierBooleanPassword : TechnicalBooleanFlag default true;
     Tenant : String;
     FirstName : String;
     LastName : String;
@@ -140,3 +142,7 @@ entity RemoteSystem {
     Description : String;
 }
 
+type TechnicalBooleanFlag : Boolean @(
+    UI.Hidden,
+    Core.Computed
+);

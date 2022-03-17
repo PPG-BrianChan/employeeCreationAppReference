@@ -32,6 +32,7 @@ annotate scp.EmpCreationForm with @UI : {
         UserLogin,
         'To_BusinessRoles/Role_CROOT_ID_CONTENT',
         'To_OrgUnits/UnitID_ID',
+        'To_OrgUnits/JobID_ID',
         'To_SalesResponsobilities/SalesOrgID_ID',
         createdAt,
         createdBy
@@ -57,7 +58,9 @@ annotate scp.EmpCreationForm with @UI : {
             ID     : 'BasicInfo',
             Label  : '{i18n>BasicInfo}',
             Facets : [
-                {  $Type: 'UI.ReferenceFacet', Target: '@UI.FieldGroup#BasicInfo'},
+                {  $Type: 'UI.ReferenceFacet', Target: '@UI.FieldGroup#PersonalInfo'},
+                {  $Type: 'UI.ReferenceFacet', Target: '@UI.FieldGroup#DetailsInfo'},
+                {  $Type: 'UI.ReferenceFacet', Target: '@UI.FieldGroup#PasswordInfo'},
             ]
         },
         {
@@ -79,6 +82,34 @@ annotate scp.EmpCreationForm with @UI : {
             {   $Type : 'UI.DataField', Value : UserLogin }
         ]
     },
+
+    FieldGroup #PersonalInfo : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {   $Type : 'UI.DataField', Value : UserLogin                      },
+            {   $Type : 'UI.DataField', Value : FirstName                      },
+            {   $Type : 'UI.DataField', Value : LastName                       }
+        ]
+    },
+
+    FieldGroup #DetailsInfo : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {   $Type : 'UI.DataField', Value : Email                          },
+            {   $Type : 'UI.DataField', Value : MobilePhone                    },
+            {   $Type : 'UI.DataField', Value : Country_ID                     },
+            {   $Type : 'UI.DataField', Value : Language_ID                    },
+            {   $Type : 'UI.DataField', Value : ValidatyStartDate              }
+        ]
+    },
+
+    FieldGroup #PasswordInfo : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {   $Type : 'UI.DataField', Value : UserPasswordPolicy_ID          },
+            {   $Type : 'UI.DataField', Value : UserPassword, ![@UI.Hidden]: identifierBooleanPassword }
+        ]
+    },
     
     FieldGroup #BasicInfo: {
         $Type : 'UI.FieldGroupType',
@@ -91,7 +122,8 @@ annotate scp.EmpCreationForm with @UI : {
             {   $Type : 'UI.DataField', Value : Country_ID                     },
             {   $Type : 'UI.DataField', Value : Language_ID                    },
             {   $Type : 'UI.DataField', Value : ValidatyStartDate              },
-            {   $Type : 'UI.DataField', Value : UserPasswordPolicy_ID          }
+            {   $Type : 'UI.DataField', Value : UserPasswordPolicy_ID          },
+            {   $Type : 'UI.DataField', Value : UserPassword, ![@UI.Hidden]: identifierBooleanPassword }
         ]
     },
 

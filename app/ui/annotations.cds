@@ -6,15 +6,14 @@ using from '../../db/schema';
 annotate service.EmpCreationForm with @(
     UI.Facets : [
         {
-            $Type : 'UI.CollectionFacet',
-            ID : 'BasicInfo',
-            Label : '{i18n>BasicInfo}',
+            $Type  : 'UI.CollectionFacet',
+            ID     : 'BasicInfo',
+            Label  : '{i18n>BasicInfo}',
             Facets : [
-                {
-                    $Type : 'UI.ReferenceFacet',
-                    Target : '@UI.FieldGroup#BasicInfo',
-                },
-            ],
+                {  $Type: 'UI.ReferenceFacet', Target: '@UI.FieldGroup#PersonalInfo'},
+                {  $Type: 'UI.ReferenceFacet', Target: '@UI.FieldGroup#DetailsInfo'},
+                {  $Type: 'UI.ReferenceFacet', Target: '@UI.FieldGroup#PasswordInfo'},
+            ]
         },
         {
             $Type : 'UI.ReferenceFacet',
