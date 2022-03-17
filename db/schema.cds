@@ -9,8 +9,10 @@ using { salesterritory as extterritory } from '../srv/external/salesterritory.cs
 
 entity EmpCreationForm : cuid, managed {
     EmployeeUUID : String;
+    EmployeeUUIDWithHyphen : String;
     EmployeeIDInternal : String;
     EmployeeIDExternal : String;
+    BuPaID : String;
     UserLogin : String;
     Tenant : String;
     FirstName : String;
@@ -57,6 +59,7 @@ entity Territories:cuid {
     SalesTerritory : Association to one SalesTerritoryCollection;
     ObjectID : String;
     IsUpdate : Boolean;
+    TerritoryObjectID : String;
 }
 
 entity BusinessRoles:cuid {
