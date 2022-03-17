@@ -110,6 +110,18 @@
                         "settings": {
                             "entitySet": "EmpCreationForm",
                             "variantManagement": "Page",
+                            "controlConfiguration": {
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "actions": {
+                                        "REPLACE_WITH_ACTION_ID": {
+                                            "id" : "REPLACE_WITH_ACTION_IDButton",
+                                            "text" : "{i18n>restoreButton}",
+                                            "press" : "ppg.ui.custom.ListReportExtController.ButtonClick",
+                                            "requiresSelection": false
+                                        }
+                                    }
+                                }
+                            },
                             "navigation": {
                                 "EmpCreationForm": {
                                     "detail": {
