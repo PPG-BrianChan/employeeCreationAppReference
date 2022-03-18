@@ -271,6 +271,7 @@
           ]
         },
         "UnitID": {
+          "@title": "{i18n>UnitID}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -304,6 +305,7 @@
           ]
         },
         "JobID": {
+          "@title": "{i18n>JobID}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -344,6 +346,7 @@
           ]
         },
         "SalesOrgID": {
+          "@title": "{i18n>SalesOrgID}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -434,6 +437,7 @@
           ]
         },
         "Role": {
+          "@title": "{i18n>Role}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -1128,6 +1132,10 @@
         {
           "=": "UserLogin"
         },
+        "To_BusinessRoles/Role_CROOT_ID_CONTENT",
+        "To_OrgUnits/UnitID_ID",
+        "To_OrgUnits/JobID_ID",
+        "To_SalesResponsobilities/SalesOrgID_ID",
         {
           "=": "createdAt"
         },
@@ -7776,6 +7784,7 @@
               "ValueListProperty": "Description"
             }
           ],
+          "@title": "{i18n>UnitID}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -7824,6 +7833,7 @@
               "ValueListProperty": "Description"
             }
           ],
+          "@title": "{i18n>JobID}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -7928,6 +7938,7 @@
               "ValueListProperty": "Description"
             }
           ],
+          "@title": "{i18n>SalesOrgID}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -8093,6 +8104,7 @@
               "ValueListProperty": "CDESCRIPTION_NAME"
             }
           ],
+          "@title": "{i18n>Role}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
