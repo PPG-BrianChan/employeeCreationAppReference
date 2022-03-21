@@ -5,7 +5,9 @@ VIEW EmployeeCreationService_EmployeeOrgUnitAssigment AS SELECT
   EmployeeOrgUnitAssigment_0.UnitID_ID,
   EmployeeOrgUnitAssigment_0.UnitID_Code,
   EmployeeOrgUnitAssigment_0.RoleCode_Code,
-  EmployeeOrgUnitAssigment_0.JobID_ID
+  EmployeeOrgUnitAssigment_0.JobID_ID,
+  EmployeeOrgUnitAssigment_0.ObjectID,
+  EmployeeOrgUnitAssigment_0.IsUpdate
 FROM sap_employee_EmployeeOrgUnitAssigment AS EmployeeOrgUnitAssigment_0
 WITH ASSOCIATIONS (
   MANY TO ONE JOIN EmployeeCreationService_EmpCreationForm AS To_CreationForm ON (To_CreationForm.ID = To_CreationForm_ID),

@@ -33,6 +33,7 @@ annotate service.EmpCreationForm with @(
             $Type : 'UI.ReferenceFacet',
             ID : 'i18nTerritories',
             Target : 'To_Territories/@UI.LineItem#i18nTerritories',
+            Label : '{i18n>Territories}',
         },
         {
             $Type : 'UI.ReferenceFacet',
@@ -147,17 +148,11 @@ annotate service.EmpCreationForm with @(
         TypeImageUrl : 'sap-icon://employee'
     }
 );
+
 annotate service.EmpCreationForm with @(
-    UI.Identification : [
-        {
-            $Type : 'UI.DataFieldForAction',
-            Action : 'EmployeeCreationService.blockUser',
-            Label : '{i18n>blockUser}',
-        },
-        {
-            $Type : 'UI.DataFieldForAction',
-            Action : 'EmployeeCreationService.unblockUser',
-            Label : '{i18n>unblockUser}',
-        },
-    ]
+    UI.FieldGroup #qqq : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+        ],
+    }
 );

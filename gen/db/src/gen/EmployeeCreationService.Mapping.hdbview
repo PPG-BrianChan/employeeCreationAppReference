@@ -3,7 +3,9 @@ VIEW EmployeeCreationService_Mapping AS SELECT
   Mapping_0.ID,
   Mapping_0.To_CreationForm_ID,
   Mapping_0.RemoteObjectID,
-  Mapping_0.RemoteSystemID_ID
+  Mapping_0.RemoteSystemID_ID,
+  Mapping_0.ObjectID,
+  Mapping_0.IsUpdate
 FROM sap_employee_Mapping AS Mapping_0
 WITH ASSOCIATIONS (
   MANY TO ONE JOIN EmployeeCreationService_EmpCreationForm AS To_CreationForm ON (To_CreationForm.ID = To_CreationForm_ID),

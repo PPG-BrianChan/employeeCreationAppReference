@@ -129,73 +129,10 @@
                             "editableHeaderContent": false,
                             "entitySet": "EmpCreationForm",
                             "controlConfiguration": {
-                                "To_SalesResponsobilities/@com.sap.vocabularies.UI.v1.LineItem#i18nSalesResp": {
-                                    "tableSettings": {
-                                        "condensedTableLayout": false,
-                                        "enableFullScreen": false,
-                                        "enableExport": false,
-                                        "enablePaste": false,
-                                        "selectAll": true,
-                                        "selectionMode": "Auto",
-                                        "creationMode": {
-                                            "createAtEnd": true,
-                                            "name": "Inline"
-                                        },
-                                        "type": "ResponsiveTable",
-                                        "personalization": {
-                                            "column": false,
-                                            "sort": false,
-                                            "filter": false
-                                        }
-                                    }
-                                },
                                 "To_OrgUnits/@com.sap.vocabularies.UI.v1.LineItem#i18nOrgUnits": {
                                     "tableSettings": {
-                                        "condensedTableLayout": false,
-                                        "enableFullScreen": false,
-                                        "selectAll": true,
-                                        "enablePaste": false,
-                                        "enableExport": false,
-                                        "type": "ResponsiveTable",
-                                        "selectionMode": "Auto",
-                                        "creationMode": {
-                                            "createAtEnd": true,
-                                            "name": "Inline"
-                                        },
-                                        "personalization": {
-                                            "column": false,
-                                            "sort": false,
-                                            "filter": false
-                                        }
-                                    }
-                                },
-                                "To_BusinessRoles/@com.sap.vocabularies.UI.v1.LineItem#i18nBusinessRoles": {
-                                    "tableSettings": {
-                                        "condensedTableLayout": false,
                                         "enableFullScreen": false,
                                         "enablePaste": false,
-                                        "type": "ResponsiveTable",
-                                        "enableExport": false,
-                                        "creationMode": {
-                                            "createAtEnd": true,
-                                            "name": "Inline"
-                                        },
-                                        "personalization": {
-                                            "column": false,
-                                            "sort": false,
-                                            "filter": false
-                                        }
-                                    }
-                                },
-                                "To_Mappings/@com.sap.vocabularies.UI.v1.LineItem#i18nMapping": {
-                                    "tableSettings": {
-                                        "condensedTableLayout": false,
-                                        "enableFullScreen": false,
-                                        "enableExport": false,
-                                        "enablePaste": false,
-                                        "selectAll": true,
-                                        "selectionMode": "Auto",
-                                        "type": "ResponsiveTable",
                                         "creationMode": {
                                             "name": "Inline",
                                             "createAtEnd": true
@@ -204,7 +141,82 @@
                                             "column": false,
                                             "sort": false,
                                             "filter": false
-                                        }
+                                        },
+                                        "type": "ResponsiveTable",
+                                        "enableExport": false,
+                                        "condensedTableLayout": false
+                                    }
+                                },
+                                "To_SalesResponsobilities/@com.sap.vocabularies.UI.v1.LineItem#i18nSalesResp": {
+                                    "tableSettings": {
+                                        "enableFullScreen": false,
+                                        "enablePaste": false,
+                                        "creationMode": {
+                                            "name": "Inline",
+                                            "createAtEnd": true
+                                        },
+                                        "personalization": {
+                                            "column": false,
+                                            "sort": false,
+                                            "filter": false
+                                        },
+                                        "type": "ResponsiveTable",
+                                        "enableExport": false,
+                                        "condensedTableLayout": false
+                                    }
+                                },
+                                "To_Territories/@com.sap.vocabularies.UI.v1.LineItem#i18nTerritories": {
+                                    "tableSettings": {
+                                        "enableFullScreen": false,
+                                        "enablePaste": false,
+                                        "creationMode": {
+                                            "name": "Inline",
+                                            "createAtEnd": true
+                                        },
+                                        "personalization": {
+                                            "column": false,
+                                            "sort": false,
+                                            "filter": false
+                                        },
+                                        "type": "ResponsiveTable",
+                                        "enableExport": false,
+                                        "condensedTableLayout": false
+                                    }
+                                },
+                                "To_BusinessRoles/@com.sap.vocabularies.UI.v1.LineItem#i18nBusinessRoles": {
+                                    "tableSettings": {
+                                        "enableFullScreen": false,
+                                        "enablePaste": false,
+                                        "creationMode": {
+                                            "name": "Inline",
+                                            "createAtEnd": true
+                                        },
+                                        "personalization": {
+                                            "column": false,
+                                            "sort": false,
+                                            "filter": false
+                                        },
+                                        "type": "ResponsiveTable",
+                                        "enableExport": false,
+                                        "condensedTableLayout": false
+                                    }
+                                },
+                                "To_Mappings/@com.sap.vocabularies.UI.v1.LineItem#i18nMapping": {
+                                    "tableSettings": {
+                                        "enableFullScreen": false,
+                                        "enablePaste": false,
+                                        "creationMode": {
+                                            "name": "Inline",
+                                            "createAtEnd": true
+                                        },
+                                        "personalization": {
+                                            "column": false,
+                                            "sort": false,
+                                            "filter": false
+                                        },
+                                        "type": "ResponsiveTable",
+                                        "enableExport": false,
+                                        "condensedTableLayout": false
                                     }
                                 }
                             }

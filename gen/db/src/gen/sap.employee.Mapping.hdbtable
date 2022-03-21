@@ -4,6 +4,8 @@ COLUMN TABLE sap_employee_Mapping (
   To_CreationForm_ID NVARCHAR(36),
   RemoteObjectID NVARCHAR(5000),
   RemoteSystemID_ID NVARCHAR(5000),
+  ObjectID NVARCHAR(5000),
+  IsUpdate BOOLEAN,
   PRIMARY KEY(ID)
 ) WITH ASSOCIATIONS (
   MANY TO ONE JOIN sap_employee_EmpCreationForm AS To_CreationForm ON (To_CreationForm.ID = To_CreationForm_ID),
