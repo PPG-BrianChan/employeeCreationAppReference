@@ -274,8 +274,17 @@
           "virtual": true,
           "type": "cds.Boolean"
         },
-        "IsUpdate": {
-          "type": "cds.Boolean"
+        "HideFirstPanel": {
+          "type": "cds.Boolean",
+          "default": {
+            "val": false
+          }
+        },
+        "HideSecondPanel": {
+          "type": "cds.Boolean",
+          "default": {
+            "val": true
+          }
         }
       }
     },
@@ -1192,8 +1201,9 @@
       "@UI.HeaderInfo.$Type": "UI.HeaderInfoType",
       "@UI.HeaderInfo.TypeName": "{i18n>EmployeeForm}",
       "@UI.HeaderInfo.TypeNamePlural": "{i18n>EmployeeForms}",
-      "@UI.HeaderInfo.ImageUrl": "https://cdn-user-icons.flaticon.com/63946/63946481/1644314752529.svg?token=exp=1644315652~hmac=c973723ac91b7fc016438713a945d633",
+      "@UI.HeaderInfo.Title.$Type": "UI.DataField",
       "@UI.HeaderInfo.Title.Value": "{i18n>EmployeeForm}",
+      "@UI.HeaderInfo.TypeImageUrl": "sap-icon://employee",
       "@UI.PresentationVariant.Text": "Default",
       "@UI.PresentationVariant.Visualizations": [
         "@UI.LineItem"
@@ -1272,12 +1282,22 @@
       "@UI.Facets": [
         {
           "$Type": "UI.CollectionFacet",
-          "ID": "BasicInfo",
           "Label": "{i18n>BasicInfo}",
+          "ID": "i18nBasicInfo",
           "Facets": [
             {
               "$Type": "UI.ReferenceFacet",
-              "Target": "@UI.FieldGroup#BasicInfo"
+              "Target": "@UI.FieldGroup#BasicInfo",
+              "@UI.Hidden": {
+                "=": "HideFirstPanel"
+              }
+            },
+            {
+              "$Type": "UI.ReferenceFacet",
+              "Target": "@UI.FieldGroup#BasicInfo2",
+              "@UI.Hidden": {
+                "=": "HideSecondPanel"
+              }
             }
           ]
         },
@@ -1407,6 +1427,90 @@
           }
         }
       ],
+      "@UI.FieldGroup#BasicInfo2.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#BasicInfo2.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "UserLogin"
+          },
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "FirstName"
+          },
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "LastName"
+          },
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "Email"
+          },
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "MobilePhone"
+          },
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "Country_ID"
+          },
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "Language_ID"
+          },
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "ValidatyStartDate"
+          },
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "UserPasswordPolicy_ID"
+          },
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          }
+        }
+      ],
       "@UI.FieldGroup#CreationDetailsFG.$Type": "UI.FieldGroupType",
       "@UI.FieldGroup#CreationDetailsFG.Data": [
         {
@@ -1437,10 +1541,6 @@
           }
         }
       ],
-      "@UI.HeaderInfo.Title.$Type": "UI.DataField",
-      "@UI.HeaderInfo.TypeImageUrl": "sap-icon://employee",
-      "@UI.FieldGroup#qqq.$Type": "UI.FieldGroupType",
-      "@UI.FieldGroup#qqq.Data": [],
       "@title": "{i18n>EmpCreationForm}",
       "projection": {
         "from": {
@@ -1760,8 +1860,17 @@
           "virtual": true,
           "type": "cds.Boolean"
         },
-        "IsUpdate": {
-          "type": "cds.Boolean"
+        "HideFirstPanel": {
+          "type": "cds.Boolean",
+          "default": {
+            "val": false
+          }
+        },
+        "HideSecondPanel": {
+          "type": "cds.Boolean",
+          "default": {
+            "val": true
+          }
         }
       },
       "actions": {

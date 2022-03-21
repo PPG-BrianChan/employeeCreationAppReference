@@ -21,7 +21,8 @@ COLUMN TABLE sap_employee_EmpCreationForm (
   ValidatyStartDate DATE,
   ValidatyEndDate DATE,
   UserPasswordPolicy_ID NCLOB,
-  IsUpdate BOOLEAN,
+  HideFirstPanel BOOLEAN DEFAULT FALSE,
+  HideSecondPanel BOOLEAN DEFAULT TRUE,
   PRIMARY KEY(ID)
 ) WITH ASSOCIATIONS (
   MANY TO MANY JOIN sap_employee_EmployeeOrgUnitAssigment AS To_OrgUnits ON (To_OrgUnits.To_CreationForm_ID = ID),

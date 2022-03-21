@@ -406,11 +406,13 @@ module.exports = cds.service.impl(async function() {
                 let updatedRecord = await UPDATE(Mapping).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false })    
             }
             let updatedRecord = await UPDATE(EmpCreationForm).where({ID:request.data.ID}).with({EmployeeIDExternal: empID, 
-                    EmployeeIDInternal : request.data.ID, EmployeeUUID : UUID, BuPaID : buPaID, EmployeeUUIDWithHyphen : UUIDwithHyphen })
+                    EmployeeIDInternal : request.data.ID, EmployeeUUID : UUID, BuPaID : buPaID, EmployeeUUIDWithHyphen : UUIDwithHyphen, HideFirstPanel : true, HideSecondPanel : false })
             request.data.EmployeeIDExternal = empID;
             request.data.EmployeeIDInternal = request.data.ID;
             request.data.blockBtnEnabled = true;
             request.data.unblockBtnEnabled = true;
+            request.data.HideFirstPanel = true;
+            request.data.HideSecondPanel = false;
             request.data.BuPaID = buPaID;
             request.data.EmployeeUUIDWithHyphen = UUIDwithHyphen;
         }catch(e){

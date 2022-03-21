@@ -7,6 +7,7 @@ using { sap.employee as e } from '../db/schema';
 //
 
 annotate scp.EmpCreationForm {
+   // FirstName @readonly : ;
    /* UserLogin @readonly;
     FirstName @mandatory;
     LastName  @mandatory;
