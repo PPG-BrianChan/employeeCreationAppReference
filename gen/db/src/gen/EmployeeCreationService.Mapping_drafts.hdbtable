@@ -4,6 +4,8 @@ COLUMN TABLE EmployeeCreationService_Mapping_drafts (
   To_CreationForm_ID NVARCHAR(36) NULL,
   RemoteObjectID NVARCHAR(5000) NULL,
   RemoteSystemID_ID NVARCHAR(5000) NULL,
+  ObjectID NVARCHAR(5000) NULL,
+  IsUpdate BOOLEAN NULL,
   IsActiveEntity BOOLEAN,
   HasActiveEntity BOOLEAN,
   HasDraftEntity BOOLEAN,

@@ -5,8 +5,11 @@ VIEW EmployeeCreationService_EmpCreationForm AS SELECT
   EmpCreationForm_0.createdBy,
   EmpCreationForm_0.modifiedAt,
   EmpCreationForm_0.modifiedBy,
+  EmpCreationForm_0.EmployeeUUID,
+  EmpCreationForm_0.EmployeeUUIDWithHyphen,
   EmpCreationForm_0.EmployeeIDInternal,
   EmpCreationForm_0.EmployeeIDExternal,
+  EmpCreationForm_0.BuPaID,
   EmpCreationForm_0.UserLogin,
   EmpCreationForm_0.Tenant,
   EmpCreationForm_0.FirstName,
@@ -17,11 +20,14 @@ VIEW EmployeeCreationService_EmpCreationForm AS SELECT
   EmpCreationForm_0.Language_ID,
   EmpCreationForm_0.ValidatyStartDate,
   EmpCreationForm_0.ValidatyEndDate,
-  EmpCreationForm_0.UserPasswordPolicy_ID
+  EmpCreationForm_0.UserPasswordPolicy_ID,
+  EmpCreationForm_0.HideFirstPanel,
+  EmpCreationForm_0.HideSecondPanel
 FROM sap_employee_EmpCreationForm AS EmpCreationForm_0
 WITH ASSOCIATIONS (
   MANY TO MANY JOIN EmployeeCreationService_EmployeeOrgUnitAssigment AS To_OrgUnits ON (To_OrgUnits.To_CreationForm_ID = ID),
   MANY TO MANY JOIN EmployeeCreationService_SalesResponsability AS To_SalesResponsobilities ON (To_SalesResponsobilities.To_CreationForm_ID = ID),
   MANY TO MANY JOIN EmployeeCreationService_BusinessRoles AS To_BusinessRoles ON (To_BusinessRoles.To_CreationForm_ID = ID),
-  MANY TO MANY JOIN EmployeeCreationService_Mapping AS To_Mappings ON (To_Mappings.To_CreationForm_ID = ID)
+  MANY TO MANY JOIN EmployeeCreationService_Mapping AS To_Mappings ON (To_Mappings.To_CreationForm_ID = ID),
+  MANY TO MANY JOIN EmployeeCreationService_Territories AS To_Territories ON (To_Territories.To_CreationForm_ID = ID)
 )

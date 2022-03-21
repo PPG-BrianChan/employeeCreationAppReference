@@ -3,6 +3,9 @@ COLUMN TABLE sap_employee_BusinessRoles (
   ID NVARCHAR(36) NOT NULL,
   To_CreationForm_ID NVARCHAR(36),
   Role_CROOT_ID_CONTENT NVARCHAR(5000),
+  ObjectID NVARCHAR(5000),
+  IsUpdate BOOLEAN,
+  IsDelete BOOLEAN,
   PRIMARY KEY(ID)
 ) WITH ASSOCIATIONS (
   MANY TO ONE JOIN sap_employee_EmpCreationForm AS To_CreationForm ON (To_CreationForm.ID = To_CreationForm_ID),

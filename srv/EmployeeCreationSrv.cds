@@ -36,6 +36,11 @@ service EmployeeCreationService
     entity SalesOrgs as projection on employee.SalesOrgs;
     entity OrgUnit as projection on employee.OrgUnit;
     entity RemoteSystem as projection on employee.RemoteSystem;
+    entity Mapping as projection on employee.Mapping;
+    entity BusinessRoles as projection on employee.BusinessRoles;
+    entity EmployeeOrgUnitAssigment as projection on employee.EmployeeOrgUnitAssigment;
+    entity SalesResponsability as projection on employee.SalesResponsability;
+    entity Territories as projection on employee.Territories;
 
 }
 

@@ -2,7 +2,10 @@
 VIEW EmployeeCreationService_BusinessRoles AS SELECT
   BusinessRoles_0.ID,
   BusinessRoles_0.To_CreationForm_ID,
-  BusinessRoles_0.Role_CROOT_ID_CONTENT
+  BusinessRoles_0.Role_CROOT_ID_CONTENT,
+  BusinessRoles_0.ObjectID,
+  BusinessRoles_0.IsUpdate,
+  BusinessRoles_0.IsDelete
 FROM sap_employee_BusinessRoles AS BusinessRoles_0
 WITH ASSOCIATIONS (
   MANY TO ONE JOIN EmployeeCreationService_EmpCreationForm AS To_CreationForm ON (To_CreationForm.ID = To_CreationForm_ID),

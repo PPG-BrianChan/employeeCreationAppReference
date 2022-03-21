@@ -5,8 +5,11 @@ COLUMN TABLE EmployeeCreationService_EmpCreationForm_drafts (
   createdBy NVARCHAR(255) NULL,
   modifiedAt TIMESTAMP NULL,
   modifiedBy NVARCHAR(255) NULL,
+  EmployeeUUID NVARCHAR(5000) NULL,
+  EmployeeUUIDWithHyphen NVARCHAR(5000) NULL,
   EmployeeIDInternal NVARCHAR(5000) NULL,
   EmployeeIDExternal NVARCHAR(5000) NULL,
+  BuPaID NVARCHAR(5000) NULL,
   UserLogin NVARCHAR(5000) NULL,
   Tenant NVARCHAR(5000) NULL,
   FirstName NVARCHAR(5000) NULL,
@@ -18,6 +21,8 @@ COLUMN TABLE EmployeeCreationService_EmpCreationForm_drafts (
   ValidatyStartDate DATE NULL,
   ValidatyEndDate DATE NULL,
   UserPasswordPolicy_ID NCLOB NULL,
+  HideFirstPanel BOOLEAN NULL DEFAULT FALSE,
+  HideSecondPanel BOOLEAN NULL DEFAULT TRUE,
   IsActiveEntity BOOLEAN,
   HasActiveEntity BOOLEAN,
   HasDraftEntity BOOLEAN,
@@ -28,5 +33,6 @@ COLUMN TABLE EmployeeCreationService_EmpCreationForm_drafts (
   MANY TO MANY JOIN EmployeeCreationService_SalesResponsability_drafts AS To_SalesResponsobilities ON (To_SalesResponsobilities.To_CreationForm_ID = ID),
   MANY TO MANY JOIN EmployeeCreationService_BusinessRoles_drafts AS To_BusinessRoles ON (To_BusinessRoles.To_CreationForm_ID = ID),
   MANY TO MANY JOIN EmployeeCreationService_Mapping_drafts AS To_Mappings ON (To_Mappings.To_CreationForm_ID = ID),
+  MANY TO MANY JOIN EmployeeCreationService_Territories_drafts AS To_Territories ON (To_Territories.To_CreationForm_ID = ID),
   MANY TO ONE JOIN EmployeeCreationService_DraftAdministrativeData AS DraftAdministrativeData ON (DraftAdministrativeData.DraftUUID = DraftAdministrativeData_DraftUUID)
 )
