@@ -6,8 +6,9 @@ VIEW EmployeeCreationService_SalesResponsability AS SELECT
   SalesResponsability_0.SalesOrgID_Code,
   SalesResponsability_0.DistributionChanelCode_ID,
   SalesResponsability_0.DivisionCode_ID,
-  SalesResponsability_0.SalesTerritory_ID,
-  SalesResponsability_0.MainIndicator
+  SalesResponsability_0.MainIndicator,
+  SalesResponsability_0.ObjectID,
+  SalesResponsability_0.IsUpdate
 FROM sap_employee_SalesResponsability AS SalesResponsability_0
 WITH ASSOCIATIONS (
   MANY TO ONE JOIN EmployeeCreationService_EmpCreationForm AS To_CreationForm ON (To_CreationForm.ID = To_CreationForm_ID),

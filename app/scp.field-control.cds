@@ -7,7 +7,7 @@ using { sap.employee as e } from '../db/schema';
 //
 
 annotate scp.EmpCreationForm {
-  /*  UserLogin @mandatory;
+   /* UserLogin @readonly;
     FirstName @mandatory;
     LastName  @mandatory;
     Email     @mandatory;
@@ -150,7 +150,11 @@ annotate scp.SalesResponsability with {
             {   $Type: 'Common.ValueListParameterDisplayOnly', 
                 ValueListProperty: 'Description'},
             ]
-    };
+    };   
+    
+};
+
+annotate scp.Territories with {
     SalesTerritory @Common.ValueListWithFixedValues : true;
     SalesTerritory @Common.ValueList: {
         CollectionPath : 'SalesTerritoryCollection',
@@ -162,8 +166,8 @@ annotate scp.SalesResponsability with {
                 ValueListProperty: 'Description'},
             ]
     };
-    
 };
+
 
 annotate scp.BusinessRoles with {
     Role @Common.ValueListWithFixedValues;
@@ -180,7 +184,7 @@ annotate scp.BusinessRoles with {
 };
 
 annotate scp.Mapping with {
-   // RemoteSystemID @Common.ValueListWithFixedValues;
+    RemoteSystemID @Common.ValueListWithFixedValues;
     RemoteSystemID @Common.ValueList: {
         SearchSupported : true,
         CollectionPath : 'RemoteSystem',
@@ -222,3 +226,4 @@ annotate scp.EmployeeOrgUnitAssigment with @assert.integrity: false;
 annotate scp.SalesResponsability with @assert.integrity: false;
 annotate scp.BusinessRoles with @assert.integrity: false;
 annotate scp.Mapping with @assert.integrity: false;
+annotate scp.Territories with @assert.integrity: false;

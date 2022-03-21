@@ -6,8 +6,9 @@ COLUMN TABLE sap_employee_SalesResponsability (
   SalesOrgID_Code NVARCHAR(5000),
   DistributionChanelCode_ID NCLOB,
   DivisionCode_ID NCLOB,
-  SalesTerritory_ID NVARCHAR(6),
   MainIndicator BOOLEAN,
+  ObjectID NVARCHAR(5000),
+  IsUpdate BOOLEAN,
   PRIMARY KEY(ID)
 ) WITH ASSOCIATIONS (
   MANY TO ONE JOIN sap_employee_EmpCreationForm AS To_CreationForm ON (To_CreationForm.ID = To_CreationForm_ID),

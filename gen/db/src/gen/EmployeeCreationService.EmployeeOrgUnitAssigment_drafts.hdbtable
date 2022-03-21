@@ -6,6 +6,8 @@ COLUMN TABLE EmployeeCreationService_EmployeeOrgUnitAssigment_drafts (
   UnitID_Code NVARCHAR(5000) NULL,
   RoleCode_Code NVARCHAR(5000) NULL,
   JobID_ID NVARCHAR(20) NULL,
+  ObjectID NVARCHAR(5000) NULL,
+  IsUpdate BOOLEAN NULL,
   IsActiveEntity BOOLEAN,
   HasActiveEntity BOOLEAN,
   HasDraftEntity BOOLEAN,

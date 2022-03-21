@@ -74,12 +74,21 @@
           "type": "User",
           "length": 255
         },
+        "EmployeeUUID": {
+          "type": "cds.String"
+        },
+        "EmployeeUUIDWithHyphen": {
+          "type": "cds.String"
+        },
         "EmployeeIDInternal": {
           "@title": "{i18n>EmployeeIDInternal}",
           "type": "cds.String"
         },
         "EmployeeIDExternal": {
           "@title": "{i18n>EmployeeIDExternal}",
+          "type": "cds.String"
+        },
+        "BuPaID": {
           "type": "cds.String"
         },
         "UserLogin": {
@@ -233,6 +242,27 @@
             }
           ]
         },
+        "To_Territories": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "sap.employee.Territories",
+          "on": [
+            {
+              "ref": [
+                "To_Territories",
+                "To_CreationForm"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
         "blockBtnEnabled": {
           "@Core.Computed": true,
           "virtual": true,
@@ -242,6 +272,9 @@
           "@title": "{i18n>Country}",
           "@Core.Computed": true,
           "virtual": true,
+          "type": "cds.Boolean"
+        },
+        "IsUpdate": {
           "type": "cds.Boolean"
         }
       }
@@ -316,6 +349,12 @@
               ]
             }
           ]
+        },
+        "ObjectID": {
+          "type": "cds.String"
+        },
+        "IsUpdate": {
+          "type": "cds.Boolean"
         }
       }
     },
@@ -390,6 +429,41 @@
             }
           ]
         },
+        "MainIndicator": {
+          "type": "cds.Boolean"
+        },
+        "ObjectID": {
+          "type": "cds.String"
+        },
+        "IsUpdate": {
+          "type": "cds.Boolean"
+        }
+      }
+    },
+    "sap.employee.Territories": {
+      "kind": "entity",
+      "includes": [
+        "cuid"
+      ],
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "To_CreationForm": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "sap.employee.EmpCreationForm",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
         "SalesTerritory": {
           "type": "cds.Association",
           "cardinality": {
@@ -404,8 +478,14 @@
             }
           ]
         },
-        "MainIndicator": {
+        "ObjectID": {
+          "type": "cds.String"
+        },
+        "IsUpdate": {
           "type": "cds.Boolean"
+        },
+        "TerritoryObjectID": {
+          "type": "cds.String"
         }
       }
     },
@@ -446,6 +526,15 @@
               ]
             }
           ]
+        },
+        "ObjectID": {
+          "type": "cds.String"
+        },
+        "IsUpdate": {
+          "type": "cds.Boolean"
+        },
+        "IsDelete": {
+          "type": "cds.Boolean"
         }
       }
     },
@@ -489,6 +578,12 @@
               ]
             }
           ]
+        },
+        "ObjectID": {
+          "type": "cds.String"
+        },
+        "IsUpdate": {
+          "type": "cds.Boolean"
         }
       }
     },
@@ -1200,6 +1295,12 @@
         },
         {
           "$Type": "UI.ReferenceFacet",
+          "ID": "i18nTerritories",
+          "Target": "To_Territories/@UI.LineItem#i18nTerritories",
+          "Label": "{i18n>Territories}"
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
           "Label": "{i18n>BusinessRoles}",
           "ID": "i18nBusinessRoles",
           "Target": "To_BusinessRoles/@UI.LineItem#i18nBusinessRoles"
@@ -1338,18 +1439,8 @@
       ],
       "@UI.HeaderInfo.Title.$Type": "UI.DataField",
       "@UI.HeaderInfo.TypeImageUrl": "sap-icon://employee",
-      "@UI.Identification": [
-        {
-          "$Type": "UI.DataFieldForAction",
-          "Action": "EmployeeCreationService.blockUser",
-          "Label": "{i18n>blockUser}"
-        },
-        {
-          "$Type": "UI.DataFieldForAction",
-          "Action": "EmployeeCreationService.unblockUser",
-          "Label": "{i18n>unblockUser}"
-        }
-      ],
+      "@UI.FieldGroup#qqq.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#qqq.Data": [],
       "@title": "{i18n>EmpCreationForm}",
       "projection": {
         "from": {
@@ -1424,12 +1515,21 @@
           "type": "User",
           "length": 255
         },
+        "EmployeeUUID": {
+          "type": "cds.String"
+        },
+        "EmployeeUUIDWithHyphen": {
+          "type": "cds.String"
+        },
         "EmployeeIDInternal": {
           "@title": "{i18n>EmployeeIDInternal}",
           "type": "cds.String"
         },
         "EmployeeIDExternal": {
           "@title": "{i18n>EmployeeIDExternal}",
+          "type": "cds.String"
+        },
+        "BuPaID": {
           "type": "cds.String"
         },
         "UserLogin": {
@@ -1628,6 +1728,27 @@
             }
           ]
         },
+        "To_Territories": {
+          "type": "cds.Composition",
+          "cardinality": {
+            "max": "*"
+          },
+          "target": "EmployeeCreationService.Territories",
+          "on": [
+            {
+              "ref": [
+                "To_Territories",
+                "To_CreationForm"
+              ]
+            },
+            "=",
+            {
+              "ref": [
+                "$self"
+              ]
+            }
+          ]
+        },
         "blockBtnEnabled": {
           "@Core.Computed": true,
           "virtual": true,
@@ -1637,6 +1758,9 @@
           "@title": "{i18n>Country}",
           "@Core.Computed": true,
           "virtual": true,
+          "type": "cds.Boolean"
+        },
+        "IsUpdate": {
           "type": "cds.Boolean"
         }
       },
@@ -2011,6 +2135,546 @@
           "type": "cds.String"
         },
         "Description": {
+          "type": "cds.String"
+        }
+      }
+    },
+    "EmployeeCreationService.Mapping": {
+      "kind": "entity",
+      "@assert.integrity": false,
+      "@UI.LineItem#i18nMapping": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "RemoteObjectID"
+          },
+          "Label": "{i18n>RemoteObjectID}"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "RemoteSystemID_ID"
+          },
+          "Label": "{i18n>RemoteSystemID}"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.employee.Mapping"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "To_CreationForm": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.EmpCreationForm",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "RemoteObjectID": {
+          "type": "cds.String"
+        },
+        "RemoteSystemID": {
+          "@Common.ValueListWithFixedValues": true,
+          "@Common.ValueList.SearchSupported": true,
+          "@Common.ValueList.CollectionPath": "RemoteSystem",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "RemoteSystemID_ID"
+              },
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Description"
+            }
+          ],
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.RemoteSystem",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "ObjectID": {
+          "type": "cds.String"
+        },
+        "IsUpdate": {
+          "type": "cds.Boolean"
+        }
+      }
+    },
+    "EmployeeCreationService.BusinessRoles": {
+      "kind": "entity",
+      "@assert.integrity": false,
+      "@UI.LineItem#i18nBusinessRoles": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "Role_CROOT_ID_CONTENT"
+          },
+          "Label": "{i18n>Role}"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.employee.BusinessRoles"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "To_CreationForm": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.EmpCreationForm",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "Role": {
+          "@Common.ValueListWithFixedValues": true,
+          "@Common.ValueList.CollectionPath": "Roles",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "Role_CROOT_ID_CONTENT"
+              },
+              "ValueListProperty": "CROOT_ID_CONTENT"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "CDESCRIPTION_NAME"
+            }
+          ],
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.Roles",
+          "keys": [
+            {
+              "ref": [
+                "CROOT_ID_CONTENT"
+              ]
+            }
+          ]
+        },
+        "ObjectID": {
+          "type": "cds.String"
+        },
+        "IsUpdate": {
+          "type": "cds.Boolean"
+        },
+        "IsDelete": {
+          "type": "cds.Boolean"
+        }
+      }
+    },
+    "EmployeeCreationService.EmployeeOrgUnitAssigment": {
+      "kind": "entity",
+      "@assert.integrity": false,
+      "@UI.LineItem#i18nOrgUnits": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "UnitID_Code"
+          },
+          "Label": "{i18n>UnitID}"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "JobID_ID"
+          },
+          "Label": "{i18n>JobID}"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.employee.EmployeeOrgUnitAssigment"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "To_CreationForm": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.EmpCreationForm",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "UnitID": {
+          "@Common.ValueListWithFixedValues": true,
+          "@Common.ValueList.CollectionPath": "OrgUnit",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "UnitID_Code"
+              },
+              "ValueListProperty": "Code"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Description"
+            }
+          ],
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.OrgUnit",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            {
+              "ref": [
+                "Code"
+              ]
+            }
+          ]
+        },
+        "RoleCode": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.OrgUnitRoles",
+          "keys": [
+            {
+              "ref": [
+                "Code"
+              ]
+            }
+          ]
+        },
+        "JobID": {
+          "@Common.ValueListWithFixedValues": true,
+          "@Common.ValueList.CollectionPath": "Job",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "JobID_ID"
+              },
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Description"
+            }
+          ],
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.Job",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "ObjectID": {
+          "type": "cds.String"
+        },
+        "IsUpdate": {
+          "type": "cds.Boolean"
+        }
+      }
+    },
+    "EmployeeCreationService.SalesResponsability": {
+      "kind": "entity",
+      "@assert.integrity": false,
+      "@UI.LineItem#i18nSalesResp": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "SalesOrgID_Code"
+          },
+          "Label": "{i18n>SalesOrgID}"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "DistributionChanelCode_ID"
+          },
+          "Label": "{i18n>DistributionChanelCode}"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "DivisionCode_ID"
+          },
+          "Label": "{i18n>DivisionCode}"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "MainIndicator"
+          },
+          "Label": "{i18n>MainIndicator}"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.employee.SalesResponsability"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "To_CreationForm": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.EmpCreationForm",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "SalesOrgID": {
+          "@Common.ValueListWithFixedValues": true,
+          "@Common.Text": {
+            "=": "SalesOrgID.Description"
+          },
+          "@Common.TextArrangement": {
+            "#": "TextLast"
+          },
+          "@Common.ValueList.CollectionPath": "SalesOrgs",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "SalesOrgID_Code"
+              },
+              "ValueListProperty": "Code"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Description"
+            }
+          ],
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.SalesOrgs",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            },
+            {
+              "ref": [
+                "Code"
+              ]
+            }
+          ]
+        },
+        "DistributionChanelCode": {
+          "@Common.ValueListWithFixedValues": true,
+          "@Common.ValueList.CollectionPath": "DistributionChanelCode",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "DistributionChanelCode_ID"
+              },
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Description"
+            }
+          ],
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.DistributionChanelCode",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "DivisionCode": {
+          "@Common.ValueListWithFixedValues": true,
+          "@Common.ValueList.CollectionPath": "DivisionCode",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "DivisionCode_ID"
+              },
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Description"
+            }
+          ],
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.DivisionCode",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "MainIndicator": {
+          "type": "cds.Boolean"
+        },
+        "ObjectID": {
+          "type": "cds.String"
+        },
+        "IsUpdate": {
+          "type": "cds.Boolean"
+        }
+      }
+    },
+    "EmployeeCreationService.Territories": {
+      "kind": "entity",
+      "@assert.integrity": false,
+      "@UI.LineItem#i18nTerritories": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "SalesTerritory_ID"
+          },
+          "Label": "{i18n>SalesTerritory}"
+        }
+      ],
+      "projection": {
+        "from": {
+          "ref": [
+            "sap.employee.Territories"
+          ]
+        }
+      },
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "To_CreationForm": {
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.EmpCreationForm",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "SalesTerritory": {
+          "@Common.ValueListWithFixedValues": true,
+          "@Common.ValueList.CollectionPath": "SalesTerritoryCollection",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "SalesTerritory_ID"
+              },
+              "ValueListProperty": "ID"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Description"
+            }
+          ],
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+          },
+          "target": "EmployeeCreationService.SalesTerritoryCollection",
+          "keys": [
+            {
+              "ref": [
+                "ID"
+              ]
+            }
+          ]
+        },
+        "ObjectID": {
+          "type": "cds.String"
+        },
+        "IsUpdate": {
+          "type": "cds.Boolean"
+        },
+        "TerritoryObjectID": {
           "type": "cds.String"
         }
       }
@@ -7711,480 +8375,6 @@
           "key": true,
           "type": "cds.String",
           "length": 3
-        }
-      }
-    },
-    "EmployeeCreationService.EmployeeOrgUnitAssigment": {
-      "kind": "entity",
-      "@cds.autoexposed": true,
-      "@assert.integrity": false,
-      "@UI.LineItem#i18nOrgUnits": [
-        {
-          "$Type": "UI.DataField",
-          "Value": {
-            "=": "UnitID_Code"
-          },
-          "Label": "{i18n>UnitID}"
-        },
-        {
-          "$Type": "UI.DataField",
-          "Value": {
-            "=": "JobID_ID"
-          },
-          "Label": "{i18n>JobID}"
-        }
-      ],
-      "projection": {
-        "from": {
-          "ref": [
-            "sap.employee.EmployeeOrgUnitAssigment"
-          ]
-        }
-      },
-      "elements": {
-        "ID": {
-          "key": true,
-          "type": "cds.UUID"
-        },
-        "To_CreationForm": {
-          "type": "cds.Association",
-          "cardinality": {
-            "max": 1
-          },
-          "target": "EmployeeCreationService.EmpCreationForm",
-          "keys": [
-            {
-              "ref": [
-                "ID"
-              ]
-            }
-          ]
-        },
-        "UnitID": {
-          "@Common.ValueListWithFixedValues": true,
-          "@Common.ValueList.CollectionPath": "OrgUnit",
-          "@Common.ValueList.Parameters": [
-            {
-              "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": {
-                "=": "UnitID_Code"
-              },
-              "ValueListProperty": "Code"
-            },
-            {
-              "$Type": "Common.ValueListParameterDisplayOnly",
-              "ValueListProperty": "Description"
-            }
-          ],
-          "type": "cds.Association",
-          "cardinality": {
-            "max": 1
-          },
-          "target": "EmployeeCreationService.OrgUnit",
-          "keys": [
-            {
-              "ref": [
-                "ID"
-              ]
-            },
-            {
-              "ref": [
-                "Code"
-              ]
-            }
-          ]
-        },
-        "RoleCode": {
-          "type": "cds.Association",
-          "cardinality": {
-            "max": 1
-          },
-          "target": "EmployeeCreationService.OrgUnitRoles",
-          "keys": [
-            {
-              "ref": [
-                "Code"
-              ]
-            }
-          ]
-        },
-        "JobID": {
-          "@Common.ValueListWithFixedValues": true,
-          "@Common.ValueList.CollectionPath": "Job",
-          "@Common.ValueList.Parameters": [
-            {
-              "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": {
-                "=": "JobID_ID"
-              },
-              "ValueListProperty": "ID"
-            },
-            {
-              "$Type": "Common.ValueListParameterDisplayOnly",
-              "ValueListProperty": "Description"
-            }
-          ],
-          "type": "cds.Association",
-          "cardinality": {
-            "max": 1
-          },
-          "target": "EmployeeCreationService.Job",
-          "keys": [
-            {
-              "ref": [
-                "ID"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    "EmployeeCreationService.SalesResponsability": {
-      "kind": "entity",
-      "@cds.autoexposed": true,
-      "@assert.integrity": false,
-      "@UI.LineItem#i18nSalesResp": [
-        {
-          "$Type": "UI.DataField",
-          "Value": {
-            "=": "SalesOrgID_Code"
-          },
-          "Label": "{i18n>SalesOrgID}"
-        },
-        {
-          "$Type": "UI.DataField",
-          "Value": {
-            "=": "SalesTerritory_ID"
-          },
-          "Label": "{i18n>SalesTerritory}"
-        },
-        {
-          "$Type": "UI.DataField",
-          "Value": {
-            "=": "DistributionChanelCode_ID"
-          },
-          "Label": "{i18n>DistributionChanelCode}"
-        },
-        {
-          "$Type": "UI.DataField",
-          "Value": {
-            "=": "DivisionCode_ID"
-          },
-          "Label": "{i18n>DivisionCode}"
-        },
-        {
-          "$Type": "UI.DataField",
-          "Value": {
-            "=": "MainIndicator"
-          },
-          "Label": "{i18n>MainIndicator}"
-        }
-      ],
-      "projection": {
-        "from": {
-          "ref": [
-            "sap.employee.SalesResponsability"
-          ]
-        }
-      },
-      "elements": {
-        "ID": {
-          "key": true,
-          "type": "cds.UUID"
-        },
-        "To_CreationForm": {
-          "type": "cds.Association",
-          "cardinality": {
-            "max": 1
-          },
-          "target": "EmployeeCreationService.EmpCreationForm",
-          "keys": [
-            {
-              "ref": [
-                "ID"
-              ]
-            }
-          ]
-        },
-        "SalesOrgID": {
-          "@Common.ValueListWithFixedValues": true,
-          "@Common.Text": {
-            "=": "SalesOrgID.Description"
-          },
-          "@Common.TextArrangement": {
-            "#": "TextLast"
-          },
-          "@Common.ValueList.CollectionPath": "SalesOrgs",
-          "@Common.ValueList.Parameters": [
-            {
-              "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": {
-                "=": "SalesOrgID_Code"
-              },
-              "ValueListProperty": "Code"
-            },
-            {
-              "$Type": "Common.ValueListParameterDisplayOnly",
-              "ValueListProperty": "Description"
-            }
-          ],
-          "type": "cds.Association",
-          "cardinality": {
-            "max": 1
-          },
-          "target": "EmployeeCreationService.SalesOrgs",
-          "keys": [
-            {
-              "ref": [
-                "ID"
-              ]
-            },
-            {
-              "ref": [
-                "Code"
-              ]
-            }
-          ]
-        },
-        "DistributionChanelCode": {
-          "@Common.ValueListWithFixedValues": true,
-          "@Common.ValueList.CollectionPath": "DistributionChanelCode",
-          "@Common.ValueList.Parameters": [
-            {
-              "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": {
-                "=": "DistributionChanelCode_ID"
-              },
-              "ValueListProperty": "ID"
-            },
-            {
-              "$Type": "Common.ValueListParameterDisplayOnly",
-              "ValueListProperty": "Description"
-            }
-          ],
-          "type": "cds.Association",
-          "cardinality": {
-            "max": 1
-          },
-          "target": "EmployeeCreationService.DistributionChanelCode",
-          "keys": [
-            {
-              "ref": [
-                "ID"
-              ]
-            }
-          ]
-        },
-        "DivisionCode": {
-          "@Common.ValueListWithFixedValues": true,
-          "@Common.ValueList.CollectionPath": "DivisionCode",
-          "@Common.ValueList.Parameters": [
-            {
-              "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": {
-                "=": "DivisionCode_ID"
-              },
-              "ValueListProperty": "ID"
-            },
-            {
-              "$Type": "Common.ValueListParameterDisplayOnly",
-              "ValueListProperty": "Description"
-            }
-          ],
-          "type": "cds.Association",
-          "cardinality": {
-            "max": 1
-          },
-          "target": "EmployeeCreationService.DivisionCode",
-          "keys": [
-            {
-              "ref": [
-                "ID"
-              ]
-            }
-          ]
-        },
-        "SalesTerritory": {
-          "@Common.ValueListWithFixedValues": true,
-          "@Common.ValueList.CollectionPath": "SalesTerritoryCollection",
-          "@Common.ValueList.Parameters": [
-            {
-              "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": {
-                "=": "SalesTerritory_ID"
-              },
-              "ValueListProperty": "ID"
-            },
-            {
-              "$Type": "Common.ValueListParameterDisplayOnly",
-              "ValueListProperty": "Description"
-            }
-          ],
-          "type": "cds.Association",
-          "cardinality": {
-            "max": 1
-          },
-          "target": "EmployeeCreationService.SalesTerritoryCollection",
-          "keys": [
-            {
-              "ref": [
-                "ID"
-              ]
-            }
-          ]
-        },
-        "MainIndicator": {
-          "type": "cds.Boolean"
-        }
-      }
-    },
-    "EmployeeCreationService.BusinessRoles": {
-      "kind": "entity",
-      "@cds.autoexposed": true,
-      "@assert.integrity": false,
-      "@UI.LineItem#i18nBusinessRoles": [
-        {
-          "$Type": "UI.DataField",
-          "Value": {
-            "=": "Role_CROOT_ID_CONTENT"
-          },
-          "Label": "{i18n>Role}"
-        }
-      ],
-      "projection": {
-        "from": {
-          "ref": [
-            "sap.employee.BusinessRoles"
-          ]
-        }
-      },
-      "elements": {
-        "ID": {
-          "key": true,
-          "type": "cds.UUID"
-        },
-        "To_CreationForm": {
-          "type": "cds.Association",
-          "cardinality": {
-            "max": 1
-          },
-          "target": "EmployeeCreationService.EmpCreationForm",
-          "keys": [
-            {
-              "ref": [
-                "ID"
-              ]
-            }
-          ]
-        },
-        "Role": {
-          "@Common.ValueListWithFixedValues": true,
-          "@Common.ValueList.CollectionPath": "Roles",
-          "@Common.ValueList.Parameters": [
-            {
-              "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": {
-                "=": "Role_CROOT_ID_CONTENT"
-              },
-              "ValueListProperty": "CROOT_ID_CONTENT"
-            },
-            {
-              "$Type": "Common.ValueListParameterDisplayOnly",
-              "ValueListProperty": "CDESCRIPTION_NAME"
-            }
-          ],
-          "type": "cds.Association",
-          "cardinality": {
-            "max": 1
-          },
-          "target": "EmployeeCreationService.Roles",
-          "keys": [
-            {
-              "ref": [
-                "CROOT_ID_CONTENT"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    "EmployeeCreationService.Mapping": {
-      "kind": "entity",
-      "@cds.autoexposed": true,
-      "@assert.integrity": false,
-      "@UI.LineItem#i18nMapping": [
-        {
-          "$Type": "UI.DataField",
-          "Value": {
-            "=": "RemoteObjectID"
-          },
-          "Label": "{i18n>RemoteObjectID}"
-        },
-        {
-          "$Type": "UI.DataField",
-          "Value": {
-            "=": "RemoteSystemID_ID"
-          },
-          "Label": "{i18n>RemoteSystemID}"
-        }
-      ],
-      "projection": {
-        "from": {
-          "ref": [
-            "sap.employee.Mapping"
-          ]
-        }
-      },
-      "elements": {
-        "ID": {
-          "key": true,
-          "type": "cds.UUID"
-        },
-        "To_CreationForm": {
-          "type": "cds.Association",
-          "cardinality": {
-            "max": 1
-          },
-          "target": "EmployeeCreationService.EmpCreationForm",
-          "keys": [
-            {
-              "ref": [
-                "ID"
-              ]
-            }
-          ]
-        },
-        "RemoteObjectID": {
-          "type": "cds.String"
-        },
-        "RemoteSystemID": {
-          "@Common.ValueList.SearchSupported": true,
-          "@Common.ValueList.CollectionPath": "RemoteSystem",
-          "@Common.ValueList.Parameters": [
-            {
-              "$Type": "Common.ValueListParameterInOut",
-              "LocalDataProperty": {
-                "=": "RemoteSystemID_ID"
-              },
-              "ValueListProperty": "ID"
-            },
-            {
-              "$Type": "Common.ValueListParameterDisplayOnly",
-              "ValueListProperty": "Description"
-            }
-          ],
-          "type": "cds.Association",
-          "cardinality": {
-            "max": 1
-          },
-          "target": "EmployeeCreationService.RemoteSystem",
-          "keys": [
-            {
-              "ref": [
-                "ID"
-              ]
-            }
-          ]
         }
       }
     }
