@@ -1,6 +1,36 @@
 {
 	"VCAP_SERVICES": {
-<<<<<<< HEAD
+		"hana": [
+			{
+				"label": "hana",
+				"provider": null,
+				"plan": "hdi-shared",
+				"name": "EmployeeCreationApp-db",
+				"tags": [
+					"hana",
+					"database",
+					"relational"
+				],
+				"instance_guid": "4207d817-3c30-461c-ba09-6890d17e6530",
+				"instance_name": "EmployeeCreationApp-db",
+				"binding_guid": "a60ef0ef-91f7-4909-ae1f-19cce18939c8",
+				"binding_name": null,
+				"credentials": {
+					"host": "a60950d5-ec20-42c5-83af-f40b9d7af17a.hana.prod-eu10.hanacloud.ondemand.com",
+					"port": "443",
+					"driver": "com.sap.db.jdbc.Driver",
+					"url": "jdbc:sap://a60950d5-ec20-42c5-83af-f40b9d7af17a.hana.prod-eu10.hanacloud.ondemand.com:443?encrypt=true&validateCertificate=true&currentschema=ED5EC23126D949968B330A11AA1D26FE",
+					"schema": "ED5EC23126D949968B330A11AA1D26FE",
+					"hdi_user": "ED5EC23126D949968B330A11AA1D26FE_9NL06CZ4P3XP1XQ2TV0YAPW6G_DT",
+					"hdi_password": "Gu5Hgu_f4Po8LohxT7ISAiBwvHPZJpS3gAfJ-aqYI1DOt52TVWa78c0p9af.wo3ACOiKmVfBvrBV8HEbdt9fZTqYOhLQo6.B3ye6fBzqJzWtfICls-8O1XUsvcuQSDRc",
+					"user": "ED5EC23126D949968B330A11AA1D26FE_9NL06CZ4P3XP1XQ2TV0YAPW6G_RT",
+					"password": "Su4TpViy-mVKjEAgG0yx4d5tWe32rI13n75R46ZzcjdIwgBnTtg-tH_-g-r2oLNj6HmBmeQ70Tq9oD5QoFeP6trptLor7javR-h7BaisSOYx-_Ip9Now4CQO7bQGE2ov",
+					"certificate": "-----BEGIN CERTIFICATE-----\nMIIDrzCCApegAwIBAgIQCDvgVpBCRrGhdWrJWZHHSjANBgkqhkiG9w0BAQUFADBh\nMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3\nd3cuZGlnaWNlcnQuY29tMSAwHgYDVQQDExdEaWdpQ2VydCBHbG9iYWwgUm9vdCBD\nQTAeFw0wNjExMTAwMDAwMDBaFw0zMTExMTAwMDAwMDBaMGExCzAJBgNVBAYTAlVT\nMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5j\nb20xIDAeBgNVBAMTF0RpZ2lDZXJ0IEdsb2JhbCBSb290IENBMIIBIjANBgkqhkiG\n9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4jvhEXLeqKTTo1eqUKKPC3eQyaKl7hLOllsB\nCSDMAZOnTjC3U/dDxGkAV53ijSLdhwZAAIEJzs4bg7/fzTtxRuLWZscFs3YnFo97\nnh6Vfe63SKMI2tavegw5BmV/Sl0fvBf4q77uKNd0f3p4mVmFaG5cIzJLv07A6Fpt\n43C/dxC//AH2hdmoRBBYMql1GNXRor5H4idq9Joz+EkIYIvUX7Q6hL+hqkpMfT7P\nT19sdl6gSzeRntwi5m3OFBqOasv+zbMUZBfHWymeMr/y7vrTC0LUq7dBMtoM1O/4\ngdW7jVg/tRvoSSiicNoxBN33shbyTApOB6jtSj1etX+jkMOvJwIDAQABo2MwYTAO\nBgNVHQ8BAf8EBAMCAYYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUA95QNVbR\nTLtm8KPiGxvDl7I90VUwHwYDVR0jBBgwFoAUA95QNVbRTLtm8KPiGxvDl7I90VUw\nDQYJKoZIhvcNAQEFBQADggEBAMucN6pIExIK+t1EnE9SsPTfrgT1eXkIoyQY/Esr\nhMAtudXH/vTBH1jLuG2cenTnmCmrEbXjcKChzUyImZOMkXDiqw8cvpOp/2PV5Adg\n06O/nVsJ8dWO41P0jmP6P6fbtGbfYmbW0W5BjfIttep3Sp+dWOIrWcBAI+0tKIJF\nPnlUkiaY4IBIqDfv8NZ5YBberOgOzW6sRBc4L0na4UU+Krk2U886UAb3LujEV0ls\nYSEY1QSteDwsOoBrp+uvFRTp2InBuThs4pFsiv9kuXclVzDAGySj4dzp30d8tbQk\nCAUw7C29C79Fv1C5qfPrmAESrciIxpg0X40KPMbp1ZWVbd4=\n-----END CERTIFICATE-----"
+				},
+				"syslog_drain_url": null,
+				"volume_mounts": []
+			}
+		],
 		"xsuaa": [
 			{
 				"label": "xsuaa",
@@ -12,7 +42,7 @@
 				],
 				"instance_guid": "a3c3940b-96b3-40f5-91b4-5f3538284a2a",
 				"instance_name": "EmployeeCreationApp-uaa",
-				"binding_guid": "9a996c72-3898-49ef-a203-304568051aa6",
+				"binding_guid": "a3c680cc-b8e6-473b-b975-dce0cff8c709",
 				"binding_name": null,
 				"credentials": {
 					"tenantmode": "dedicated",
@@ -35,8 +65,6 @@
 				"volume_mounts": []
 			}
 		],
-=======
->>>>>>> origin/feature/open-field-by-anothers-value
 		"destination": [
 			{
 				"label": "destination",
@@ -50,22 +78,14 @@
 				],
 				"instance_guid": "4d35ea7b-1fd6-4aed-90bc-0f754cf905fd",
 				"instance_name": "EmployeeCreationApp-dest-srv",
-<<<<<<< HEAD
-				"binding_guid": "9ee6d6d1-b904-45d6-b8f2-dc9f96f76240",
-=======
-				"binding_guid": "22121b18-1036-4d12-ae0a-02631136ba0c",
->>>>>>> origin/feature/open-field-by-anothers-value
+				"binding_guid": "40a631aa-2473-4840-ad4a-f0c7fd4a1ad2",
 				"binding_name": null,
 				"credentials": {
 					"tenantmode": "dedicated",
 					"clientid": "sb-clone4d35ea7b1fd64aed90bc0f754cf905fd!b96507|destination-xsappname!b404",
 					"credential-type": "binding-secret",
 					"xsappname": "clone4d35ea7b1fd64aed90bc0f754cf905fd!b96507|destination-xsappname!b404",
-<<<<<<< HEAD
-					"clientsecret": "9ee6d6d1-b904-45d6-b8f2-dc9f96f76240$JcV-HjzCQrKJ1z0DN4cGPJ4fRfY8O43dBBVLR3Xuwgc=",
-=======
-					"clientsecret": "22121b18-1036-4d12-ae0a-02631136ba0c$LBbhZlWryCeBrpqecoxCGFk1R7Iuf2oQ_z9yEbcqPw0=",
->>>>>>> origin/feature/open-field-by-anothers-value
+					"clientsecret": "40a631aa-2473-4840-ad4a-f0c7fd4a1ad2$W-IUhZtjqgTqKgMdkhprAow4wfEPrWr3dyhZRO5OdIs=",
 					"uri": "https://destination-configuration.cfapps.eu10.hana.ondemand.com",
 					"url": "https://clientlink-dev.authentication.eu10.hana.ondemand.com",
 					"uaadomain": "authentication.eu10.hana.ondemand.com",
@@ -73,77 +93,6 @@
 					"verificationkey": "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAshnjTfAGKvv4IBYon/f1DZV9GUtyVjaghnYOm13hSJV6E/7e+NJ8JQZ+za34k5XdK5aH3KEJ9d6sTU1cjC5rWOWh/8qZscKujqy0NpCKsOPnIPgWSe6UN5vOTXFujFtuYjaTNrwXWOtJfUCNuJkILPRfZMmM72o9NGinbvuioVXH+f5xMd4WJcE8gI3uwuFtCCV92TRpFXWYJWskyNpef9emc4BV/5Hb9UC/zd2xCpnXYGS+K9waB97KkGfYp9tkNYMy6GHv8l1ruQAB9n0WEyhHBJnxJ17vpWlL2ZUhhHUFekRq+guCSqopYv3Ql/fJ+p+9dm+epk7jrLrn/cuWZwIDAQAB-----END PUBLIC KEY-----",
 					"identityzone": "clientlink-dev",
 					"tenantid": "2421f873-43c3-42a5-be09-735a2a7f95fb"
-				},
-				"syslog_drain_url": null,
-				"volume_mounts": []
-			}
-		],
-		"hana": [
-<<<<<<< HEAD
-=======
-			{
-				"label": "hana",
-				"provider": null,
-				"plan": "hdi-shared",
-				"name": "EmployeeCreationApp-db",
-				"tags": [
-					"hana",
-					"database",
-					"relational"
-				],
-				"instance_guid": "4207d817-3c30-461c-ba09-6890d17e6530",
-				"instance_name": "EmployeeCreationApp-db",
-				"binding_guid": "bad1a22c-c633-4382-a1c6-01acedda8c3c",
-				"binding_name": null,
-				"credentials": {
-					"host": "a60950d5-ec20-42c5-83af-f40b9d7af17a.hana.prod-eu10.hanacloud.ondemand.com",
-					"port": "443",
-					"driver": "com.sap.db.jdbc.Driver",
-					"url": "jdbc:sap://a60950d5-ec20-42c5-83af-f40b9d7af17a.hana.prod-eu10.hanacloud.ondemand.com:443?encrypt=true&validateCertificate=true&currentschema=ED5EC23126D949968B330A11AA1D26FE",
-					"schema": "ED5EC23126D949968B330A11AA1D26FE",
-					"hdi_user": "ED5EC23126D949968B330A11AA1D26FE_94U1EOJNLXRWHEWNH39AZ09XY_DT",
-					"hdi_password": "Ai5RD4FRarlriHrzZe_-fNnqkzr2PZwQF.Ayv6bb.aIeBUmJ4WkO0hmrNvtkDL_cJNjjbLAeMjbB9f5AUcsSAZrTX3Q6m.gu2U0Bxy4MUDLBEwU6PhY_CEsdz5FgzBxg",
-					"user": "ED5EC23126D949968B330A11AA1D26FE_94U1EOJNLXRWHEWNH39AZ09XY_RT",
-					"password": "Ec1.P_4.eYeIFb.7EPhg7UN6EdhjJLCwSCuBub0ilFQKShfe5mvTpJL25B9XlqOJUTGg6rubEh9wbQyn_eWOek50hUaR_iqXJr_-8YDgm8EFBblMNs8DXttUwJh3GTb4",
-					"certificate": "-----BEGIN CERTIFICATE-----\nMIIDrzCCApegAwIBAgIQCDvgVpBCRrGhdWrJWZHHSjANBgkqhkiG9w0BAQUFADBh\nMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3\nd3cuZGlnaWNlcnQuY29tMSAwHgYDVQQDExdEaWdpQ2VydCBHbG9iYWwgUm9vdCBD\nQTAeFw0wNjExMTAwMDAwMDBaFw0zMTExMTAwMDAwMDBaMGExCzAJBgNVBAYTAlVT\nMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5j\nb20xIDAeBgNVBAMTF0RpZ2lDZXJ0IEdsb2JhbCBSb290IENBMIIBIjANBgkqhkiG\n9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4jvhEXLeqKTTo1eqUKKPC3eQyaKl7hLOllsB\nCSDMAZOnTjC3U/dDxGkAV53ijSLdhwZAAIEJzs4bg7/fzTtxRuLWZscFs3YnFo97\nnh6Vfe63SKMI2tavegw5BmV/Sl0fvBf4q77uKNd0f3p4mVmFaG5cIzJLv07A6Fpt\n43C/dxC//AH2hdmoRBBYMql1GNXRor5H4idq9Joz+EkIYIvUX7Q6hL+hqkpMfT7P\nT19sdl6gSzeRntwi5m3OFBqOasv+zbMUZBfHWymeMr/y7vrTC0LUq7dBMtoM1O/4\ngdW7jVg/tRvoSSiicNoxBN33shbyTApOB6jtSj1etX+jkMOvJwIDAQABo2MwYTAO\nBgNVHQ8BAf8EBAMCAYYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUA95QNVbR\nTLtm8KPiGxvDl7I90VUwHwYDVR0jBBgwFoAUA95QNVbRTLtm8KPiGxvDl7I90VUw\nDQYJKoZIhvcNAQEFBQADggEBAMucN6pIExIK+t1EnE9SsPTfrgT1eXkIoyQY/Esr\nhMAtudXH/vTBH1jLuG2cenTnmCmrEbXjcKChzUyImZOMkXDiqw8cvpOp/2PV5Adg\n06O/nVsJ8dWO41P0jmP6P6fbtGbfYmbW0W5BjfIttep3Sp+dWOIrWcBAI+0tKIJF\nPnlUkiaY4IBIqDfv8NZ5YBberOgOzW6sRBc4L0na4UU+Krk2U886UAb3LujEV0ls\nYSEY1QSteDwsOoBrp+uvFRTp2InBuThs4pFsiv9kuXclVzDAGySj4dzp30d8tbQk\nCAUw7C29C79Fv1C5qfPrmAESrciIxpg0X40KPMbp1ZWVbd4=\n-----END CERTIFICATE-----"
-				},
-				"syslog_drain_url": null,
-				"volume_mounts": []
-			}
-		],
-		"xsuaa": [
->>>>>>> origin/feature/open-field-by-anothers-value
-			{
-				"label": "hana",
-				"provider": null,
-				"plan": "hdi-shared",
-				"name": "EmployeeCreationApp-db",
-				"tags": [
-					"hana",
-					"database",
-					"relational"
-				],
-<<<<<<< HEAD
-				"instance_guid": "4207d817-3c30-461c-ba09-6890d17e6530",
-				"instance_name": "EmployeeCreationApp-db",
-				"binding_guid": "285a43d2-68db-4825-adc4-004973487d18",
-=======
-				"instance_guid": "a3c3940b-96b3-40f5-91b4-5f3538284a2a",
-				"instance_name": "EmployeeCreationApp-uaa",
-				"binding_guid": "9779ad1e-75f9-4812-9adb-085abe2dc6d8",
->>>>>>> origin/feature/open-field-by-anothers-value
-				"binding_name": null,
-				"credentials": {
-					"host": "a60950d5-ec20-42c5-83af-f40b9d7af17a.hana.prod-eu10.hanacloud.ondemand.com",
-					"port": "443",
-					"driver": "com.sap.db.jdbc.Driver",
-					"url": "jdbc:sap://a60950d5-ec20-42c5-83af-f40b9d7af17a.hana.prod-eu10.hanacloud.ondemand.com:443?encrypt=true&validateCertificate=true&currentschema=ED5EC23126D949968B330A11AA1D26FE",
-					"schema": "ED5EC23126D949968B330A11AA1D26FE",
-					"hdi_user": "ED5EC23126D949968B330A11AA1D26FE_7Z3BBJ8ZTJKWLEP86NQEZ9QWZ_DT",
-					"hdi_password": "Fp2wat9yQFgaZoH9ICVLZxj6r3Ivm.uRSVgwas8V0FWE.lFq9Bcr3aOucUtz.94IXtNUoHyEtaI22XGEs_C_5diAWqQZxK5RQtV5BgDf2Hzg.jvFjJ6F9qV06PQUvmbt",
-					"user": "ED5EC23126D949968B330A11AA1D26FE_7Z3BBJ8ZTJKWLEP86NQEZ9QWZ_RT",
-					"password": "Wk0_lPs20RnV12Pg6C1_TbICCWE.4cuU_m-qXzPZ5YwYlnQ90BCNr5NRqzFbH.TZrp0-oj-4alT2U-eOIkoVVw.frpqdE02.r9wxBjoEnDowdvDLGme9X98FCPtdZraH",
-					"certificate": "-----BEGIN CERTIFICATE-----\nMIIDrzCCApegAwIBAgIQCDvgVpBCRrGhdWrJWZHHSjANBgkqhkiG9w0BAQUFADBh\nMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3\nd3cuZGlnaWNlcnQuY29tMSAwHgYDVQQDExdEaWdpQ2VydCBHbG9iYWwgUm9vdCBD\nQTAeFw0wNjExMTAwMDAwMDBaFw0zMTExMTAwMDAwMDBaMGExCzAJBgNVBAYTAlVT\nMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5j\nb20xIDAeBgNVBAMTF0RpZ2lDZXJ0IEdsb2JhbCBSb290IENBMIIBIjANBgkqhkiG\n9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4jvhEXLeqKTTo1eqUKKPC3eQyaKl7hLOllsB\nCSDMAZOnTjC3U/dDxGkAV53ijSLdhwZAAIEJzs4bg7/fzTtxRuLWZscFs3YnFo97\nnh6Vfe63SKMI2tavegw5BmV/Sl0fvBf4q77uKNd0f3p4mVmFaG5cIzJLv07A6Fpt\n43C/dxC//AH2hdmoRBBYMql1GNXRor5H4idq9Joz+EkIYIvUX7Q6hL+hqkpMfT7P\nT19sdl6gSzeRntwi5m3OFBqOasv+zbMUZBfHWymeMr/y7vrTC0LUq7dBMtoM1O/4\ngdW7jVg/tRvoSSiicNoxBN33shbyTApOB6jtSj1etX+jkMOvJwIDAQABo2MwYTAO\nBgNVHQ8BAf8EBAMCAYYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUA95QNVbR\nTLtm8KPiGxvDl7I90VUwHwYDVR0jBBgwFoAUA95QNVbRTLtm8KPiGxvDl7I90VUw\nDQYJKoZIhvcNAQEFBQADggEBAMucN6pIExIK+t1EnE9SsPTfrgT1eXkIoyQY/Esr\nhMAtudXH/vTBH1jLuG2cenTnmCmrEbXjcKChzUyImZOMkXDiqw8cvpOp/2PV5Adg\n06O/nVsJ8dWO41P0jmP6P6fbtGbfYmbW0W5BjfIttep3Sp+dWOIrWcBAI+0tKIJF\nPnlUkiaY4IBIqDfv8NZ5YBberOgOzW6sRBc4L0na4UU+Krk2U886UAb3LujEV0ls\nYSEY1QSteDwsOoBrp+uvFRTp2InBuThs4pFsiv9kuXclVzDAGySj4dzp30d8tbQk\nCAUw7C29C79Fv1C5qfPrmAESrciIxpg0X40KPMbp1ZWVbd4=\n-----END CERTIFICATE-----"
 				},
 				"syslog_drain_url": null,
 				"volume_mounts": []

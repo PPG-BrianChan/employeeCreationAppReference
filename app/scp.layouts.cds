@@ -148,7 +148,7 @@ annotate scp.EmpCreationForm with @UI : {
         ]
     },
 
-    FieldGroup #PersonalInfo          : {
+    FieldGroup #BasicInfo      : {
         $Type : 'UI.FieldGroupType',
         Data  : [
             {   $Type : 'UI.DataField', Value : UserLogin  ,                   },
