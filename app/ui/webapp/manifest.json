@@ -128,7 +128,8 @@
                                         "route": "EmpCreationFormObjectPage"
                                     }
                                 }
-                            }
+                            },
+                            "initialLoad": "Enabled"
                         }
                     }
                 },

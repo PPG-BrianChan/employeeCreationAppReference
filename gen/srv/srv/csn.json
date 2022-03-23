@@ -313,6 +313,7 @@
           ]
         },
         "UnitID": {
+          "@title": "{i18n>UnitID}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -392,6 +393,7 @@
           ]
         },
         "SalesOrgID": {
+          "@title": "{i18n>SalesOrgID}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -523,6 +525,7 @@
           ]
         },
         "Role": {
+          "@title": "{i18n>Role}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -1233,6 +1236,9 @@
         {
           "=": "UserLogin"
         },
+        "To_BusinessRoles/Role_CROOT_ID_CONTENT",
+        "To_OrgUnits/UnitID_ID",
+        "To_SalesResponsobilities/SalesOrgID_ID",
         {
           "=": "createdAt"
         },
@@ -8033,9 +8039,14 @@
                 "code"
               ]
             }
+<<<<<<< HEAD
           ]
         },
         "localized": {
+=======
+          ],
+          "@title": "{i18n>UnitID}",
+>>>>>>> origin/feature/open-field-by-anothers-value
           "type": "cds.Association",
           "target": "sap.common.Languages.texts",
           "on": [
@@ -8102,12 +8113,31 @@
           "@Common.Text": {
             "=": "name"
           },
+<<<<<<< HEAD
           "key": true,
           "type": "cds.String",
           "length": 3
         },
         "texts": {
           "type": "cds.Composition",
+=======
+          "@Common.ValueList.CollectionPath": "SalesOrgs",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "SalesOrgID_Code"
+              },
+              "ValueListProperty": "Code"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "Description"
+            }
+          ],
+          "@title": "{i18n>SalesOrgID}",
+          "type": "cds.Association",
+>>>>>>> origin/feature/open-field-by-anothers-value
           "cardinality": {
             "max": "*"
           },
@@ -8403,6 +8433,7 @@
           "type": "cds.String",
           "length": 255
         },
+<<<<<<< HEAD
         "descr": {
           "@title": "{i18n>Description}",
           "localized": null,
@@ -8414,6 +8445,28 @@
           "@title": "{i18n>LanguageCode}",
           "@Common.Text": {
             "=": "name"
+=======
+        "Role": {
+          "@Common.ValueListWithFixedValues": true,
+          "@Common.ValueList.CollectionPath": "Roles",
+          "@Common.ValueList.Parameters": [
+            {
+              "$Type": "Common.ValueListParameterInOut",
+              "LocalDataProperty": {
+                "=": "Role_CROOT_ID_CONTENT"
+              },
+              "ValueListProperty": "CROOT_ID_CONTENT"
+            },
+            {
+              "$Type": "Common.ValueListParameterDisplayOnly",
+              "ValueListProperty": "CDESCRIPTION_NAME"
+            }
+          ],
+          "@title": "{i18n>Role}",
+          "type": "cds.Association",
+          "cardinality": {
+            "max": 1
+>>>>>>> origin/feature/open-field-by-anothers-value
           },
           "key": true,
           "type": "cds.String",
