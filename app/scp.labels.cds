@@ -1,4 +1,4 @@
-dusing {sap.employee as dm} from '../db/schema';
+using {sap.employee as dm} from '../db/schema';
 
 //
 // annotations that control rendering of fields and labels

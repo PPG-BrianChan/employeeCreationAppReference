@@ -11,6 +11,8 @@ COLUMN TABLE EmployeeCreationService_EmpCreationForm_drafts (
   EmployeeIDExternal NVARCHAR(5000) NULL,
   BuPaID NVARCHAR(5000) NULL,
   UserLogin NVARCHAR(5000) NULL,
+  UserPassword NVARCHAR(5000) NULL,
+  identifierBooleanPassword BOOLEAN NULL DEFAULT TRUE,
   Tenant NVARCHAR(5000) NULL,
   FirstName NVARCHAR(5000) NULL,
   LastName NVARCHAR(5000) NULL,

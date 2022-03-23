@@ -11,6 +11,8 @@ VIEW EmployeeCreationService_EmpCreationForm AS SELECT
   EmpCreationForm_0.EmployeeIDExternal,
   EmpCreationForm_0.BuPaID,
   EmpCreationForm_0.UserLogin,
+  EmpCreationForm_0.UserPassword,
+  EmpCreationForm_0.identifierBooleanPassword,
   EmpCreationForm_0.Tenant,
   EmpCreationForm_0.FirstName,
   EmpCreationForm_0.LastName,

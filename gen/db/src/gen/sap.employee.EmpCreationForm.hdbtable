@@ -11,6 +11,8 @@ COLUMN TABLE sap_employee_EmpCreationForm (
   EmployeeIDExternal NVARCHAR(5000),
   BuPaID NVARCHAR(5000),
   UserLogin NVARCHAR(5000),
+  UserPassword NVARCHAR(5000),
+  identifierBooleanPassword BOOLEAN DEFAULT TRUE,
   Tenant NVARCHAR(5000),
   FirstName NVARCHAR(5000),
   LastName NVARCHAR(5000),
