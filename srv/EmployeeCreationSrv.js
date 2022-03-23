@@ -269,13 +269,14 @@ module.exports = cds.service.impl(async function () {
         }
     })
 
-    this.after('PATCH', EmpCreationForm, (_, req) => {
+    this.before('PATCH', EmpCreationForm, async req => {
         if ('UserPasswordPolicy_ID' in req.data) {
-            const { UserPasswordPolicy_ID, ID } = req.data
+            const { UserPasswordPolicy_ID } = req.data
             var identifierBoolean = true, password = '';
             if (UserPasswordPolicy_ID === 'S_BUSINESS_USER') identifierBoolean = false;
             else identifierBoolean = true;
-            return UPDATE(EmpCreationForm.drafts, ID).with({ identifierBooleanPassword: identifierBoolean, UserPassword: password })
+            req.data.identifierBooleanPassword = identifierBoolean;
+            req.data.UserPassword = password;
         }
     })
 });
