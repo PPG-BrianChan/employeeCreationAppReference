@@ -12,6 +12,7 @@ annotate dm.EmpCreationForm with @title : '{i18n>EmpCreationForm}' {
     LastName           @title           : '{i18n>LastName}';
     MobilePhone        @title           : '{i18n>MobilePhone}';
     UserLogin          @title           : '{i18n>UserLogin}';
+    UserLocked         @title           : '{i18n>UserLocked}';
     UserPasswordPolicy @title           : '{i18n>UserPasswordPolicy}';
     UserPassword       @title           : 'User Password';
     ValidatyEndDate    @title           : '{i18n>ValidatyEndDate}';
