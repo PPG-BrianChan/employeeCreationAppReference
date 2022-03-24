@@ -232,6 +232,7 @@ module.exports = cds.service.impl(async function() {
             var endPoint = "/EmployeeCollection('" + currentObjectID + "')";
             var resTer = await service.tx(request).patch(endPoint,data);
             request.info("User unlocked");
+            let updatedRecord = await UPDATE(EmpCreationForm).where({ID:ID}).with({UserLocked : false })
         }catch(e){
             var error = "User unlocking error: " +e.innererror.response.body.error.message.value;
             request.reject(400, error);
@@ -406,7 +407,7 @@ module.exports = cds.service.impl(async function() {
                 let updatedRecord = await UPDATE(Mapping).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false })    
             }
             let updatedRecord = await UPDATE(EmpCreationForm).where({ID:request.data.ID}).with({EmployeeIDExternal: empID, 
-                    EmployeeIDInternal : request.data.ID, EmployeeUUID : UUID, BuPaID : buPaID, EmployeeUUIDWithHyphen : UUIDwithHyphen, HideFirstPanel : true, HideSecondPanel : false })
+                    EmployeeIDInternal : request.data.ID, EmployeeUUID : UUID, BuPaID : buPaID, EmployeeUUIDWithHyphen : UUIDwithHyphen, HideFirstPanel : true, HideSecondPanel : false, UserLocked : false })
             request.data.EmployeeIDExternal = empID;
             request.data.EmployeeIDInternal = request.data.ID;
             request.data.blockBtnEnabled = true;
@@ -415,6 +416,7 @@ module.exports = cds.service.impl(async function() {
             request.data.HideSecondPanel = false;
             request.data.BuPaID = buPaID;
             request.data.EmployeeUUIDWithHyphen = UUIDwithHyphen;
+            request.data.UserLocked = false;
         }catch(e){
             var error = "Mapping creation error: " +e.innererror.response.body.error.message.value;
             request.reject(400, error);
@@ -774,5 +776,15 @@ module.exports = cds.service.impl(async function() {
 
     this.before('PATCH', Mapping,async (request) => {
         request.data.IsUpdate = true;
+    })
+    this.before('PATCH', EmpCreationForm, async req => {
+        if ('UserPasswordPolicy_ID' in req.data) {
+            const { UserPasswordPolicy_ID } = req.data
+            var identifierBoolean = true, password = '';
+            if (UserPasswordPolicy_ID === 'S_BUSINESS_USER') identifierBoolean = false;
+            else identifierBoolean = true;
+            req.data.identifierBooleanPassword = identifierBoolean;
+            req.data.UserPassword = password;
+        }
     })
 });

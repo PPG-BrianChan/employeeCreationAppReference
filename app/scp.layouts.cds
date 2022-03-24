@@ -120,7 +120,8 @@ annotate scp.EmpCreationForm with @UI : {
         Data  : [
             {   $Type : 'UI.DataField', Value : EmployeeIDInternal   },
             {   $Type : 'UI.DataField', Value : EmployeeIDExternal },
-            {   $Type : 'UI.DataField', Value : UserLogin }
+            {   $Type : 'UI.DataField', Value : UserLogin },
+            {   $Type : 'UI.DataField', Value : UserLocked }
         ]
     },
     
@@ -135,7 +136,12 @@ annotate scp.EmpCreationForm with @UI : {
             {   $Type : 'UI.DataField', Value : Country_ID                     },
             {   $Type : 'UI.DataField', Value : Language_ID                    },
             {   $Type : 'UI.DataField', Value : ValidatyStartDate              },
-            {   $Type : 'UI.DataField', Value : UserPasswordPolicy_ID          }
+            {   $Type : 'UI.DataField', Value : UserPasswordPolicy_ID          },
+                        {
+                $Type         : 'UI.DataField',
+                Value         : UserPassword,
+                ![@UI.Hidden] : identifierBooleanPassword
+            }
         ]
     },
 
@@ -151,6 +157,12 @@ annotate scp.EmpCreationForm with @UI : {
             {   $Type : 'UI.DataField', Value : Language_ID           ,  ![@Common.FieldControl] : #ReadOnly    },
             {   $Type : 'UI.DataField', Value : ValidatyStartDate           ,  ![@Common.FieldControl] : #ReadOnly    },
             {   $Type : 'UI.DataField', Value : UserPasswordPolicy_ID       ,  ![@Common.FieldControl] : #ReadOnly    },
+            {
+                $Type         : 'UI.DataField',
+                Value         : UserPassword,
+                ![@UI.Hidden] : identifierBooleanPassword,
+                ![@Common.FieldControl] : #ReadOnly 
+            }
         ]
     },
 
@@ -236,3 +248,11 @@ annotate scp.Mapping with @(
             Label : '{i18n>RemoteSystemID}',
         },]
 );
+annotate scp.EmpCreationForm with @Common : {SideEffects #PasswordSodeEffects : {
+    $Type            : 'Common.SideEffectsType',
+    SourceProperties : [UserPasswordPolicy_ID],
+    TargetProperties : [
+        'identifierBooleanPassword',
+        'UserPassword'
+    ]
+}};
