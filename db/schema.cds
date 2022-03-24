@@ -12,6 +12,7 @@ entity EmpCreationForm : cuid, managed {
     EmployeeUUIDWithHyphen : String;
     EmployeeIDInternal : String;
     EmployeeIDExternal : String;
+    UserLocked : Boolean;
     BuPaID : String;
     UserLogin : String;
     UserPassword : String;
@@ -162,6 +163,7 @@ entity RemoteSystem {
     key ID : String;
     Description : String;
 }
+
 
 type TechnicalBooleanFlag : Boolean @(
     UI.Hidden,

@@ -1,4 +1,4 @@
-using EmployeeCreationService as scp from '../srv/EmployeeCreationSrv';
+    using EmployeeCreationService as scp from '../srv/EmployeeCreationSrv';
 
 //
 // annotatios that control the fiori layout
@@ -17,17 +17,17 @@ annotate scp.EmpCreationForm with @UI : {
         TypeImageUrl : 'sap-icon://employee'
     },
 
-    PresentationVariant               : {
+    PresentationVariant : {
         Text           : 'Default',
         Visualizations : ['@UI.LineItem'],
         SortOrder      : [{
-            $Type      : 'Common.SortOrderType',
+            $Type       : 'Common.SortOrderType',
             Property   : ID,
             Descending : true
         }]
     },
 
-    SelectionFields                   : [
+    SelectionFields  : [
         EmployeeIDExternal,
         EmployeeIDInternal,
         Email,
@@ -41,34 +41,19 @@ annotate scp.EmpCreationForm with @UI : {
         createdBy
     ],
 
-    LineItem                          : [
-        {
-            $Type : 'UI.DataField',
-            Value : EmployeeIDExternal
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : EmployeeIDInternal
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : Email,
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : MobilePhone
-        },
-        {
-            $Type : 'UI.DataField',
-            Value : UserLogin
-        }
+    LineItem: [
+        {   $Type: 'UI.DataField', Value: EmployeeIDExternal },
+        {   $Type: 'UI.DataField', Value: EmployeeIDInternal        },
+        {   $Type: 'UI.DataField', Value: Email,          },
+        {   $Type: 'UI.DataField', Value: MobilePhone   },
+        {   $Type: 'UI.DataField', Value: UserLogin  }
     ],
 
-    HeaderFacets                      : [{
-        $Type  : 'UI.ReferenceFacet',
-        Target : '@UI.FieldGroup#HeaderGroup',
-        Label  : '{i18n>Identifications}'
-    }, ],
+    HeaderFacets: [
+        {   $Type : 'UI.ReferenceFacet',  Target: '@UI.FieldGroup#HeaderGroup',
+            Label : '{i18n>Identifications}'
+        },
+    ],    
 
    Facets : [
        {
@@ -130,25 +115,17 @@ annotate scp.EmpCreationForm with @UI : {
         }
     ],
 
-    FieldGroup #HeaderGroup           : {
+    FieldGroup #HeaderGroup: {
         $Type : 'UI.FieldGroupType',
         Data  : [
-            {
-                $Type : 'UI.DataField',
-                Value : EmployeeIDInternal
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : EmployeeIDExternal
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : UserLogin
-            }
+            {   $Type : 'UI.DataField', Value : EmployeeIDInternal   },
+            {   $Type : 'UI.DataField', Value : EmployeeIDExternal },
+            {   $Type : 'UI.DataField', Value : UserLogin },
+            {   $Type : 'UI.DataField', Value : UserLocked }
         ]
     },
-
-    FieldGroup #BasicInfo      : {
+    
+    FieldGroup #BasicInfo: {
         $Type : 'UI.FieldGroupType',
         Data  : [
             {   $Type : 'UI.DataField', Value : UserLogin  ,                   },
@@ -189,33 +166,19 @@ annotate scp.EmpCreationForm with @UI : {
         ]
     },
 
-
-
-    FieldGroup #CreationDetailsFG     : {
+    FieldGroup #CreationDetailsFG: {
         $Type : 'UI.FieldGroupType',
         Data  : [
-            {
-                $Type : 'UI.DataField',
-                Value : createdAt
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : createdBy
-            }
+            {   $Type : 'UI.DataField', Value : createdAt   },
+            {   $Type : 'UI.DataField', Value : createdBy   }
         ]
     },
 
-    FieldGroup #ModificationDetailsFG : {
+    FieldGroup #ModificationDetailsFG          : {
         $Type : 'UI.FieldGroupType',
         Data  : [
-            {
-                $Type : 'UI.DataField',
-                Value : modifiedAt
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : modifiedBy
-            }
+            {   $Type : 'UI.DataField', Value : modifiedAt  },
+            {   $Type : 'UI.DataField', Value : modifiedBy  }
         ]
     }
 };

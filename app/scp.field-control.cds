@@ -202,12 +202,18 @@ annotate scp.Mapping with {
 annotate scp.EmpCreationForm actions {
     @(
         cds.odata.bindingparameter.name : '_it',
-        Core.OperationAvailable : _it.unblockBtnEnabled
+        Core.OperationAvailable : _it.unblockBtnEnabled,
+        Common.SideEffects              : {
+            TargetProperties : ['_it/UserLocked']
+        }
     )
     unblockUser;  
     @(
         cds.odata.bindingparameter.name : '_it',
-        Core.OperationAvailable : _it.blockBtnEnabled
+        Core.OperationAvailable : _it.blockBtnEnabled,
+        Common.SideEffects              : {
+            TargetProperties : ['_it/UserLocked']
+        }
     )
     blockUser;  
 }

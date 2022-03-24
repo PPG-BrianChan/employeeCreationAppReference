@@ -7,6 +7,11 @@ using { objectidentifiermapping as extmapping } from './external/objectidentifie
 
 service EmployeeCreationService
 {
+    @Capabilities: {
+        InsertRestrictions.Insertable: true,
+        UpdateRestrictions.Updatable: true,
+        DeleteRestrictions.Deletable: false
+    }
     entity EmpCreationForm as projection on employee.EmpCreationForm
     actions{ 
             action blockUser() returns String;
