@@ -9,6 +9,7 @@ VIEW EmployeeCreationService_EmpCreationForm AS SELECT
   EmpCreationForm_0.EmployeeUUIDWithHyphen,
   EmpCreationForm_0.EmployeeIDInternal,
   EmpCreationForm_0.EmployeeIDExternal,
+  EmpCreationForm_0.UserLocked,
   EmpCreationForm_0.BuPaID,
   EmpCreationForm_0.UserLogin,
   EmpCreationForm_0.UserPassword,

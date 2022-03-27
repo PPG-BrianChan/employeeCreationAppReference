@@ -46,6 +46,7 @@ entity EmployeeOrgUnitAssigment:cuid {
     JobID : Association to one JobDefinitionCollection;
     ObjectID : String;
     IsUpdate : Boolean;
+    IsPrimary : Boolean;
 };
 
 entity SalesResponsability:cuid {

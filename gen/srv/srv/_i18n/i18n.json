@@ -66,7 +66,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "ar": {
     "CreatedBy": "تم الإنشاء بواسطة",
@@ -135,7 +137,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "cs": {
     "CreatedBy": "Vytvořil",
@@ -204,7 +208,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "da": {
     "CreatedBy": "Oprettet af",
@@ -273,7 +279,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "de": {
     "CreatedBy": "Angelegt von",
@@ -342,7 +350,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "en": {
     "CreatedBy": "Created By",
@@ -411,7 +421,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "es": {
     "CreatedBy": "Creado por",
@@ -480,7 +492,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "fi": {
     "CreatedBy": "Tekijä",
@@ -549,7 +563,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "fr": {
     "CreatedBy": "Auteur de la création",
@@ -618,7 +634,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "hu": {
     "CreatedBy": "Létrehozó:",
@@ -687,7 +705,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "it": {
     "CreatedBy": "Autore creazione",
@@ -756,7 +776,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "ja": {
     "CreatedBy": "登録者",
@@ -825,7 +847,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "ko": {
     "CreatedBy": "생성자",
@@ -894,7 +918,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "ms": {
     "CreatedBy": "Dicipta oleh",
@@ -963,7 +989,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "nl": {
     "CreatedBy": "Gecreëerd door",
@@ -1032,7 +1060,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "no": {
     "CreatedBy": "Opprettet av",
@@ -1101,7 +1131,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "pl": {
     "CreatedBy": "Utworzone przez",
@@ -1170,7 +1202,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "pt": {
     "CreatedBy": "Criado por",
@@ -1239,7 +1273,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "ro": {
     "CreatedBy": "Creat de",
@@ -1308,7 +1344,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "ru": {
     "CreatedBy": "Создал",
@@ -1377,7 +1415,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "sv": {
     "CreatedBy": "Uppläggning av",
@@ -1446,7 +1486,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "th": {
     "CreatedBy": "สร้างโดย",
@@ -1515,7 +1557,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "tr": {
     "CreatedBy": "Oluşturan",
@@ -1584,7 +1628,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "zh_CN": {
     "CreatedBy": "创建者",
@@ -1653,7 +1699,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "zh_TW": {
     "CreatedBy": "建立者",
@@ -1722,6 +1770,8 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   }
 }

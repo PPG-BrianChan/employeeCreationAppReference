@@ -9,6 +9,7 @@ COLUMN TABLE EmployeeCreationService_EmpCreationForm_drafts (
   EmployeeUUIDWithHyphen NVARCHAR(5000) NULL,
   EmployeeIDInternal NVARCHAR(5000) NULL,
   EmployeeIDExternal NVARCHAR(5000) NULL,
+  UserLocked BOOLEAN NULL,
   BuPaID NVARCHAR(5000) NULL,
   UserLogin NVARCHAR(5000) NULL,
   UserPassword NVARCHAR(5000) NULL,

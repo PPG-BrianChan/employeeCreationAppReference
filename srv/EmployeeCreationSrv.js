@@ -232,14 +232,14 @@ module.exports = cds.service.impl(async function() {
             var endPoint = "/EmployeeCollection('" + currentObjectID + "')";
             var resTer = await service.tx(request).patch(endPoint,data);
             request.info("User unlocked");
-            let updatedRecord = await UPDATE(EmpCreationForm).where({ID:ID}).with({UserLocked : false })
+           // let updatedRecord = await UPDATE(EmpCreationForm).where({ID:ID}).with({UserLocked : false })
         }catch(e){
             var error = "User unlocking error: " +e.innererror.response.body.error.message.value;
             request.reject(400, error);
         }
     })
 
-    this.before('CREATE', EmpCreationForm,async request => {
+    this.before('SAVE', EmpCreationForm,async request => {
         
         for (const element of request.data.To_BusinessRoles) {
             if(element.Role_CROOT_ID_CONTENT == null){
@@ -247,10 +247,18 @@ module.exports = cds.service.impl(async function() {
             }
         }
 
+        var numberOfPrimary = 0;
         for (const element of request.data.To_OrgUnits) {
             if(element.UnitID_Code == null){
                 request.reject(400, "Unit ID is mandatory.");
             }
+            if(element.IsPrimary){
+                numberOfPrimary += 1;
+            }
+        }
+
+        if(numberOfPrimary > 1){
+            request.reject(400, "Only one org unit assignment must be primary.");
         }
 
         for (const element of request.data.To_SalesResponsobilities) {
@@ -292,7 +300,11 @@ module.exports = cds.service.impl(async function() {
         arr = request.data.To_OrgUnits
         for (const element of arr) {
             var newOrgInst = {};
-            newOrgInst.RoleCode = "219";
+            if(element.IsPrimary){
+                newOrgInst.RoleCode = "219";
+            }else{
+                newOrgInst.RoleCode = "222";
+            }
             newOrgInst.OrgUnitID = element.UnitID_Code;           
             newOrgInst.JobID = element.JobID_ID;
             newOrgInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
@@ -515,7 +527,11 @@ module.exports = cds.service.impl(async function() {
                 if(element.IsUpdate && element.ObjectID != null){
                     try{
                         var newOrgInst = {};
-                        newOrgInst.RoleCode = "219";
+                        if(element.IsPrimary){
+                            newOrgInst.RoleCode = "219";
+                        }else{
+                            newOrgInst.RoleCode = "222";
+                        }
                         newOrgInst.OrgUnitID = element.UnitID_Code;           
                         newOrgInst.JobID = element.JobID_ID;
                         newOrgInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
@@ -537,7 +553,11 @@ module.exports = cds.service.impl(async function() {
                 if(element.ObjectID == null){
                     try{
                         var newOrgInst = {};
-                        newOrgInst.RoleCode = "219";
+                        if(element.IsPrimary){
+                            newOrgInst.RoleCode = "219";
+                        }else{
+                            newOrgInst.RoleCode = "222";
+                        }
                         newOrgInst.OrgUnitID = element.UnitID_Code;           
                         newOrgInst.JobID = element.JobID_ID;
                         newOrgInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";

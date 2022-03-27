@@ -35,6 +35,7 @@ annotate dm.BusinessRoles with {
 annotate dm.EmployeeOrgUnitAssigment with {
     UnitID @title : '{i18n>UnitID}';
     JobID  @title : '{i18n>JobID}';
+    IsPrimary @title : '{i18n>IsPrimary}';
 };
 
 annotate dm.SalesResponsability with {

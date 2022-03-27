@@ -194,6 +194,11 @@ annotate scp.EmployeeOrgUnitAssigment with @(
             $Type : 'UI.DataField',
             Value : JobID_ID,
             Label : '{i18n>JobID}',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : IsPrimary,
+            Label : '{i18n>IsPrimary}',
         }
         ]
 );

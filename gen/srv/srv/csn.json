@@ -88,6 +88,10 @@
           "@title": "{i18n>EmployeeIDExternal}",
           "type": "cds.String"
         },
+        "UserLocked": {
+          "@title": "{i18n>UserLocked}",
+          "type": "cds.Boolean"
+        },
         "BuPaID": {
           "type": "cds.String"
         },
@@ -377,6 +381,10 @@
           "type": "cds.String"
         },
         "IsUpdate": {
+          "type": "cds.Boolean"
+        },
+        "IsPrimary": {
+          "@title": "{i18n>IsPrimary}",
           "type": "cds.Boolean"
         }
       }
@@ -1214,6 +1222,9 @@
     },
     "EmployeeCreationService.EmpCreationForm": {
       "kind": "entity",
+      "@Capabilities.InsertRestrictions.Insertable": true,
+      "@Capabilities.UpdateRestrictions.Updatable": true,
+      "@Capabilities.DeleteRestrictions.Deletable": false,
       "@odata.draft.enabled": true,
       "@Common.SecondaryKey": [
         {
@@ -1296,6 +1307,16 @@
           "Value": {
             "=": "UserLogin"
           }
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "EmployeeCreationService.blockUser",
+          "Label": "{i18n>blockUser}"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "EmployeeCreationService.unblockUser",
+          "Label": "{i18n>unblockUser}"
         }
       ],
       "@UI.HeaderFacets": [
@@ -1394,10 +1415,16 @@
           "Value": {
             "=": "UserLogin"
           }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "UserLocked"
+          }
         }
       ],
-      "@UI.FieldGroup#PersonalInfo.$Type": "UI.FieldGroupType",
-      "@UI.FieldGroup#PersonalInfo.Data": [
+      "@UI.FieldGroup#BasicInfo.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#BasicInfo.Data": [
         {
           "$Type": "UI.DataField",
           "Value": {
@@ -1598,6 +1625,18 @@
         "identifierBooleanPassword",
         "UserPassword"
       ],
+      "@UI.Identification": [
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "EmployeeCreationService.blockUser",
+          "Label": "{i18n>blockUser}"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "EmployeeCreationService.unblockUser",
+          "Label": "{i18n>unblockUser}"
+        }
+      ],
       "@title": "{i18n>EmpCreationForm}",
       "projection": {
         "from": {
@@ -1685,6 +1724,10 @@
         "EmployeeIDExternal": {
           "@title": "{i18n>EmployeeIDExternal}",
           "type": "cds.String"
+        },
+        "UserLocked": {
+          "@title": "{i18n>UserLocked}",
+          "type": "cds.Boolean"
         },
         "BuPaID": {
           "type": "cds.String"
@@ -1949,6 +1992,9 @@
           "@Core.OperationAvailable": {
             "=": "_it.blockBtnEnabled"
           },
+          "@Common.SideEffects.TargetProperties": [
+            "_it/UserLocked"
+          ],
           "returns": {
             "type": "cds.String"
           }
@@ -1959,6 +2005,9 @@
           "@Core.OperationAvailable": {
             "=": "_it.unblockBtnEnabled"
           },
+          "@Common.SideEffects.TargetProperties": [
+            "_it/UserLocked"
+          ],
           "returns": {
             "type": "cds.String"
           }
@@ -2499,6 +2548,13 @@
             "=": "JobID_ID"
           },
           "Label": "{i18n>JobID}"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "IsPrimary"
+          },
+          "Label": "{i18n>IsPrimary}"
         }
       ],
       "projection": {
@@ -2610,6 +2666,10 @@
           "type": "cds.String"
         },
         "IsUpdate": {
+          "type": "cds.Boolean"
+        },
+        "IsPrimary": {
+          "@title": "{i18n>IsPrimary}",
           "type": "cds.Boolean"
         }
       }

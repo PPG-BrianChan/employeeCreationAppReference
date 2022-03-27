@@ -8,6 +8,7 @@ COLUMN TABLE sap_employee_EmployeeOrgUnitAssigment (
   JobID_ID NVARCHAR(20),
   ObjectID NVARCHAR(5000),
   IsUpdate BOOLEAN,
+  IsPrimary BOOLEAN,
   PRIMARY KEY(ID)
 ) WITH ASSOCIATIONS (
   MANY TO ONE JOIN sap_employee_EmpCreationForm AS To_CreationForm ON (To_CreationForm.ID = To_CreationForm_ID),
