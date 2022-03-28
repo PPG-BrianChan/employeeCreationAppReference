@@ -88,12 +88,28 @@
           "@title": "{i18n>EmployeeIDExternal}",
           "type": "cds.String"
         },
+        "UserLocked": {
+          "@title": "{i18n>UserLocked}",
+          "type": "cds.Boolean"
+        },
         "BuPaID": {
           "type": "cds.String"
         },
         "UserLogin": {
           "@title": "{i18n>UserLogin}",
           "type": "cds.String"
+        },
+        "UserPassword": {
+          "@title": "User Password",
+          "type": "cds.String"
+        },
+        "identifierBooleanPassword": {
+          "@UI.Hidden": true,
+          "@Core.Computed": true,
+          "type": "sap.employee.TechnicalBooleanFlag",
+          "default": {
+            "val": true
+          }
         },
         "Tenant": {
           "type": "cds.String"
@@ -313,6 +329,7 @@
           ]
         },
         "UnitID": {
+          "@title": "{i18n>UnitID}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -346,6 +363,7 @@
           ]
         },
         "JobID": {
+          "@title": "{i18n>JobID}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -363,6 +381,10 @@
           "type": "cds.String"
         },
         "IsUpdate": {
+          "type": "cds.Boolean"
+        },
+        "IsPrimary": {
+          "@title": "{i18n>IsPrimary}",
           "type": "cds.Boolean"
         }
       }
@@ -392,6 +414,7 @@
           ]
         },
         "SalesOrgID": {
+          "@title": "{i18n>SalesOrgID}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -523,6 +546,7 @@
           ]
         },
         "Role": {
+          "@title": "{i18n>Role}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -1186,12 +1210,21 @@
         }
       }
     },
+    "sap.employee.TechnicalBooleanFlag": {
+      "kind": "type",
+      "@UI.Hidden": true,
+      "@Core.Computed": true,
+      "type": "cds.Boolean"
+    },
     "EmployeeCreationService": {
       "@source": "srv/EmployeeCreationSrv.cds",
       "kind": "service"
     },
     "EmployeeCreationService.EmpCreationForm": {
       "kind": "entity",
+      "@Capabilities.InsertRestrictions.Insertable": true,
+      "@Capabilities.UpdateRestrictions.Updatable": true,
+      "@Capabilities.DeleteRestrictions.Deletable": false,
       "@odata.draft.enabled": true,
       "@Common.SecondaryKey": [
         {
@@ -1233,6 +1266,10 @@
         {
           "=": "UserLogin"
         },
+        "To_BusinessRoles/Role_CROOT_ID_CONTENT",
+        "To_OrgUnits/UnitID_ID",
+        "To_OrgUnits/JobID_ID",
+        "To_SalesResponsobilities/SalesOrgID_ID",
         {
           "=": "createdAt"
         },
@@ -1270,6 +1307,16 @@
           "Value": {
             "=": "UserLogin"
           }
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "EmployeeCreationService.blockUser",
+          "Label": "{i18n>blockUser}"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "EmployeeCreationService.unblockUser",
+          "Label": "{i18n>unblockUser}"
         }
       ],
       "@UI.HeaderFacets": [
@@ -1368,6 +1415,12 @@
           "Value": {
             "=": "UserLogin"
           }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "UserLocked"
+          }
         }
       ],
       "@UI.FieldGroup#BasicInfo.$Type": "UI.FieldGroupType",
@@ -1424,6 +1477,15 @@
           "$Type": "UI.DataField",
           "Value": {
             "=": "UserPasswordPolicy_ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "UserPassword"
+          },
+          "@UI.Hidden": {
+            "=": "identifierBooleanPassword"
           }
         }
       ],
@@ -1509,6 +1571,18 @@
           "@Common.FieldControl": {
             "#": "ReadOnly"
           }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "UserPassword"
+          },
+          "@UI.Hidden": {
+            "=": "identifierBooleanPassword"
+          },
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          }
         }
       ],
       "@UI.FieldGroup#CreationDetailsFG.$Type": "UI.FieldGroupType",
@@ -1539,6 +1613,28 @@
           "Value": {
             "=": "modifiedBy"
           }
+        }
+      ],
+      "@Common.SideEffects#PasswordSodeEffects.$Type": "Common.SideEffectsType",
+      "@Common.SideEffects#PasswordSodeEffects.SourceProperties": [
+        {
+          "=": "UserPasswordPolicy_ID"
+        }
+      ],
+      "@Common.SideEffects#PasswordSodeEffects.TargetProperties": [
+        "identifierBooleanPassword",
+        "UserPassword"
+      ],
+      "@UI.Identification": [
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "EmployeeCreationService.blockUser",
+          "Label": "{i18n>blockUser}"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "EmployeeCreationService.unblockUser",
+          "Label": "{i18n>unblockUser}"
         }
       ],
       "@title": "{i18n>EmpCreationForm}",
@@ -1629,12 +1725,28 @@
           "@title": "{i18n>EmployeeIDExternal}",
           "type": "cds.String"
         },
+        "UserLocked": {
+          "@title": "{i18n>UserLocked}",
+          "type": "cds.Boolean"
+        },
         "BuPaID": {
           "type": "cds.String"
         },
         "UserLogin": {
           "@title": "{i18n>UserLogin}",
           "type": "cds.String"
+        },
+        "UserPassword": {
+          "@title": "User Password",
+          "type": "cds.String"
+        },
+        "identifierBooleanPassword": {
+          "@UI.Hidden": true,
+          "@Core.Computed": true,
+          "type": "sap.employee.TechnicalBooleanFlag",
+          "default": {
+            "val": true
+          }
         },
         "Tenant": {
           "type": "cds.String"
@@ -1880,6 +1992,9 @@
           "@Core.OperationAvailable": {
             "=": "_it.blockBtnEnabled"
           },
+          "@Common.SideEffects.TargetProperties": [
+            "_it/UserLocked"
+          ],
           "returns": {
             "type": "cds.String"
           }
@@ -1890,6 +2005,9 @@
           "@Core.OperationAvailable": {
             "=": "_it.unblockBtnEnabled"
           },
+          "@Common.SideEffects.TargetProperties": [
+            "_it/UserLocked"
+          ],
           "returns": {
             "type": "cds.String"
           }
@@ -2388,6 +2506,7 @@
               "ValueListProperty": "CDESCRIPTION_NAME"
             }
           ],
+          "@title": "{i18n>Role}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -2429,6 +2548,13 @@
             "=": "JobID_ID"
           },
           "Label": "{i18n>JobID}"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "IsPrimary"
+          },
+          "Label": "{i18n>IsPrimary}"
         }
       ],
       "projection": {
@@ -2473,6 +2599,7 @@
               "ValueListProperty": "Description"
             }
           ],
+          "@title": "{i18n>UnitID}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -2521,6 +2648,7 @@
               "ValueListProperty": "Description"
             }
           ],
+          "@title": "{i18n>JobID}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1
@@ -2538,6 +2666,10 @@
           "type": "cds.String"
         },
         "IsUpdate": {
+          "type": "cds.Boolean"
+        },
+        "IsPrimary": {
+          "@title": "{i18n>IsPrimary}",
           "type": "cds.Boolean"
         }
       }
@@ -2623,6 +2755,7 @@
               "ValueListProperty": "Description"
             }
           ],
+          "@title": "{i18n>SalesOrgID}",
           "type": "cds.Association",
           "cardinality": {
             "max": 1

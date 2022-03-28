@@ -12,7 +12,9 @@ annotate dm.EmpCreationForm with @title : '{i18n>EmpCreationForm}' {
     LastName           @title           : '{i18n>LastName}';
     MobilePhone        @title           : '{i18n>MobilePhone}';
     UserLogin          @title           : '{i18n>UserLogin}';
+    UserLocked         @title           : '{i18n>UserLocked}';
     UserPasswordPolicy @title           : '{i18n>UserPasswordPolicy}';
+    UserPassword       @title           : 'User Password';
     ValidatyEndDate    @title           : '{i18n>ValidatyEndDate}';
     ValidatyStartDate  @title           : '{i18n>ValidatyStartDate}';
     Language           @title           : '{i18n>Language}';
@@ -33,6 +35,7 @@ annotate dm.BusinessRoles with {
 annotate dm.EmployeeOrgUnitAssigment with {
     UnitID @title : '{i18n>UnitID}';
     JobID  @title : '{i18n>JobID}';
+    IsPrimary @title : '{i18n>IsPrimary}';
 };
 
 annotate dm.SalesResponsability with {

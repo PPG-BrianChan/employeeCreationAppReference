@@ -40,6 +40,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -65,7 +66,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "ar": {
     "CreatedBy": "تم الإنشاء بواسطة",
@@ -108,6 +111,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -133,7 +137,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "cs": {
     "CreatedBy": "Vytvořil",
@@ -176,6 +182,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -201,7 +208,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "da": {
     "CreatedBy": "Oprettet af",
@@ -244,6 +253,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -269,7 +279,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "de": {
     "CreatedBy": "Angelegt von",
@@ -312,6 +324,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -337,7 +350,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "en": {
     "CreatedBy": "Created By",
@@ -380,6 +395,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -405,7 +421,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "es": {
     "CreatedBy": "Creado por",
@@ -448,6 +466,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -473,7 +492,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "fi": {
     "CreatedBy": "Tekijä",
@@ -516,6 +537,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -541,7 +563,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "fr": {
     "CreatedBy": "Auteur de la création",
@@ -584,6 +608,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -609,7 +634,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "hu": {
     "CreatedBy": "Létrehozó:",
@@ -652,6 +679,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -677,7 +705,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "it": {
     "CreatedBy": "Autore creazione",
@@ -720,6 +750,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -745,7 +776,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "ja": {
     "CreatedBy": "登録者",
@@ -788,6 +821,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -813,7 +847,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "ko": {
     "CreatedBy": "생성자",
@@ -856,6 +892,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -881,7 +918,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "ms": {
     "CreatedBy": "Dicipta oleh",
@@ -924,6 +963,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -949,7 +989,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "nl": {
     "CreatedBy": "Gecreëerd door",
@@ -992,6 +1034,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -1017,7 +1060,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "no": {
     "CreatedBy": "Opprettet av",
@@ -1060,6 +1105,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -1085,7 +1131,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "pl": {
     "CreatedBy": "Utworzone przez",
@@ -1128,6 +1176,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -1153,7 +1202,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "pt": {
     "CreatedBy": "Criado por",
@@ -1196,6 +1247,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -1221,7 +1273,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "ro": {
     "CreatedBy": "Creat de",
@@ -1264,6 +1318,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -1289,7 +1344,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "ru": {
     "CreatedBy": "Создал",
@@ -1332,6 +1389,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -1357,7 +1415,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "sv": {
     "CreatedBy": "Uppläggning av",
@@ -1400,6 +1460,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -1425,7 +1486,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "th": {
     "CreatedBy": "สร้างโดย",
@@ -1468,6 +1531,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -1493,7 +1557,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "tr": {
     "CreatedBy": "Oluşturan",
@@ -1536,6 +1602,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -1561,7 +1628,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "zh_CN": {
     "CreatedBy": "创建者",
@@ -1604,6 +1673,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -1629,7 +1699,9 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   },
   "zh_TW": {
     "CreatedBy": "建立者",
@@ -1672,6 +1744,7 @@
     "LastName": "Last Name",
     "MobilePhone": "Mobile Phone",
     "UserLogin": "User Login",
+    "UserPassword": "User Password",
     "UserPasswordPolicy": "User Password Policy",
     "ValidatyEndDate": "Validaty End Date",
     "ValidatyStartDate": "Validaty Start Date",
@@ -1697,6 +1770,8 @@
     "SalesTerritory": "Sales Territory",
     "blockUser": "Lock User",
     "unblockUser": "UnLock User",
-    "Territories": "Sales Territories"
+    "Territories": "Sales Territories",
+    "UserLocked": "User Locked",
+    "IsPrimary": "Is Primary"
   }
 }

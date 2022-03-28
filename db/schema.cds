@@ -12,8 +12,11 @@ entity EmpCreationForm : cuid, managed {
     EmployeeUUIDWithHyphen : String;
     EmployeeIDInternal : String;
     EmployeeIDExternal : String;
+    UserLocked : Boolean;
     BuPaID : String;
     UserLogin : String;
+    UserPassword : String;
+    identifierBooleanPassword : TechnicalBooleanFlag default true;
     Tenant : String;
     FirstName : String;
     LastName : String;
@@ -43,6 +46,7 @@ entity EmployeeOrgUnitAssigment:cuid {
     JobID : Association to one JobDefinitionCollection;
     ObjectID : String;
     IsUpdate : Boolean;
+    IsPrimary : Boolean;
 };
 
 entity SalesResponsability:cuid {
@@ -161,3 +165,8 @@ entity RemoteSystem {
     Description : String;
 }
 
+
+type TechnicalBooleanFlag : Boolean @(
+    UI.Hidden,
+    Core.Computed
+);
