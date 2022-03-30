@@ -1,4 +1,6 @@
 const cds = require('@sap/cds');
+const xsenv = require('@sap/xsenv');
+const xssec = require('@sap/xssec');
 
 module.exports = cds.service.impl(async function() {
     cds.env.features.fetch_csrf = true;
@@ -240,6 +242,18 @@ module.exports = cds.service.impl(async function() {
     })
 
     this.before('SAVE', EmpCreationForm,async request => {
+        //var t = xssec.getUserName();
+        var text = "";
+        text += "Role " + request.user.is('EmployeeCreation_KBU');
+        text += "/n auth " + request.user.is('authenticated-user');
+        //text += "/n Email " + request.i,
+        console.log(request.user);
+         console.log(request.user.token);
+         console.log(request.user.attr.familyName);
+         console.log(request.user.attr.Groups);
+         console.log(request.user.attr.email);
+
+        request.reject(400, text);
         
         for (const element of request.data.To_BusinessRoles) {
             if(element.Role_CROOT_ID_CONTENT == null){

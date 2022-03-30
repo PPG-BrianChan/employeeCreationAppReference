@@ -1218,13 +1218,26 @@
     },
     "EmployeeCreationService": {
       "@source": "srv/EmployeeCreationSrv.cds",
-      "kind": "service"
+      "kind": "service",
+      "@requires": [
+        "EmployeeCreation_KBU",
+        "authenticated-user"
+      ]
     },
     "EmployeeCreationService.EmpCreationForm": {
       "kind": "entity",
       "@Capabilities.InsertRestrictions.Insertable": true,
       "@Capabilities.UpdateRestrictions.Updatable": true,
       "@Capabilities.DeleteRestrictions.Deletable": false,
+      "@restrict": [
+        {
+          "grant": [
+            "READ",
+            "WRITE"
+          ],
+          "to": "authenticated-user"
+        }
+      ],
       "@odata.draft.enabled": true,
       "@Common.SecondaryKey": [
         {

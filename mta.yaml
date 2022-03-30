@@ -129,6 +129,14 @@ resources:
 - name: EmployeeCreationApp-uaa
   type: org.cloudfoundry.managed-service
   parameters:
+    config:
+      role-collections:
+      - description: Employee Creation - Key Business User
+        name: EmployeeCreation-KBU-${space}
+        role-template-references:
+        - $XSAPPNAME.EmployeeCreation_KBU
+      tenant-mode: dedicated
+      xsappname: employeecreationapp-${space}
     path: ./xs-security.json
     service: xsuaa
     service-plan: application

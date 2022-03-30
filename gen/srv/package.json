@@ -6,16 +6,21 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@sap/approuter": "^10.14.2",
+    "@sap/audit-logging": "^5.5.2",
     "@sap/cds": ">=5.4.0",
+    "@sap/xsenv": "^3.2.1",
+    "@sap/xssec": "^3.2.13",
     "express": "^4",
-    "hdb": "^0.18.3"
+    "hdb": "^0.18.3",
+    "passport": "^0.5.2"
   },
   "devDependencies": {
     "@sap/ux-specification": "^1.96.3",
     "sqlite3": "^5.0.2"
   },
   "scripts": {
-    "start": "cds run",
+    "start": "NODE_ENV=production cds run",
     "watch-ui": "cds watch --open ui/webapp/index.html?sap-ui-xx-viewCache=false#fe-lrop-v4",
     "undeploy": "cf undeploy EmployeeCreationApp --delete-services --delete-service-keys"
   },
@@ -48,6 +53,9 @@
     "requires": {
       "db": {
         "kind": "sql"
+      },
+      "uaa": {
+        "kind": "xsuaa"
       },
       "employeeanduser": {
         "kind": "odata-v2",

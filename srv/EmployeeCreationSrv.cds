@@ -4,15 +4,16 @@ using { jobdefinition as extjob } from './external/jobdefinition.csn';
 using { organisationalunit as extunit } from './external/organisationalunit.csn';
 using { objectidentifiermapping as extmapping } from './external/objectidentifiermapping.csn';
 
-
-service EmployeeCreationService
+service EmployeeCreationService @(requires : ['EmployeeCreation_KBU', 'authenticated-user'])
 {
     @Capabilities: {
         InsertRestrictions.Insertable: true,
         UpdateRestrictions.Updatable: true,
         DeleteRestrictions.Deletable: false
     }
-    entity EmpCreationForm as projection on employee.EmpCreationForm
+    entity EmpCreationForm  @(restrict: [ 
+        { grant: ['READ','WRITE'], to: 'authenticated-user' },
+    ]) as projection on employee.EmpCreationForm
     actions{ 
             action blockUser() returns String;
             //@Core.OperationAvailable: EmpCreationForm.unblockBtnEnabled

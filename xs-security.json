@@ -1,7 +1,32 @@
 {
-  "xsappname": "EmployeeCreationApp",
-  "tenant-mode": "dedicated",
-  "scopes": [],
-  "attributes": [],
-  "role-templates": []
-}
+    "xsappname": "employeecreationapp",
+    "tenant-mode": "dedicated",
+    "description": "Security profile of called application",
+    "scopes": [
+      {
+        "name": "uaa.user",
+        "description": "UAA"
+      },
+      {
+        "name": "$XSAPPNAME.EmployeeCreation_KBU",
+        "description": "Employee Creation: Key Business User"
+      }
+    ],
+    "role-templates": [
+      {
+        "name": "Token_Exchange",
+        "description": "UAA",
+        "scope-references": [
+          "uaa.user"
+        ]
+      },
+      {
+        "name": "EmployeeCreation_KBU",
+        "description": "Employee Creation: Key Business User",
+        "scope-references": [
+          "$XSAPPNAME.EmployeeCreation_KBU"
+        ],
+        "attribute-references": []
+      }
+    ]
+  }
