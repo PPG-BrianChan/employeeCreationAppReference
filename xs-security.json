@@ -10,6 +10,10 @@
       {
         "name": "$XSAPPNAME.EmployeeCreation_KBU",
         "description": "Employee Creation: Key Business User"
+      },
+      {
+        "name": "$XSAPPNAME.Tester",
+        "description": "Employee Creation: Tester"
       }
     ],
     "role-templates": [
@@ -25,6 +29,14 @@
         "description": "Employee Creation: Key Business User",
         "scope-references": [
           "$XSAPPNAME.EmployeeCreation_KBU"
+        ],
+        "attribute-references": []
+      },
+      {
+        "name": "Tester",
+        "description": "Employee Creation: Tester",
+        "scope-references": [
+          "$XSAPPNAME.Tester"
         ],
         "attribute-references": []
       }

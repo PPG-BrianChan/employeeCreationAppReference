@@ -13,6 +13,7 @@
     "@sap/xssec": "^3.2.13",
     "express": "^4",
     "hdb": "^0.18.3",
+    "jwt-decode": "^3.1.2",
     "passport": "^0.5.2"
   },
   "devDependencies": {
@@ -57,7 +58,6 @@
       "uaa": {
         "kind": "xsuaa"
       },
-
       "employeeanduser": {
         "kind": "odata-v2",
         "model": "srv/external/employeeanduser",

@@ -25,7 +25,8 @@ VIEW EmployeeCreationService_EmpCreationForm AS SELECT
   EmpCreationForm_0.ValidatyEndDate,
   EmpCreationForm_0.UserPasswordPolicy_ID,
   EmpCreationForm_0.HideFirstPanel,
-  EmpCreationForm_0.HideSecondPanel
+  EmpCreationForm_0.HideSecondPanel,
+  EmpCreationForm_0.IsNotTesterUser
 FROM sap_employee_EmpCreationForm AS EmpCreationForm_0
 WITH ASSOCIATIONS (
   MANY TO MANY JOIN EmployeeCreationService_EmployeeOrgUnitAssigment AS To_OrgUnits ON (To_OrgUnits.To_CreationForm_ID = ID),

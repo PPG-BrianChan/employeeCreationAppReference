@@ -1,6 +1,8 @@
 const cds = require('@sap/cds');
 const xsenv = require('@sap/xsenv');
 const xssec = require('@sap/xssec');
+const jwt_decode = require('jwt-decode');
+
 
 module.exports = cds.service.impl(async function() {
     cds.env.features.fetch_csrf = true;
@@ -241,19 +243,22 @@ module.exports = cds.service.impl(async function() {
         }
     })
 
-    this.before('SAVE', EmpCreationForm,async request => {
-        //var t = xssec.getUserName();
-        var text = "";
-        text += "Role " + request.user.is('EmployeeCreation_KBU');
-        text += "/n auth " + request.user.is('authenticated-user');
-        //text += "/n Email " + request.i,
-        console.log(request.user);
-         console.log(request.user.token);
-         console.log(request.user.attr.familyName);
-         console.log(request.user.attr.Groups);
-         console.log(request.user.attr.email);
+    this.before('NEW', EmpCreationForm,async request => {
+      var token = request.headers.authorization;
+      var decode = jwt_decode(token);
+      request.data.Email = decode.email;
+      request.data.FirstName = decode.given_name;
+      request.data.LastName = decode.family_name;
+      if(request.user.is('Tester')){
+        request.data.HideFirstPanel = false;
+        request.data.IsNotTesterUser = true          
+      }else{
+            request.data.IsNotTesterUser = false;
+            request.data.HideFirstPanel = true;
+      }
+    })
 
-        request.reject(400, text);
+    this.before('SAVE', EmpCreationForm,async request => {
         
         for (const element of request.data.To_BusinessRoles) {
             if(element.Role_CROOT_ID_CONTENT == null){
