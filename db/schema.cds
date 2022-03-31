@@ -10,10 +10,10 @@ using { salesterritory as extterritory } from '../srv/external/salesterritory.cs
 entity EmpCreationForm : cuid, managed {
     EmployeeUUID : String;
     EmployeeUUIDWithHyphen : String;
+    BusinessPartnerID : String;
     EmployeeIDInternal : String;
     EmployeeIDExternal : String;
     UserLocked : Boolean;
-    BuPaID : String;
     UserLogin : String;
     UserPassword : String;
     identifierBooleanPassword : TechnicalBooleanFlag default true;

@@ -6,6 +6,7 @@ using {sap.employee as dm} from '../db/schema';
 
 annotate dm.EmpCreationForm with @title : '{i18n>EmpCreationForm}' {
     ID                 @UI.Hidden;
+    BusinessPartnerID  @title           : '{i18n>BusinessPartnerID}';
     EmployeeIDExternal @title           : '{i18n>EmployeeIDExternal}';
     EmployeeIDInternal @title           : '{i18n>EmployeeIDInternal}';
     FirstName          @title           : '{i18n>FirstName}';
@@ -33,8 +34,8 @@ annotate dm.BusinessRoles with {
 };
 
 annotate dm.EmployeeOrgUnitAssigment with {
-    UnitID @title : '{i18n>UnitID}';
-    JobID  @title : '{i18n>JobID}';
+    UnitID    @title : '{i18n>UnitID}';
+    JobID     @title : '{i18n>JobID}';
     IsPrimary @title : '{i18n>IsPrimary}';
 };
 
