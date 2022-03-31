@@ -334,7 +334,7 @@ module.exports = cds.service.impl(async function() {
         }
         try{
             var empID =  executedRes.EmployeeID;//'1283302';  //
-            var buPaID =  executedRes.BusinessPartnerID;//'8000004299';//
+            var businessPartnerID =  executedRes.BusinessPartnerID;//'8000004299';//
             var UUID = executedRes.ObjectID;
             var UUIDwithHyphen = executedRes.UUID;
 
@@ -408,7 +408,7 @@ module.exports = cds.service.impl(async function() {
             }
             for (const element of request.data.To_Mappings){
                 var newMappingInst = {};
-                newMappingInst.LocalObjectID = buPaID;
+                newMappingInst.LocalObjectID = businessPartnerID;
                 newMappingInst.RemoteObjectID = element.RemoteObjectID;
                 newMappingInst.RemoteIdentifierDefiningSchemeCode = "3";
                 newMappingInst.RemoteBusinessSystemID = element.RemoteSystemID_ID;
@@ -419,14 +419,14 @@ module.exports = cds.service.impl(async function() {
                 let updatedRecord = await UPDATE(Mapping).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false })    
             }
             let updatedRecord = await UPDATE(EmpCreationForm).where({ID:request.data.ID}).with({EmployeeIDExternal: empID, 
-                    EmployeeIDInternal : request.data.ID, EmployeeUUID : UUID, BuPaID : buPaID, EmployeeUUIDWithHyphen : UUIDwithHyphen, HideFirstPanel : true, HideSecondPanel : false, UserLocked : false })
+                    EmployeeIDInternal : request.data.ID, EmployeeUUID : UUID, BusinessPartnerID : businessPartnerID, EmployeeUUIDWithHyphen : UUIDwithHyphen, HideFirstPanel : true, HideSecondPanel : false, UserLocked : false })
             request.data.EmployeeIDExternal = empID;
             request.data.EmployeeIDInternal = request.data.ID;
             request.data.blockBtnEnabled = true;
             request.data.unblockBtnEnabled = true;
             request.data.HideFirstPanel = true;
             request.data.HideSecondPanel = false;
-            request.data.BuPaID = buPaID;
+            request.data.BusinessPartnerID = businessPartnerID;
             request.data.EmployeeUUIDWithHyphen = UUIDwithHyphen;
             request.data.UserLocked = false;
         }catch(e){
@@ -739,7 +739,7 @@ module.exports = cds.service.impl(async function() {
                 if(element.IsUpdate && element.ObjectID != null){
                     try{
                         var newMappingInst = {};
-                        newMappingInst.LocalObjectID = request.data.BuPaID;
+                        newMappingInst.LocalObjectID = request.data.BusinessPartnerID;
                         newMappingInst.RemoteObjectID = element.RemoteObjectID;
                         newMappingInst.RemoteIdentifierDefiningSchemeCode = "3";
                         newMappingInst.RemoteBusinessSystemID = element.RemoteSystemID_ID;
@@ -759,7 +759,7 @@ module.exports = cds.service.impl(async function() {
                 if(element.ObjectID == null){
                     try{
                         var newMappingInst = {};
-                        newMappingInst.LocalObjectID = request.data.BuPaID;
+                        newMappingInst.LocalObjectID = request.data.BusinessPartnerID;
                         newMappingInst.RemoteObjectID = element.RemoteObjectID;
                         newMappingInst.RemoteIdentifierDefiningSchemeCode = "3";
                         newMappingInst.RemoteBusinessSystemID = element.RemoteSystemID_ID;            

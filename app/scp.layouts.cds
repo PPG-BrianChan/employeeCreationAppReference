@@ -29,7 +29,7 @@ annotate scp.EmpCreationForm with @UI : {
 
     SelectionFields  : [
         EmployeeIDExternal,
-        EmployeeIDInternal,
+        BusinessPartnerID,
         Email,
         MobilePhone,
         UserLogin,
@@ -43,7 +43,7 @@ annotate scp.EmpCreationForm with @UI : {
 
     LineItem: [
         {   $Type: 'UI.DataField', Value: EmployeeIDExternal },
-        {   $Type: 'UI.DataField', Value: EmployeeIDInternal        },
+        {   $Type: 'UI.DataField', Value: BusinessPartnerID },
         {   $Type: 'UI.DataField', Value: Email,          },
         {   $Type: 'UI.DataField', Value: MobilePhone   },
         {   $Type: 'UI.DataField', Value: UserLogin  }
@@ -118,7 +118,7 @@ annotate scp.EmpCreationForm with @UI : {
     FieldGroup #HeaderGroup: {
         $Type : 'UI.FieldGroupType',
         Data  : [
-            {   $Type : 'UI.DataField', Value : EmployeeIDInternal   },
+            {   $Type : 'UI.DataField', Value : BusinessPartnerID   },
             {   $Type : 'UI.DataField', Value : EmployeeIDExternal },
             {   $Type : 'UI.DataField', Value : UserLogin },
             {   $Type : 'UI.DataField', Value : UserLocked }
