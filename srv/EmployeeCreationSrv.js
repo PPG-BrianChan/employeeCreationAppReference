@@ -68,7 +68,7 @@ module.exports = cds.service.impl(async function() {
 
     this.on('READ', RemoteSystem, async request => {
 		var systemObj = [{ID:"TANGRAM", Description: "TANGRAM"},{ID:"NONSAP", Description: "NONSAP"},
-        {ID:"DALI", Description: "DALI"},{ID:"INTERLINK", Description: "INTERLINK"},{ID:"T15",Description:"T15"}]
+        {ID:"DALI", Description: "DALI"},{ID:"INTERLINK", Description: "INTERLINK"},{ID:"Q15",Description:"Q15"},{ID:"VANTAGEPOINT",Description:"VANTAGEPOINT"},{ID:"SAP S/4 UAT",Description:"VSAP S/4 UAT"}]
         var search = request._query.$search;
         if(search != undefined){
             search = search.slice(1, search.length - 1);
