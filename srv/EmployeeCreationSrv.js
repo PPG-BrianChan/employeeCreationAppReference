@@ -1,4 +1,8 @@
 const cds = require('@sap/cds');
+const xsenv = require('@sap/xsenv');
+const xssec = require('@sap/xssec');
+const jwt_decode = require('jwt-decode');
+
 
 module.exports = cds.service.impl(async function() {
     cds.env.features.fetch_csrf = true;
@@ -237,6 +241,21 @@ module.exports = cds.service.impl(async function() {
             var error = "User unlocking error: " +e.innererror.response.body.error.message.value;
             request.reject(400, error);
         }
+    })
+
+    this.before('NEW', EmpCreationForm,async request => {
+      var token = request.headers.authorization;
+      var decode = jwt_decode(token);
+      request.data.Email = decode.email;
+      request.data.FirstName = decode.given_name;
+      request.data.LastName = decode.family_name;
+      if(request.user.is('Tester')){
+        request.data.HideFirstPanel = false;
+        request.data.IsNotTesterUser = true          
+      }else{
+            request.data.IsNotTesterUser = false;
+            request.data.HideFirstPanel = true;
+      }
     })
 
     this.before('SAVE', EmpCreationForm,async request => {

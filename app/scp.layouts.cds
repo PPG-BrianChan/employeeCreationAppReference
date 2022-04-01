@@ -61,6 +61,7 @@ annotate scp.EmpCreationForm with @UI : {
             Label : '{i18n>BasicInfo}',
             ID : 'i18nBasicInfo',
             Facets : [
+                {  $Type: 'UI.ReferenceFacet', Target: '@UI.FieldGroup#BasicInfoTester', ![@UI.Hidden] : IsNotTesterUser},
                 {  $Type: 'UI.ReferenceFacet', Target: '@UI.FieldGroup#BasicInfo', ![@UI.Hidden] : HideFirstPanel},
                 {  $Type: 'UI.ReferenceFacet', Target: '@UI.FieldGroup#BasicInfo2', ![@UI.Hidden] : HideSecondPanel}
             ]
@@ -162,6 +163,26 @@ annotate scp.EmpCreationForm with @UI : {
                 Value         : UserPassword,
                 ![@UI.Hidden] : identifierBooleanPassword,
                 ![@Common.FieldControl] : #ReadOnly 
+            }
+        ]
+    },
+
+    FieldGroup #BasicInfoTester: {
+        $Type : 'UI.FieldGroupType',
+        Data  : [
+            {   $Type : 'UI.DataField', Value : UserLogin            },
+            {   $Type : 'UI.DataField', Value : FirstName        , ![@Common.FieldControl] : #ReadOnly              },
+            {   $Type : 'UI.DataField', Value : LastName        ,![@Common.FieldControl] : #ReadOnly               },
+            {   $Type : 'UI.DataField', Value : Email ,          ![@Common.FieldControl] : #ReadOnly              },
+            {   $Type : 'UI.DataField', Value : MobilePhone                    },
+            {   $Type : 'UI.DataField', Value : Country_ID                     },
+            {   $Type : 'UI.DataField', Value : Language_ID                    },
+            {   $Type : 'UI.DataField', Value : ValidatyStartDate              },
+            {   $Type : 'UI.DataField', Value : UserPasswordPolicy_ID          },
+                        {
+                $Type         : 'UI.DataField',
+                Value         : UserPassword,
+                ![@UI.Hidden] : identifierBooleanPassword
             }
         ]
     },

@@ -291,16 +291,16 @@
           "type": "cds.Boolean"
         },
         "HideFirstPanel": {
-          "type": "cds.Boolean",
-          "default": {
-            "val": false
-          }
+          "type": "cds.Boolean"
         },
         "HideSecondPanel": {
           "type": "cds.Boolean",
           "default": {
             "val": true
           }
+        },
+        "IsNotTesterUser": {
+          "type": "cds.Boolean"
         }
       }
     },
@@ -1218,7 +1218,11 @@
     },
     "EmployeeCreationService": {
       "@source": "srv/EmployeeCreationSrv.cds",
-      "kind": "service"
+      "kind": "service",
+      "@requires": [
+        "EmployeeCreation_KBU",
+        "Tester"
+      ]
     },
     "EmployeeCreationService.EmpCreationForm": {
       "kind": "entity",
@@ -1332,6 +1336,13 @@
           "Label": "{i18n>BasicInfo}",
           "ID": "i18nBasicInfo",
           "Facets": [
+            {
+              "$Type": "UI.ReferenceFacet",
+              "Target": "@UI.FieldGroup#BasicInfoTester",
+              "@UI.Hidden": {
+                "=": "IsNotTesterUser"
+              }
+            },
             {
               "$Type": "UI.ReferenceFacet",
               "Target": "@UI.FieldGroup#BasicInfo",
@@ -1582,6 +1593,81 @@
           },
           "@Common.FieldControl": {
             "#": "ReadOnly"
+          }
+        }
+      ],
+      "@UI.FieldGroup#BasicInfoTester.$Type": "UI.FieldGroupType",
+      "@UI.FieldGroup#BasicInfoTester.Data": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "UserLogin"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "FirstName"
+          },
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "LastName"
+          },
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "Email"
+          },
+          "@Common.FieldControl": {
+            "#": "ReadOnly"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "MobilePhone"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "Country_ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "Language_ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "ValidatyStartDate"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "UserPasswordPolicy_ID"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "UserPassword"
+          },
+          "@UI.Hidden": {
+            "=": "identifierBooleanPassword"
           }
         }
       ],
@@ -1973,16 +2059,16 @@
           "type": "cds.Boolean"
         },
         "HideFirstPanel": {
-          "type": "cds.Boolean",
-          "default": {
-            "val": false
-          }
+          "type": "cds.Boolean"
         },
         "HideSecondPanel": {
           "type": "cds.Boolean",
           "default": {
             "val": true
           }
+        },
+        "IsNotTesterUser": {
+          "type": "cds.Boolean"
         }
       },
       "actions": {

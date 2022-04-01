@@ -15,11 +15,10 @@
       "destination": "ui5"
     },
     {
-        "source": "^/employee-creation/(.*)$",
-        "target": "/employee-creation//$1",
+        "source": "^/employee-creation/(.*)",
+        "target": "/employee-creation/$1",
         "destination": "EmployeeCreationApp-app-srv",
-        "authenticationType": "xsuaa",
-        "csrfProtection": false
+        "authenticationType": "xsuaa"
     },
     {
       "source": "^(.*)$",
@@ -27,5 +26,6 @@
       "service": "html5-apps-repo-rt",
       "authenticationType": "xsuaa"
     }
+      
   ]
 }

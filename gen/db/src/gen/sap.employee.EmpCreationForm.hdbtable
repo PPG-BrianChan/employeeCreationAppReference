@@ -24,8 +24,9 @@ COLUMN TABLE sap_employee_EmpCreationForm (
   ValidatyStartDate DATE,
   ValidatyEndDate DATE,
   UserPasswordPolicy_ID NCLOB,
-  HideFirstPanel BOOLEAN DEFAULT FALSE,
+  HideFirstPanel BOOLEAN,
   HideSecondPanel BOOLEAN DEFAULT TRUE,
+  IsNotTesterUser BOOLEAN,
   PRIMARY KEY(ID)
 ) WITH ASSOCIATIONS (
   MANY TO MANY JOIN sap_employee_EmployeeOrgUnitAssigment AS To_OrgUnits ON (To_OrgUnits.To_CreationForm_ID = ID),

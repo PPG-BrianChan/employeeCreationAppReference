@@ -35,8 +35,9 @@ entity EmpCreationForm : cuid, managed {
 
     virtual blockBtnEnabled : Boolean;
     virtual unblockBtnEnabled : Boolean;
-    HideFirstPanel : Boolean default false;
+    HideFirstPanel : Boolean;
     HideSecondPanel : Boolean default true;
+    IsNotTesterUser : Boolean;
 }
 
 entity EmployeeOrgUnitAssigment:cuid {
