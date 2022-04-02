@@ -204,7 +204,7 @@ annotate scp.EmpCreationForm actions {
         cds.odata.bindingparameter.name : '_it',
         Core.OperationAvailable : _it.unblockBtnEnabled,
         Common.SideEffects              : {
-            TargetProperties : ['_it/UserLocked']
+            TargetProperties : ['_it/*']
         }
     )
     unblockUser;  
@@ -212,7 +212,7 @@ annotate scp.EmpCreationForm actions {
         cds.odata.bindingparameter.name : '_it',
         Core.OperationAvailable : _it.blockBtnEnabled,
         Common.SideEffects              : {
-            TargetProperties : ['_it/UserLocked']
+            TargetProperties : ['_it/*']
         }
     )
     blockUser;  

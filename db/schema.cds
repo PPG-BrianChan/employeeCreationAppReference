@@ -33,8 +33,8 @@ entity EmpCreationForm : cuid, managed {
     To_Mappings : Composition of many Mapping on To_Mappings.To_CreationForm = $self;
     To_Territories : Composition of many Territories on To_Territories.To_CreationForm = $self;
 
-    virtual blockBtnEnabled : Boolean;
-    virtual unblockBtnEnabled : Boolean;
+    virtual blockBtnEnabled : Boolean default false;
+    virtual unblockBtnEnabled : Boolean default false;
     HideFirstPanel : Boolean;
     HideSecondPanel : Boolean default true;
     IsNotTesterUser : Boolean;

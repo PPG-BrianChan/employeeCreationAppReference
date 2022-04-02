@@ -80,6 +80,10 @@
         "EmployeeUUIDWithHyphen": {
           "type": "cds.String"
         },
+        "BusinessPartnerID": {
+          "@title": "{i18n>BusinessPartnerID}",
+          "type": "cds.String"
+        },
         "EmployeeIDInternal": {
           "@title": "{i18n>EmployeeIDInternal}",
           "type": "cds.String"
@@ -91,9 +95,6 @@
         "UserLocked": {
           "@title": "{i18n>UserLocked}",
           "type": "cds.Boolean"
-        },
-        "BuPaID": {
-          "type": "cds.String"
         },
         "UserLogin": {
           "@title": "{i18n>UserLogin}",
@@ -1259,7 +1260,7 @@
           "=": "EmployeeIDExternal"
         },
         {
-          "=": "EmployeeIDInternal"
+          "=": "BusinessPartnerID"
         },
         {
           "=": "Email"
@@ -1412,7 +1413,7 @@
         {
           "$Type": "UI.DataField",
           "Value": {
-            "=": "EmployeeIDInternal"
+            "=": "BusinessPartnerID"
           }
         },
         {
@@ -1803,6 +1804,10 @@
         "EmployeeUUIDWithHyphen": {
           "type": "cds.String"
         },
+        "BusinessPartnerID": {
+          "@title": "{i18n>BusinessPartnerID}",
+          "type": "cds.String"
+        },
         "EmployeeIDInternal": {
           "@title": "{i18n>EmployeeIDInternal}",
           "type": "cds.String"
@@ -1814,9 +1819,6 @@
         "UserLocked": {
           "@title": "{i18n>UserLocked}",
           "type": "cds.Boolean"
-        },
-        "BuPaID": {
-          "type": "cds.String"
         },
         "UserLogin": {
           "@title": "{i18n>UserLogin}",
