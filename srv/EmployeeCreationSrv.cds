@@ -4,7 +4,7 @@ using { jobdefinition as extjob } from './external/jobdefinition.csn';
 using { organisationalunit as extunit } from './external/organisationalunit.csn';
 using { objectidentifiermapping as extmapping } from './external/objectidentifiermapping.csn';
 
-service EmployeeCreationService// @(requires : ['EmployeeCreation_KBU', 'Tester'])
+service EmployeeCreationService @(requires : ['EmployeeCreation_KBU', 'Tester'])
 {
     @Capabilities: {
         InsertRestrictions.Insertable: true,
