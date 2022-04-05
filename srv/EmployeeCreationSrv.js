@@ -15,13 +15,47 @@ module.exports = cds.service.impl(async function() {
 
     this.after('READ', EmpCreationForm, (each) => {
 		if(each.EmployeeIDExternal != null){
-            each.unblockBtnEnabled = true;
-            each.blockBtnEnabled = true;
+            if(each.UserLocked){
+                each.unblockBtnEnabled = true;
+                each.blockBtnEnabled = false;
+            }else{
+                each.unblockBtnEnabled = false;
+                each.blockBtnEnabled = true;
+            }
         }else{
             each.unblockBtnEnabled = false;
             each.blockBtnEnabled = false;
         }
 	});
+
+    const _calculateButtonAvailability = any => {
+        if(any.EmployeeIDExternal != null && any.IsActiveEntity){
+            if(any.UserLocked){
+                any.unblockBtnEnabled = true;
+                any.blockBtnEnabled = false;
+            }else{
+                any.unblockBtnEnabled = false;
+                any.blockBtnEnabled = true;
+            }
+        }else{
+            any.unblockBtnEnabled = false;
+            any.blockBtnEnabled = false;
+        }
+    }
+
+    const _calculateButtonAvailability2 = any => {
+        if(any.UserLocked){
+            any.unblockBtnEnabled = true;
+            any.blockBtnEnabled = false;
+        }else{
+            any.unblockBtnEnabled = false;
+            any.blockBtnEnabled = true;
+        }
+    }
+
+    this.after ('each', 'EmpCreationForm', _calculateButtonAvailability)
+    this.after ('EDIT', 'EmpCreationForm', _calculateButtonAvailability)
+    this.after ('SAVE', 'EmpCreationForm', _calculateButtonAvailability2)
 
     this.on('READ', SalesTerritoryCollection, async request => {
 		var search = request._query.$search;
@@ -216,7 +250,7 @@ module.exports = cds.service.impl(async function() {
     })
 
     this.before('NEW', EmpCreationForm,async request => {
-      var token = request.headers.authorization;
+  /*    var token = request.headers.authorization;
       var decode = jwt_decode(token);
       request.data.Email = decode.email;
       request.data.FirstName = decode.given_name;
@@ -227,7 +261,7 @@ module.exports = cds.service.impl(async function() {
       }else{
             request.data.IsNotTesterUser = false;
             request.data.HideFirstPanel = true;
-      }
+      }*/
     })
 
     this.before('SAVE', EmpCreationForm,async request => {

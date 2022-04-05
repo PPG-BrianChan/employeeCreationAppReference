@@ -4,7 +4,7 @@ using { jobdefinition as extjob } from './external/jobdefinition.csn';
 using { organisationalunit as extunit } from './external/organisationalunit.csn';
 using { objectidentifiermapping as extmapping } from './external/objectidentifiermapping.csn';
 
-service EmployeeCreationService @(requires : ['EmployeeCreation_KBU', 'Tester'])
+service EmployeeCreationService// @(requires : ['EmployeeCreation_KBU', 'Tester'])
 {
     @Capabilities: {
         InsertRestrictions.Insertable: true,
@@ -13,9 +13,7 @@ service EmployeeCreationService @(requires : ['EmployeeCreation_KBU', 'Tester'])
     }
     entity EmpCreationForm as projection on employee.EmpCreationForm
     actions{ 
-           
             action blockUser() returns String;
-            //@Core.OperationAvailable: EmpCreationForm.unblockBtnEnabled
             action unblockUser() returns String;  
     };
     @readonly
