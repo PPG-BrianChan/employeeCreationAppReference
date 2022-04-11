@@ -124,7 +124,7 @@ module.exports = function(service) {
                 } 
             }catch(e){
                 var error = 'Employee mapping business roles error: '+e.innererror.response.body.error.message.value;
-                request.reject(400, error);
+                request.info(error);
             }
     
             try{           
