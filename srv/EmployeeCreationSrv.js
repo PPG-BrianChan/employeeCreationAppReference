@@ -250,7 +250,7 @@ module.exports = cds.service.impl(async function() {
     })
 
     this.before('NEW', EmpCreationForm,async request => {
-     var token = request.headers.authorization;
+      var token = request.headers.authorization;
       var decode = jwt_decode(token);
       request.data.Email = decode.email;
       request.data.FirstName = decode.given_name;
