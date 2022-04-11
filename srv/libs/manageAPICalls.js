@@ -48,6 +48,8 @@ module.exports = function(service) {
         var businessRoles = [];
         var salesResp = [];
         var orgAssigment = [];
+        var today = new Date().toISOString().slice(0, 10);
+        if(request.data.ValidatyStartDate == null) request.data.ValidatyStartDate = today;
         var empInst = {
             "UserID" : request.data.UserLogin,
             "EmployeeValidityStartDate" : request.data.ValidatyStartDate + "T00:00:00",

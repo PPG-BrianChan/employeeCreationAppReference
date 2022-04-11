@@ -10,7 +10,7 @@ annotate service.EmpCreationForm with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : EmployeeIDInternal,
+            Value : BusinessPartnerID,
         },
         {
             $Type : 'UI.DataField',

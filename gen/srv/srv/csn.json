@@ -283,13 +283,19 @@
         "blockBtnEnabled": {
           "@Core.Computed": true,
           "virtual": true,
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "default": {
+            "val": false
+          }
         },
         "unblockBtnEnabled": {
           "@title": "{i18n>Country}",
           "@Core.Computed": true,
           "virtual": true,
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "default": {
+            "val": false
+          }
         },
         "HideFirstPanel": {
           "type": "cds.Boolean"
@@ -2052,13 +2058,19 @@
         "blockBtnEnabled": {
           "@Core.Computed": true,
           "virtual": true,
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "default": {
+            "val": false
+          }
         },
         "unblockBtnEnabled": {
           "@title": "{i18n>Country}",
           "@Core.Computed": true,
           "virtual": true,
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "default": {
+            "val": false
+          }
         },
         "HideFirstPanel": {
           "type": "cds.Boolean"
@@ -2081,7 +2093,7 @@
             "=": "_it.blockBtnEnabled"
           },
           "@Common.SideEffects.TargetProperties": [
-            "_it/UserLocked"
+            "_it/*"
           ],
           "returns": {
             "type": "cds.String"
@@ -2094,7 +2106,7 @@
             "=": "_it.unblockBtnEnabled"
           },
           "@Common.SideEffects.TargetProperties": [
-            "_it/UserLocked"
+            "_it/*"
           ],
           "returns": {
             "type": "cds.String"
