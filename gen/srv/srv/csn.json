@@ -1298,7 +1298,7 @@
         {
           "$Type": "UI.DataField",
           "Value": {
-            "=": "EmployeeIDInternal"
+            "=": "BusinessPartnerID"
           }
         },
         {
@@ -1317,6 +1317,12 @@
           "$Type": "UI.DataField",
           "Value": {
             "=": "UserLogin"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "UserLocked"
           }
         },
         {

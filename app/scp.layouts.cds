@@ -36,7 +36,7 @@ annotate scp.EmpCreationForm with @UI : {
         'To_BusinessRoles/Role_CROOT_ID_CONTENT',
         'To_OrgUnits/UnitID_ID',
         'To_OrgUnits/JobID_ID',
-        'To_SalesResponsobilities/SalesOrgID_ID',
+        'To_SalesResponsobilities/SalesOrgID_Code',
         createdAt,
         createdBy
     ],

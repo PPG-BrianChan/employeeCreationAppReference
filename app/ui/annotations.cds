@@ -25,6 +25,10 @@ annotate service.EmpCreationForm with @(
             Value : UserLogin,
         },
         {
+            $Type : 'UI.DataField',
+            Value : UserLocked,
+        },
+        {
             $Type : 'UI.DataFieldForAction',
             Action : 'EmployeeCreationService.blockUser',
             Label : '{i18n>blockUser}',
