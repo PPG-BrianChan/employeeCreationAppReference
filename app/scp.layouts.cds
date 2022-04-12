@@ -159,6 +159,7 @@ annotate scp.EmpCreationForm with @UI : {
             {   $Type : 'UI.DataField', Value : Language_ID           ,  ![@Common.FieldControl] : #ReadOnly    },
             {   $Type : 'UI.DataField', Value : ValidatyStartDate           ,  ![@Common.FieldControl] : #ReadOnly    },
             {   $Type : 'UI.DataField', Value : UserPasswordPolicy_ID       ,  ![@Common.FieldControl] : #ReadOnly    },
+             {   $Type : 'UI.DataField', Value : SalesReportingEligible,  ![@Common.FieldControl] : #ReadOnly  },
             {
                 $Type         : 'UI.DataField',
                 Value         : UserPassword,
@@ -180,6 +181,7 @@ annotate scp.EmpCreationForm with @UI : {
             {   $Type : 'UI.DataField', Value : Language_ID                    },
             {   $Type : 'UI.DataField', Value : ValidatyStartDate              },
             {   $Type : 'UI.DataField', Value : UserPasswordPolicy_ID          },
+             {   $Type : 'UI.DataField', Value : SalesReportingEligible        },
                         {
                 $Type         : 'UI.DataField',
                 Value         : UserPassword,
