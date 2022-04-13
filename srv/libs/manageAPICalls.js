@@ -1,5 +1,15 @@
 module.exports = function(service) {
 
+    this.errorHandling = function (request, error, text) {
+        var errorText = text + error.innererror.response.body.error.message.value;
+        var errorCode = error.innererror.response.status;
+        if(errorCode >= 400 && errorCode < 500){
+            request.info(errorCode,errorText);
+        }else if(errorCode >= 500){
+            request.reject(errorCode,errorText);
+        }
+    }
+
     this.lockUser = async function(request, EmpCreationForm, service){
         try{
             var ID = request.params[0].ID;
@@ -16,8 +26,8 @@ module.exports = function(service) {
             request.info("User locked");
             let updatedRecord = await UPDATE(EmpCreationForm).where({ID:ID}).with({UserLocked : true })
         }catch(e){
-            var error = "User locking error: " +e.innererror.response.body.error.message.value;
-            request.reject(400, error);
+            var errorText = 'User locking error: ';
+            this.errorHandling(request, e, errorText);
         }
     }
 
@@ -37,8 +47,8 @@ module.exports = function(service) {
             request.info("User unlocked");
             let updatedRecord = await UPDATE(EmpCreationForm).where({ID:ID}).with({UserLocked : false })
         }catch(e){
-            var error = "User unlocking error: " +e.innererror.response.body.error.message.value;
-            request.reject(400, error);
+            var errorText = 'User unlocking error: ';
+            this.errorHandling(request, e, errorText);
         }
     }
 
@@ -105,8 +115,8 @@ module.exports = function(service) {
        
            var executedRes = await service.tx(request).post("/EmployeeCollection",empInst);
         }catch(e){
-            var error = 'Employee creation error: '+e.innererror.response.body.error.message.value;
-            request.reject(400, error);
+            var errorText = 'Employee creation error: ';
+            this.errorHandling(request, e, errorText);
         }
         try{
             var empID =  executedRes.EmployeeID;//'1283302';  //
@@ -125,8 +135,8 @@ module.exports = function(service) {
                     let updatedRecord = await UPDATE(BusinessRoles).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false })
                 } 
             }catch(e){
-                var error = 'Employee mapping business roles error: '+e.innererror.response.body.error.message.value;
-                request.info(error);
+                var errorText = 'Employee mapping business roles error: ';
+                this.errorHandling(request, e, errorText);
             }
     
             try{           
@@ -143,8 +153,8 @@ module.exports = function(service) {
                     let updatedRecord = await UPDATE(SalesResponsability).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false })
                 } 
             }catch(e){
-                var error = 'Employee mapping sales responsobilities error: '+e.innererror.response.body.error.message.value;
-                request.reject(400, error);
+                var errorText = 'Employee mapping sales responsobilities error: ';
+                this.errorHandling(request, e, errorText);
             }
     
             try{           
@@ -159,8 +169,8 @@ module.exports = function(service) {
                     let updatedRecord = await UPDATE(EmployeeOrgUnitAssigment).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false })
                 } 
             }catch(e){
-                var error = 'Employee mapping org unit assignment error: '+e.innererror.response.body.error.message.value;
-                request.reject(400, error);
+                var errorText = 'Employee mapping org unit assignment error: ';
+                this.errorHandling(request, e, errorText);
             }
 
            for (const element of request.data.To_Territories) {
@@ -208,8 +218,8 @@ module.exports = function(service) {
             request.data.EmployeeUUIDWithHyphen = UUIDwithHyphen;
             request.data.UserLocked = false;
         }catch(e){
-            var error = "Mapping creation error: " +e.innererror.response.body.error.message.value;
-            request.reject(400, error);
+            var errorText = 'Mapping creation error: ';
+            this.errorHandling(request, e, errorText);
         }
     }
 
@@ -237,8 +247,8 @@ module.exports = function(service) {
                     }          
                 }
             }catch(e){
-                var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                request.reject(400, error);
+                var errorText = 'Employee update error: ';
+                this.errorHandling(request, e, errorText);
             }
             for (const element of request.data.To_BusinessRoles) {
 
@@ -257,8 +267,8 @@ module.exports = function(service) {
                         var objID = uri.substr(index);
                         element.ObjectID =  objID;
                     }catch(e){
-                        var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                        request.reject(400, error);
+                        var errorText = 'Employee update error: ';
+                        this.errorHandling(request, e, errorText);
                     }
                 }
                 //--------------------------CREATE------------------
@@ -274,8 +284,8 @@ module.exports = function(service) {
                         var objID = uri.substr(index);
                         element.ObjectID =  objID;
                     }catch(e){
-                        var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                        request.reject(400, error);
+                        var errorText = 'Employee update error: ';
+                        this.errorHandling(request, e, errorText);
                     }
                 }
                 element.IsUpdate = false;
@@ -299,8 +309,8 @@ module.exports = function(service) {
                     }          
                 }
             }catch(e){
-                var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                request.reject(400, error);
+                var errorText = 'Employee update error: ';
+                this.errorHandling(request, e, errorText);
             }
             for (const element of request.data.To_OrgUnits) {               
                 //-------------------------UPDATE--------------------
@@ -325,8 +335,8 @@ module.exports = function(service) {
                         var objID = uri.substr(index);
                         element.ObjectID =  objID;
                     }catch(e){
-                        var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                        request.reject(400, error);
+                        var errorText = 'Employee update error: ';
+                        this.errorHandling(request, e, errorText);
                     }
                 }
                 //--------------------------CREATE------------------
@@ -349,8 +359,8 @@ module.exports = function(service) {
                         var objID = uri.substr(index);
                         element.ObjectID =  objID;
                     }catch(e){
-                        var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                        request.reject(400, error);
+                        var errorText = 'Employee update error: ';
+                        this.errorHandling(request, e, errorText);
                     }
                 }
                 element.IsUpdate = false;
@@ -373,8 +383,8 @@ module.exports = function(service) {
                     }          
                 }
             }catch(e){
-                var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                request.reject(400, error);
+                var errorText = 'Employee update error: ';
+                this.errorHandling(request, e, errorText);
             }
             for (const element of request.data.To_SalesResponsobilities) {               
                 //-------------------------UPDATE--------------------
@@ -394,8 +404,8 @@ module.exports = function(service) {
                         var objID = uri.substr(index);
                         element.ObjectID =  objID;
                     }catch(e){
-                        var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                        request.reject(400, error);
+                        var errorText = 'Employee update error: ';
+                        this.errorHandling(request, e, errorText);
                     }
                 }
                 //--------------------------CREATE------------------
@@ -413,8 +423,8 @@ module.exports = function(service) {
                         var objID = uri.substr(index);
                         element.ObjectID =  objID;
                     }catch(e){
-                        var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                        request.reject(400, error);
+                        var errorText = 'Employee update error: ';
+                        this.errorHandling(request, e, errorText);
                     }
                 }
                 element.IsUpdate = false;
@@ -437,8 +447,8 @@ module.exports = function(service) {
                     }          
                 }
             }catch(e){
-                var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                request.reject(400, error);
+                var errorText = 'Employee update error: ';
+                this.errorHandling(request, e, errorText);
             }
             for (const element of request.data.To_Territories) {               
                 //-------------------------UPDATE--------------------
@@ -463,8 +473,8 @@ module.exports = function(service) {
                         element.ObjectID =  objID;
                         element.TerritoryObjectID =  currentObjectID;
                     }catch(e){
-                        var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                        request.reject(400, error);
+                        var errorText = 'Employee update error: ';
+                        this.errorHandling(request, e, errorText);
                     }
                 }
                 //--------------------------CREATE------------------
@@ -487,8 +497,8 @@ module.exports = function(service) {
                         element.ObjectID =  objID;
                         element.TerritoryObjectID =  currentObjectID;
                     }catch(e){
-                        var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                        request.reject(400, error);
+                        var errorText = 'Employee update error: ';
+                        this.errorHandling(request, e, errorText);
                     }
                 }
                 element.IsUpdate = false;
@@ -511,8 +521,8 @@ module.exports = function(service) {
                     }          
                 }
             }catch(e){
-                var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                request.reject(400, error);
+                var errorText = 'Employee update error: ';
+                this.errorHandling(request, e, errorText);
             }
             for (const element of request.data.To_Mappings) {               
                 //-------------------------UPDATE--------------------
@@ -531,8 +541,8 @@ module.exports = function(service) {
                         var objID = uri.substr(index);     
                         element.ObjectID = objID; 
                     }catch(e){
-                        var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                        request.reject(400, error);
+                        var errorText = 'Employee update error: ';
+                        this.errorHandling(request, e, errorText);
                     }
                 }
                 //--------------------------CREATE------------------
@@ -549,8 +559,8 @@ module.exports = function(service) {
                         var objID = uri.substr(index);     
                         element.ObjectID = objID; 
                     }catch(e){
-                        var error = 'Employee update error: '+e.innererror.response.body.error.message.value;
-                        request.reject(400, error);
+                        var errorText = 'Employee update error: ';
+                        this.errorHandling(request, e, errorText);
                     }
                 }
                 element.IsUpdate = false;

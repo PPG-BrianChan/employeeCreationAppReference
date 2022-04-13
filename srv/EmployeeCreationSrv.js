@@ -248,7 +248,7 @@ module.exports = cds.service.impl(async function() {
     this.on('unblockUser', EmpCreationForm, async(request) => {
         await manageAPICallsInst.unlockUser(request, EmpCreationForm, service);
     })
-
+/*
     this.before('NEW', EmpCreationForm,async request => {
       var token = request.headers.authorization;
       var decode = jwt_decode(token);
@@ -263,7 +263,7 @@ module.exports = cds.service.impl(async function() {
             request.data.HideFirstPanel = true;
       }
     })
-
+*/
     this.before('SAVE', EmpCreationForm,async request => {
         
         for (const element of request.data.To_BusinessRoles) {
