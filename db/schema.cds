@@ -15,6 +15,7 @@ entity EmpCreationForm : cuid, managed {
     EmployeeIDExternal : String;
     UserLocked : Boolean;
     UserLogin : String;
+    SalesReportingEligible: Boolean;
     UserPassword : String;
     identifierBooleanPassword : TechnicalBooleanFlag default true;
     Tenant : String;

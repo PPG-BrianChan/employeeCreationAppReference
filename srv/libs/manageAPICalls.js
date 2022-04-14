@@ -63,7 +63,8 @@ module.exports = function(service) {
             "UserValidityEndDate" :  END_DATE + "T00:00:00",
             "Email" :  request.data.Email,
             "UserPasswordPolicyCode" :  request.data.UserPasswordPolicy_ID,
-            "UserLockedIndicator": false
+            "UserLockedIndicator": false, 
+            "ZSalesRepElig_KUT": request.data.SalesReportingEligible
         }; 
         if (request.data.UserPasswordPolicy_ID == null) empInst.UserPasswordPolicyCode = "S_BUSINESS_USER_WITHOUT_PASSWORD";
         var arr = request.data.To_BusinessRoles
