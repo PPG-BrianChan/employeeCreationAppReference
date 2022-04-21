@@ -277,6 +277,11 @@ annotate scp.Mapping with @(
             Label : '{i18n>RemoteSystemID}',
         },]
 );
+
+annotate scp.Mapping with {
+    RemoteObjectID @readonly;
+};
+
 annotate scp.EmpCreationForm with @Common : {SideEffects #PasswordSodeEffects : {
     $Type            : 'Common.SideEffectsType',
     SourceProperties : [UserPasswordPolicy_ID],
