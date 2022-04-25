@@ -1,5 +1,5 @@
-const ManageAPICalls = {
-  async lockUser(request, EmpCreationForm, service) {
+class ManageAPICalls {
+  static async lockUser(request, EmpCreationForm, service) {
     try {
       const { ID } = request.params[0];
       const creationForm = await SELECT.one.from(EmpCreationForm).where({ ID });
@@ -18,9 +18,9 @@ const ManageAPICalls = {
       const error = `User locking error: ${e.innererror.response.body.error.message.value}`;
       request.reject(400, error);
     }
-  },
+  };
 
-  async unlockUser(request, EmpCreationForm, service) {
+  static async unlockUser(request, EmpCreationForm, service) {
     try {
       const { ID } = request.params[0];
       const creationForm = await SELECT.one.from(EmpCreationForm).where({ ID });
@@ -39,9 +39,9 @@ const ManageAPICalls = {
       const error = `User unlocking error: ${e.innererror.response.body.error.message.value}`;
       request.reject(400, error);
     }
-  },
+  };
 
-  async createEmployee(request, service, EmpCreationForm, BusinessRoles, SalesResponsability, EmployeeOrgUnitAssigment, Territories, Mapping) {
+  static async createEmployee(request, service, EmpCreationForm, BusinessRoles, SalesResponsability, EmployeeOrgUnitAssigment, Territories, Mapping) {
     const END_DATE = '9999-12-31';
     const businessRoles = [];
     const salesResp = [];
@@ -233,9 +233,9 @@ const ManageAPICalls = {
       var error = `Mapping creation error: ${e.innererror.response.body.error.message.value}`;
       request.reject(400, error);
     }
-  },
+  };
 
-  async updateEmployee(request, service, EmpCreationForm, BusinessRoles, SalesResponsability, EmployeeOrgUnitAssigment, Territories, Mapping) {
+  static async updateEmployee(request, service, EmpCreationForm, BusinessRoles, SalesResponsability, EmployeeOrgUnitAssigment, Territories, Mapping) {
     const END_DATE = '9999-12-31';
     if (request.data.EmployeeIDExternal != null) {
       request.data.blockBtnEnabled = true;
