@@ -4,10 +4,10 @@ _out
 connection.properties
 default-*.json
 default-env.json
-gen/
 node_modules/
 target/
 app/ui/dist
+gen/
 
 # Web IDE, App Studio
 .che/
