@@ -1,7 +1,8 @@
 {
   "root": true,
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    "airbnb-base"
   ],
   "env": {
     "es2020": true,

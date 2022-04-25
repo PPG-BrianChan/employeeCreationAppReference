@@ -40,6 +40,7 @@ annotate service.EmpCreationForm with @(
         },
     ]
 );
+
 annotate service.EmpCreationForm with @(
     UI.Identification : [
         {
@@ -53,4 +54,15 @@ annotate service.EmpCreationForm with @(
             Label : '{i18n>unblockUser}',
         },
     ]
+);
+
+annotate service.EmpCreationForm with @(
+    Common.SideEffects #PriceChanged : {
+        SourceProperties : [
+            UserLogin
+        ],
+        TargetEntities : [
+            To_Mappings
+        ]
+    }
 );

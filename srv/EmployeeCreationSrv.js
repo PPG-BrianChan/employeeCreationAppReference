@@ -1,9 +1,8 @@
 const cds = require('@sap/cds');
 const jwt_decode = require('jwt-decode');
-const manageAPICalls = require('./libs/manageAPICalls.js');
+const { ManageAPICalls } = require('./libs/manageAPICalls');
 
 module.exports = cds.service.impl(async function () {
-  const manageAPICallsInst = new manageAPICalls();
   cds.env.features.fetch_csrf = true;
   const {
     EmpCreationForm,
@@ -27,8 +26,6 @@ module.exports = cds.service.impl(async function () {
   } = this.entities;
   const service = await cds.connect.to('employeeanduser');
   const c4c_odata = await cds.connect.to('rolesAPI');
-
-  const tx = cds.tx();
 
   this.after('READ', EmpCreationForm, each => {
     if (each.EmployeeIDExternal != null) {
@@ -78,52 +75,48 @@ module.exports = cds.service.impl(async function () {
     let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
-      let res = await service.tx(request).run(request.query);
+      const res = await service.tx(request).run(request.query);
       const result = res.filter(element => element.ID.startsWith(search));
       return result;
-    } else {
-      return service.tx(request).run(request.query);
     }
+    return service.tx(request).run(request.query);
   });
 
   this.on('READ', EmployeeUserPasswordPolicy, async request => {
     let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
-      let res = await service.tx(request).run(request.query);
+      const res = await service.tx(request).run(request.query);
       const result = res.filter(element => element.ID.startsWith(search));
       return result;
-    } else {
-      return service.tx(request).run(request.query);
     }
+    return service.tx(request).run(request.query);
   });
 
   this.on('READ', Country, async request => {
     let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
-      let res = await service.tx(request).run(request.query);
+      const res = await service.tx(request).run(request.query);
       const result = res.filter(element => element.ID.startsWith(search));
       return result;
-    } else {
-      return service.tx(request).run(request.query);
     }
+    return service.tx(request).run(request.query);
   });
 
   this.on('READ', Language, async request => {
     let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
-      let res = await service.tx(request).run(request.query);
+      const res = await service.tx(request).run(request.query);
       const result = res.filter(element => element.ID.startsWith(search));
       return result;
-    } else {
-      return service.tx(request).run(request.query);
     }
+    return service.tx(request).run(request.query);
   });
 
   this.on('READ', RemoteSystem, async request => {
-    let systemObj = [
+    const systemObj = [
       { ID: 'TANGRAM', Description: 'TANGRAM' },
       { ID: 'NONSAP', Description: 'NONSAP' },
       { ID: 'DALI', Description: 'DALI' },
@@ -135,42 +128,38 @@ module.exports = cds.service.impl(async function () {
     let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
-      let res = systemObj;
+      const res = systemObj;
       const result = res.filter(element => element.ID.startsWith(search));
       return result;
-    } else {
-      return systemObj;
     }
+    return systemObj;
   });
 
   this.on('READ', Job, async request => {
     let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
-      let res = await service.tx(request).run(request.query);
+      const res = await service.tx(request).run(request.query);
       const result = res.filter(element => element.ID.startsWith(search));
       return result;
-    } else {
-      return service.tx(request).run(request.query);
     }
-  });
-
-  this.on('READ', RoleCode, request => {
     return service.tx(request).run(request.query);
   });
 
+  this.on('READ', RoleCode, request => service.tx(request).run(request.query));
+
   this.on('READ', OrgUnit, async request => {
     let skip = request._query.$skip;
-    let top = 2000;
+    const top = 2000;
     if (skip != 0) {
       skip = top;
     }
-    let query = `/OrganisationalUnitCollection?$expand=OrganisationalUnitNameAndAddress&$format=json&$top=` + top + '&$skip=' + skip;
-    let executedRes = await service.tx(request).get(query);
-    let orgUnits = [];
+    const query = `/OrganisationalUnitCollection?$expand=OrganisationalUnitNameAndAddress&$format=json&$top=${top}&$skip=${skip}`;
+    const executedRes = await service.tx(request).get(query);
+    const orgUnits = [];
     executedRes.forEach(element => {
       if (element.MarkAsDeleted == false) {
-        let proxyInst = {};
+        const proxyInst = {};
         proxyInst.Code = element.OrganisationalUnitID;
         proxyInst.Description = element.OrganisationalUnitNameAndAddress[0].Name;
         orgUnits.push(proxyInst);
@@ -179,30 +168,25 @@ module.exports = cds.service.impl(async function () {
     let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
-      let res = orgUnits;
+      const res = orgUnits;
       const result = res.filter(element => element.Code.startsWith(search));
       return result;
-    } else {
-      return orgUnits;
     }
+    return orgUnits;
   });
 
   this.on('READ', SalesOrgs, async request => {
     let skip = request._query.$skip;
-    let top = 2000;
+    const top = 2000;
     if (skip != 0) {
       skip = top;
     }
-    let query =
-      `/OrganisationalUnitCollection?$expand=OrganisationalUnitFunctions,OrganisationalUnitNameAndAddress&$format=json&$top=` +
-      top +
-      '&$skip=' +
-      skip;
-    let executedRes = await service.tx(request).get(query);
-    let orgUnits = [];
+    const query = `/OrganisationalUnitCollection?$expand=OrganisationalUnitFunctions,OrganisationalUnitNameAndAddress&$format=json&$top=${top}&$skip=${skip}`;
+    const executedRes = await service.tx(request).get(query);
+    const orgUnits = [];
     executedRes.forEach(element => {
       if (element.MarkAsDeleted == false && element.OrganisationalUnitFunctions[0].SalesOrganisationIndicator) {
-        let proxyInst = {};
+        const proxyInst = {};
         proxyInst.Code = element.OrganisationalUnitID;
         proxyInst.Description = element.OrganisationalUnitNameAndAddress[0].Name;
         proxyInst.SalesOrgIndicator = element.OrganisationalUnitFunctions[0].SalesOrganisationIndicator;
@@ -212,66 +196,62 @@ module.exports = cds.service.impl(async function () {
     let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
-      let res = orgUnits;
+      const res = orgUnits;
       const result = res.filter(element => element.Code.startsWith(search));
       return result;
-    } else {
-      return orgUnits;
     }
+    return orgUnits;
   });
 
   this.on('READ', DistributionChanelCode, async request => {
     let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
-      let res = await service.tx(request).run(request.query);
+      const res = await service.tx(request).run(request.query);
       const result = res.filter(element => element.ID.startsWith(search));
       return result;
-    } else {
-      return service.tx(request).run(request.query);
     }
+    return service.tx(request).run(request.query);
   });
 
   this.on('READ', DivisionCode, async request => {
     let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
-      let res = await service.tx(request).run(request.query);
+      const res = await service.tx(request).run(request.query);
       const result = res.filter(element => element.ID.startsWith(search));
       return result;
-    } else {
-      return service.tx(request).run(request.query);
     }
+    return service.tx(request).run(request.query);
   });
 
   this.on('READ', Roles, async request => {
-    let skip = request._query.$skip;
-    let top = request._query.$top;
-    let query = `/RPCCABUSINESS_ROLEQueryResults?$select=CROOT_ID_CONTENT,CDESCRIPTION_NAME&$format=json&$skip=` + skip + `&$top=` + top;
+    const skip = request._query.$skip;
+    const top = request._query.$top;
+    const query = `/RPCCABUSINESS_ROLEQueryResults?$select=CROOT_ID_CONTENT,CDESCRIPTION_NAME&$format=json&$skip=${skip}&$top=${top}`;
 
-    let e = await c4c_odata.tx(request).get(query);
+    const e = await c4c_odata.tx(request).get(query);
     let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
-      let res = e.d.results;
+      const res = e.d.results;
       const result = res.filter(element => element.CROOT_ID_CONTENT.startsWith(search));
       return result;
-    } else {
-      return e.d.results;
     }
+    return e.d.results;
   });
 
   this.on('blockUser', EmpCreationForm, async request => {
-    await manageAPICallsInst.lockUser(request, EmpCreationForm, service);
+    await ManageAPICalls.lockUser(request, EmpCreationForm, service);
   });
 
   this.on('unblockUser', EmpCreationForm, async request => {
-    await manageAPICallsInst.unlockUser(request, EmpCreationForm, service);
+    await ManageAPICalls.unlockUser(request, EmpCreationForm, service);
   });
 
   this.before('NEW', EmpCreationForm, async request => {
-    let token = request.headers.authorization;
-    let decode = jwt_decode(token);
+    const token = request.headers.authorization;
+    const decode = jwt_decode(token);
     request.data.Email = decode.email;
     request.data.FirstName = decode.given_name;
     request.data.LastName = decode.family_name;
@@ -313,7 +293,7 @@ module.exports = cds.service.impl(async function () {
   });
 
   this.after('CREATE', EmpCreationForm, async (data, request) => {
-    await manageAPICallsInst.createEmployee(
+    await ManageAPICalls.createEmployee(
       request,
       service,
       EmpCreationForm,
@@ -326,7 +306,7 @@ module.exports = cds.service.impl(async function () {
   });
 
   this.before('SAVE', EmpCreationForm, async request => {
-    await manageAPICallsInst.updateEmployee(
+    await ManageAPICalls.updateEmployee(
       request,
       service,
       EmpCreationForm,
@@ -355,8 +335,13 @@ module.exports = cds.service.impl(async function () {
   });
 
   this.before('NEW', Mapping, async req => {
-    const selectEmployeeCreationFormDraft = SELECT.one.from(EmpCreationForm.drafts).where({ ID: req.data.To_CreationForm_ID });
-    const employeeFormDraft = await tx.run(selectEmployeeCreationFormDraft);
+    const tx = cds.tx();
+    const selectEmployeeCreationFormDraftQuery = SELECT.one
+      .from(EmpCreationForm.drafts)
+      .where({ 
+        ID: req.data.To_CreationForm_ID 
+      });
+    const employeeFormDraft = await tx.run(selectEmployeeCreationFormDraftQuery);
 
     req.data.RemoteObjectID = employeeFormDraft.UserLogin;
   });
@@ -365,17 +350,45 @@ module.exports = cds.service.impl(async function () {
     request.data.IsUpdate = true;
   });
 
-  this.before('PATCH', EmpCreationForm, async req => {
+  this.before('PATCH', EmpCreationForm, async (req, next) => {
     if ('UserPasswordPolicy_ID' in req.data) {
       const { UserPasswordPolicy_ID } = req.data;
-      let identifierBoolean = true,
-        password = '';
-      if (UserPasswordPolicy_ID === 'S_BUSINESS_USER') 
+      let identifierBoolean = true;
+      const password = '';
+      if (UserPasswordPolicy_ID === 'S_BUSINESS_USER') {
         identifierBoolean = false;
-      else 
+      } else {
         identifierBoolean = true;
+      }
       req.data.identifierBooleanPassword = identifierBoolean;
       req.data.UserPassword = password;
+    }
+
+    const tx = cds.tx();
+    
+    const selectMappingsQuery = SELECT
+      .from(Mapping.drafts)
+      .where({
+      To_CreationForm_ID: req.data.ID
+    });
+    const mappings = await tx.run(selectMappingsQuery);
+
+    if (mappings.length > 0) {
+      const updateRemoteObjectIDQuery = UPDATE(Mapping.drafts)
+        .set({
+          RemoteObjectID: req.data.UserLogin
+        })
+        .where({
+          To_CreationForm_ID: req.data.ID
+        });
+      
+      try {
+        await tx.run(updateRemoteObjectIDQuery);
+        await tx.commit();
+      } catch (error) {
+        await tx.rollback(error);
+      }        
+
     }
   });
 });
