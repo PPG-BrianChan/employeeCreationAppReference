@@ -18,45 +18,50 @@
   },
   "devDependencies": {
     "@sap/ux-specification": "^1.96.3",
+    "eslint": "^8.13.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
     "sqlite3": "^5.0.2"
   },
   "scripts": {
     "start": "NODE_ENV=production cds run",
     "watch-ui": "cds watch --open ui/webapp/index.html?sap-ui-xx-viewCache=false#fe-lrop-v4",
-    "undeploy": "cf undeploy EmployeeCreationApp --delete-services --delete-service-keys"
-  },
-  "eslintConfig": {
-    "extends": "eslint:recommended",
-    "env": {
-      "es2020": true,
-      "node": true,
-      "jest": true,
-      "mocha": true
-    },
-    "globals": {
-      "SELECT": true,
-      "INSERT": true,
-      "UPDATE": true,
-      "DELETE": true,
-      "CREATE": true,
-      "DROP": true,
-      "CDL": true,
-      "CQL": true,
-      "CXL": true,
-      "cds": true
-    },
-    "rules": {
-      "no-console": "off",
-      "require-atomic-updates": "off"
-    }
+    "undeploy": "cf undeploy EmployeeCreationApp --delete-services --delete-service-keys",
+    "lint:be": "eslint . --ext .js",
+    "lint:be:fix": "eslint . --ext .js --fix"
   },
   "cds": {
     "requires": {
       "db": {
-        "kind": "sql"
+        "[development]": {
+          "kind": "hana"
+        },
+        "[production]": {
+          "kind": "hana",
+          "pool": {
+            "acquireTimeoutMillis": 10000
+          }
+        }
       },
       "uaa": {
         "kind": "xsuaa"
+      },
+      "auth": {
+        "[development]": {
+          "strategy": "mock",
+          "users": {
+            "admin": {
+              "roles": [
+                "uaa.user",
+                "EmployeeCreation_KBU",
+                "Tester"
+              ]
+            }
+          }
+        },
+        "[production]": {
+          "kind": "jwt-auth"
+        }
       },
       "employeeanduser": {
         "kind": "odata-v2",

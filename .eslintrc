@@ -1,0 +1,87 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "airbnb-base"
+  ],
+  "env": {
+    "es2020": true,
+    "node": true,
+    "jest": true,
+    "mocha": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2019
+  },
+  "globals": {
+    "SELECT": true,
+    "INSERT": true,
+    "UPDATE": true,
+    "DELETE": true,
+    "CREATE": true,
+    "DROP": true,
+    "CDL": true,
+    "CQL": true,
+    "CXL": true,
+    "cds": true
+  },
+  "ignorePatterns": [
+    "node_modules/",
+    "resources/",
+    "gen/",
+    "app/"
+  ],
+  "rules": {
+    "class-methods-use-this": "off",
+    "require-atomic-updates": "off",
+    "arrow-parens": [
+      "error",
+      "as-needed"
+    ],
+    "no-use-before-define": "off",
+    "nonblock-statement-body-position": [
+      "error",
+      "below"
+    ],
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "import/prefer-default-export": "off",
+    "import/export": "off",
+    "import/no-mutable-exports": "off",
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
+    "no-restricted-syntax": "off",
+    "no-await-in-loop": "off",
+    "linebreak-style": "off",
+    "no-plusplus": "off",
+    "no-console": "warn",
+    "no-debugger": "warn",
+    "no-mixed-operators": "off",
+    "no-param-reassign": "off",
+    "max-len": [
+      "error",
+      {
+        "ignoreRegExpLiterals": true,
+        "ignoreUrls": true,
+        "comments": 130,
+        "code": 150
+      }
+    ],
+    "max-statements-per-line": "warn",
+    "no-underscore-dangle": "off",
+    "indent": [
+      "warn",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "func-names": "off",
+    "camelcase": "off",
+    "array-callback-return": "off",
+    "prefer-arrow-callback": "error",
+    "no-var": "error"
+  }
+}
