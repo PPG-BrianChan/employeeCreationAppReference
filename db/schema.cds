@@ -171,3 +171,8 @@ type TechnicalBooleanFlag : Boolean @(
     UI.Hidden,
     Core.Computed
 );
+
+entity TargetSystem {
+    key ID : String;
+    Description : String;
+}

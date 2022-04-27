@@ -52,8 +52,7 @@ module.exports = function(service) {
         }
     }
 
-    this.createEmployee = async function(request, service, EmpCreationForm, BusinessRoles, SalesResponsability, EmployeeOrgUnitAssigment,
-                            Territories, Mapping ){
+    this.createEmpData = function(request){
         var END_DATE = "9999-12-31";
         var businessRoles = [];
         var salesResp = [];
@@ -110,70 +109,82 @@ module.exports = function(service) {
         empInst.EmployeeUserBusinessRoleAssignment = businessRoles;
         empInst.EmployeeSalesResponsibility = salesResp;
         empInst.EmployeeOrganisationalUnitAssignment = orgAssigment;
+        return empInst;
+    }
 
-        try{           
-       
+    this.getObjectIDFromURI = function(el){
+        if(el.$metadata != undefined){
+            var metadata = el.$metadata;
+        }else if(el.__metadata != undefined){
+            var metadata = el.__metadata;
+        }
+        var uri = metadata.uri;
+        var index = uri.indexOf("(");
+        return uri.substr(index);  
+    }
+
+    this.createEmployee = async function(request, service, EmpCreationForm, BusinessRoles, SalesResponsability, EmployeeOrgUnitAssigment,
+                            Territories, Mapping ){
+        
+        var END_DATE = "9999-12-31";
+        var empInst = this.createEmpData(request);
+        try{        
            var executedRes = await service.tx(request).post("/EmployeeCollection",empInst);
         }catch(e){
             var errorText = 'Employee creation error: ';
             this.errorHandling(request, e, errorText);
         }
+        
+        var empID =  executedRes.EmployeeID;//'1283302';  //
+        var businessPartnerID =  executedRes.BusinessPartnerID;//'8000004299';//
+        var UUID = executedRes.ObjectID;
+        var UUIDwithHyphen = executedRes.UUID;
+
+        try{           
+            var path = "/EmployeeCollection('"+ UUID +"')/EmployeeUserBusinessRoleAssignment";
+            var res = await service.tx(request).get(path);
+            for (const element of request.data.To_BusinessRoles){
+                var resEl = res.find(el => el.BusinessRoleID == element.Role_CROOT_ID_CONTENT);
+                var objID = this.getObjectIDFromURI(resEl);
+                let updatedRecord = await UPDATE(BusinessRoles).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false })
+            } 
+        }catch(e){
+            var errorText = 'Employee mapping business roles error: ';
+            this.errorHandling(request, e, errorText);
+        }
+
+        try{           
+            var path = "/EmployeeCollection('"+ UUID +"')/EmployeeSalesResponsibility";
+            var res = await service.tx(request).get(path);
+            for (const element of empInst.EmployeeSalesResponsibility){
+                var resEl = res.find(el => el.SalesOrganisationID == element.SalesOrganisationID && 
+                                            el.DistributionChannelCode == element.DistributionChannelCode && 
+                                            el.DivisionCode == element.DivisionCode && 
+                                            el.MainIndicator == element.MainIndicator);
+                var objID = this.getObjectIDFromURI(resEl);
+                let updatedRecord = await UPDATE(SalesResponsability).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false })
+            } 
+        }catch(e){
+            var errorText = 'Employee mapping sales responsobilities error: ';
+            this.errorHandling(request, e, errorText);
+        }
+
+        try{           
+            var path = "/EmployeeCollection('"+ UUID +"')/EmployeeOrganisationalUnitAssignment";
+            var res = await service.tx(request).get(path);
+            for (const element of empInst.EmployeeOrganisationalUnitAssignment){
+                var resEl = res.find(el => el.OrgUnitID == element.OrgUnitID && 
+                                        el.JobID == element.JobID);
+                var objID = this.getObjectIDFromURI(resEl);   
+                let updatedRecord = await UPDATE(EmployeeOrgUnitAssigment).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false })
+            } 
+        }catch(e){
+            var errorText = 'Employee mapping org unit assignment error: ';
+            this.errorHandling(request, e, errorText);
+        }
+
         try{
-            var empID =  executedRes.EmployeeID;//'1283302';  //
-            var businessPartnerID =  executedRes.BusinessPartnerID;//'8000004299';//
-            var UUID = executedRes.ObjectID;
-            var UUIDwithHyphen = executedRes.UUID;
-
-            try{           
-                var path = "/EmployeeCollection('"+ UUID +"')/EmployeeUserBusinessRoleAssignment";
-                var res = await service.tx(request).get(path);
-                for (const element of request.data.To_BusinessRoles){
-                    var resEl = res.find(el => el.BusinessRoleID == element.Role_CROOT_ID_CONTENT);
-                    var uri = resEl.$metadata.uri;
-                    var index = uri.indexOf("(");
-                    var objID = uri.substr(index);
-                    let updatedRecord = await UPDATE(BusinessRoles).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false })
-                } 
-            }catch(e){
-                var errorText = 'Employee mapping business roles error: ';
-                this.errorHandling(request, e, errorText);
-            }
-    
-            try{           
-                var path = "/EmployeeCollection('"+ UUID +"')/EmployeeSalesResponsibility";
-                var res = await service.tx(request).get(path);
-                for (const element of salesResp){
-                    var resEl = res.find(el => el.SalesOrganisationID == element.SalesOrganisationID && 
-                                                el.DistributionChannelCode == element.DistributionChannelCode && 
-                                                el.DivisionCode == element.DivisionCode && 
-                                                el.MainIndicator == element.MainIndicator);
-                    var uri = resEl.$metadata.uri;
-                    var index = uri.indexOf("(");
-                    var objID = uri.substr(index);
-                    let updatedRecord = await UPDATE(SalesResponsability).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false })
-                } 
-            }catch(e){
-                var errorText = 'Employee mapping sales responsobilities error: ';
-                this.errorHandling(request, e, errorText);
-            }
-    
-            try{           
-                var path = "/EmployeeCollection('"+ UUID +"')/EmployeeOrganisationalUnitAssignment";
-                var res = await service.tx(request).get(path);
-                for (const element of orgAssigment){
-                    var resEl = res.find(el => el.OrgUnitID == element.OrgUnitID && 
-                                            el.JobID == element.JobID);
-                    var uri = resEl.$metadata.uri;
-                    var index = uri.indexOf("(");
-                    var objID = uri.substr(index);     
-                    let updatedRecord = await UPDATE(EmployeeOrgUnitAssigment).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false })
-                } 
-            }catch(e){
-                var errorText = 'Employee mapping org unit assignment error: ';
-                this.errorHandling(request, e, errorText);
-            }
-
-           for (const element of request.data.To_Territories) {
+            for (const element of request.data.To_Territories) {
                 var newTerrInst = {};
                 newTerrInst.TerritoryId = element.SalesTerritory_ID;
                 newTerrInst.EmployeeID = empID;
@@ -186,12 +197,14 @@ module.exports = function(service) {
                 var currentObjectID = terData[0].ObjectID;
                 var endPoint = "/SalesTerritoryCollection('" + currentObjectID + "')/SalesTerritoryTeam";
                 var resTer = await service.tx(request).post(endPoint,newTerrInst);
-                var uri = resTer.__metadata.uri;
-                var index = uri.indexOf("(");
-                var objID = uri.substr(index);     
+                var objID = this.getObjectIDFromURI(resTer);      
                 let updatedRecord = await UPDATE(Territories).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false, TerritoryObjectID: currentObjectID })
-                var q = 0;
             }
+        }catch(e){
+            var errorText = 'Territory creation error: ';
+            this.errorHandling(request, e, errorText);
+        }
+        try{
             for (const element of request.data.To_Mappings){
                 var newMappingInst = {};
                 newMappingInst.LocalObjectID = businessPartnerID;
@@ -199,33 +212,33 @@ module.exports = function(service) {
                 newMappingInst.RemoteIdentifierDefiningSchemeCode = "3";
                 newMappingInst.RemoteBusinessSystemID = element.RemoteSystemID_ID;
                 var resObjMapping = await service.tx(request).post("/ObjectIdentifierMappingCollection",newMappingInst);       
-                var uri = resObjMapping.__metadata.uri;
-                var index = uri.indexOf("(");
-                var objID = uri.substr(index);     
+                var objID = this.getObjectIDFromURI(resObjMapping);       
                 let updatedRecord = await UPDATE(Mapping).where({To_CreationForm_ID:request.data.ID, ID : element.ID}).with({ObjectID: objID, IsUpdate:false })    
             }
-            let updatedRecord = await UPDATE(EmpCreationForm).where({ID:request.data.ID}).with({EmployeeIDExternal: empID, 
-                    EmployeeIDInternal : request.data.ID, EmployeeUUID : UUID, BusinessPartnerID : businessPartnerID, EmployeeUUIDWithHyphen : UUIDwithHyphen, HideFirstPanel : true,
-                            IsNotTesterUser : true, HideSecondPanel : false, UserLocked : false })
-            request.data.EmployeeIDExternal = empID;
-            request.data.EmployeeIDInternal = request.data.ID;
-            request.data.blockBtnEnabled = true;
-            request.data.unblockBtnEnabled = false;
-            request.data.HideFirstPanel = true;
-            request.data.IsNotTesterUser = true;
-            request.data.HideSecondPanel = false;
-            request.data.BusinessPartnerID = businessPartnerID;
-            request.data.EmployeeUUIDWithHyphen = UUIDwithHyphen;
-            request.data.UserLocked = false;
         }catch(e){
             var errorText = 'Mapping creation error: ';
             this.errorHandling(request, e, errorText);
         }
+        let updatedRecord = await UPDATE(EmpCreationForm).where({ID:request.data.ID}).with({EmployeeIDExternal: empID, 
+                EmployeeIDInternal : request.data.ID, EmployeeUUID : UUID, BusinessPartnerID : businessPartnerID, EmployeeUUIDWithHyphen : UUIDwithHyphen, HideFirstPanel : true,
+                        IsNotTesterUser : true, HideSecondPanel : false, UserLocked : false, ValidatyStartDate : request.data.ValidatyStartDate })
+        request.data.EmployeeIDExternal = empID;
+        request.data.EmployeeIDInternal = request.data.ID;
+        request.data.blockBtnEnabled = true;
+        request.data.unblockBtnEnabled = false;
+        request.data.HideFirstPanel = true;
+        request.data.IsNotTesterUser = true;
+        request.data.HideSecondPanel = false;
+        request.data.BusinessPartnerID = businessPartnerID;
+        request.data.EmployeeUUIDWithHyphen = UUIDwithHyphen;
+        request.data.UserLocked = false;        
     }
 
     this.updateEmployee = async function(request, service, EmpCreationForm, BusinessRoles, SalesResponsability, EmployeeOrgUnitAssigment,
         Territories, Mapping ){
-            var END_DATE = "9999-12-31";
+        var END_DATE = "9999-12-31";
+        var today = new Date().toISOString().slice(0, 10);
+        if(request.data.ValidatyStartDate == null) request.data.ValidatyStartDate = today;
         if(request.data.EmployeeIDExternal != null){
             request.data.blockBtnEnabled = true;
 
@@ -252,36 +265,19 @@ module.exports = function(service) {
             }
             for (const element of request.data.To_BusinessRoles) {
 
-                //-------------------------UPDATE--------------------
-                if(element.IsUpdate && element.ObjectID != null){
+                //-------------------------CREATE/UPDATE--------------------
+                if((element.IsUpdate && element.ObjectID != null) || element.ObjectID == null){
                     try{
                         var newRoleInst = {};
                         newRoleInst.UserID = request.data.UserLogin.toUpperCase();
                         newRoleInst.BusinessRoleID = element.Role_CROOT_ID_CONTENT;
-                        var path = "/EmployeeUserBusinessRoleAssignmentCollection" + element.ObjectID;
-                        var resofDel = await service.tx(request).delete(path);     
+                        if(element.ObjectID != null){
+                            var path = "/EmployeeUserBusinessRoleAssignmentCollection" + element.ObjectID;
+                            var resofDel = await service.tx(request).delete(path);     
+                        }
                         var new_path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeUserBusinessRoleAssignment";
                         var resofPOST = await service.tx(request).post(new_path,newRoleInst);     
-                        var uri = resofPOST.__metadata.uri;
-                        var index = uri.indexOf("(");
-                        var objID = uri.substr(index);
-                        element.ObjectID =  objID;
-                    }catch(e){
-                        var errorText = 'Employee update error: ';
-                        this.errorHandling(request, e, errorText);
-                    }
-                }
-                //--------------------------CREATE------------------
-                if(element.ObjectID == null){
-                    try{
-                        var newRoleInst = {};
-                        newRoleInst.UserID = request.data.UserLogin.toUpperCase(); //"QW2";
-                        newRoleInst.BusinessRoleID = element.Role_CROOT_ID_CONTENT;
-                        var path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeUserBusinessRoleAssignment";
-                        var resofPOST = await service.tx(request).post(path,newRoleInst);            
-                        var uri = resofPOST.__metadata.uri;
-                        var index = uri.indexOf("(");
-                        var objID = uri.substr(index);
+                        var objID = this.getObjectIDFromURI(resofPOST);  
                         element.ObjectID =  objID;
                     }catch(e){
                         var errorText = 'Employee update error: ';
@@ -313,8 +309,8 @@ module.exports = function(service) {
                 this.errorHandling(request, e, errorText);
             }
             for (const element of request.data.To_OrgUnits) {               
-                //-------------------------UPDATE--------------------
-                if(element.IsUpdate && element.ObjectID != null){
+                //-------------------------CREATE/UPDATE--------------------
+                if((element.IsUpdate && element.ObjectID != null) || element.ObjectID == null){
                     try{
                         var newOrgInst = {};
                         if(element.IsPrimary){
@@ -326,37 +322,13 @@ module.exports = function(service) {
                         newOrgInst.JobID = element.JobID_ID;
                         newOrgInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
                         newOrgInst.EndDate = END_DATE + "T00:00:00";
-                        var path = "/EmployeeOrganisationalUnitAssignmentCollection" + element.ObjectID;
-                        var resofDel = await service.tx(request).delete(path);     
+                        if(element.ObjectID != null){
+                            var path = "/EmployeeOrganisationalUnitAssignmentCollection" + element.ObjectID;
+                            var resofDel = await service.tx(request).delete(path);     
+                        }
                         var new_path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeOrganisationalUnitAssignment";
                         var resofPOST = await service.tx(request).post(new_path,newOrgInst);     
-                        var uri = resofPOST.__metadata.uri;
-                        var index = uri.indexOf("(");
-                        var objID = uri.substr(index);
-                        element.ObjectID =  objID;
-                    }catch(e){
-                        var errorText = 'Employee update error: ';
-                        this.errorHandling(request, e, errorText);
-                    }
-                }
-                //--------------------------CREATE------------------
-                if(element.ObjectID == null){
-                    try{
-                        var newOrgInst = {};
-                        if(element.IsPrimary){
-                            newOrgInst.RoleCode = "219";
-                        }else{
-                            newOrgInst.RoleCode = "222";
-                        }
-                        newOrgInst.OrgUnitID = element.UnitID_Code;           
-                        newOrgInst.JobID = element.JobID_ID;
-                        newOrgInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
-                        newOrgInst.EndDate = END_DATE + "T00:00:00";
-                        var path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeOrganisationalUnitAssignment";
-                        var resofPOST = await service.tx(request).post(path,newOrgInst);            
-                        var uri = resofPOST.__metadata.uri;
-                        var index = uri.indexOf("(");
-                        var objID = uri.substr(index);
+                        var objID = this.getObjectIDFromURI(resofPOST);  
                         element.ObjectID =  objID;
                     }catch(e){
                         var errorText = 'Employee update error: ';
@@ -387,40 +359,21 @@ module.exports = function(service) {
                 this.errorHandling(request, e, errorText);
             }
             for (const element of request.data.To_SalesResponsobilities) {               
-                //-------------------------UPDATE--------------------
-                if(element.IsUpdate && element.ObjectID != null){
+                //-------------------------CREATE/UPDATE--------------------
+                if((element.IsUpdate && element.ObjectID != null) || element.ObjectID == null){
                     try{
                         var newSalesRespInst = {};
                         newSalesRespInst.SalesOrganisationID = element.SalesOrgID_Code;
                         newSalesRespInst.DistributionChannelCode = element.DistributionChanelCode_ID;
                         newSalesRespInst.DivisionCode = element.DivisionCode_ID;
                         newSalesRespInst.MainIndicator = element.MainIndicator;
-                        var path = "/EmployeeSalesResponsibilityCollection" + element.ObjectID;
-                        var resofDel = await service.tx(request).delete(path);     
+                        if(element.ObjectID != null){
+                            var path = "/EmployeeSalesResponsibilityCollection" + element.ObjectID;
+                            var resofDel = await service.tx(request).delete(path);   
+                        }  
                         var new_path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeSalesResponsibility";
                         var resofPOST = await service.tx(request).post(new_path,newSalesRespInst);     
-                        var uri = resofPOST.__metadata.uri;
-                        var index = uri.indexOf("(");
-                        var objID = uri.substr(index);
-                        element.ObjectID =  objID;
-                    }catch(e){
-                        var errorText = 'Employee update error: ';
-                        this.errorHandling(request, e, errorText);
-                    }
-                }
-                //--------------------------CREATE------------------
-                if(element.ObjectID == null){
-                    try{
-                        var newSalesRespInst = {};
-                        newSalesRespInst.SalesOrganisationID = element.SalesOrgID_Code;
-                        newSalesRespInst.DistributionChannelCode = element.DistributionChanelCode_ID;
-                        newSalesRespInst.DivisionCode = element.DivisionCode_ID;
-                        newSalesRespInst.MainIndicator = element.MainIndicator;
-                        var path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeSalesResponsibility";
-                        var resofPOST = await service.tx(request).post(path,newSalesRespInst);            
-                        var uri = resofPOST.__metadata.uri;
-                        var index = uri.indexOf("(");
-                        var objID = uri.substr(index);
+                        var objID = this.getObjectIDFromURI(resofPOST);  
                         element.ObjectID =  objID;
                     }catch(e){
                         var errorText = 'Employee update error: ';
@@ -451,8 +404,8 @@ module.exports = function(service) {
                 this.errorHandling(request, e, errorText);
             }
             for (const element of request.data.To_Territories) {               
-                //-------------------------UPDATE--------------------
-                if(element.IsUpdate && element.ObjectID != null){
+                //-------------------------CREATE/UPDATE--------------------
+                if((element.IsUpdate && element.ObjectID != null) || element.ObjectID == null){
                     try{
                         var newTerrInst = {};
                         newTerrInst.TerritoryId = element.SalesTerritory_ID;
@@ -460,40 +413,16 @@ module.exports = function(service) {
                         newTerrInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
                         newTerrInst.EndDate = END_DATE + "T00:00:00";
                         newTerrInst.PartyRole = "46";
-                        var path = "/SalesTerritoryTeamCollection" + element.ObjectID;
-                        var resofDel = await service.tx(request).delete(path);                          
+                        if(element.ObjectID != null){
+                            var path = "/SalesTerritoryTeamCollection" + element.ObjectID;
+                            var resofDel = await service.tx(request).delete(path);   
+                        }                       
                         var query = "/SalesTerritoryCollection?$filter=Id eq '" + element.SalesTerritory_ID + "'&$select=ObjectID";                       
                         var terData = await service.tx(request).get(query);
                         var currentObjectID = terData[0].ObjectID;
                         var endPoint = "/SalesTerritoryCollection('" + currentObjectID + "')/SalesTerritoryTeam";
                         var resTer = await service.tx(request).post(endPoint,newTerrInst);
-                        var uri = resTer.__metadata.uri;
-                        var index = uri.indexOf("(");
-                        var objID = uri.substr(index);     
-                        element.ObjectID =  objID;
-                        element.TerritoryObjectID =  currentObjectID;
-                    }catch(e){
-                        var errorText = 'Employee update error: ';
-                        this.errorHandling(request, e, errorText);
-                    }
-                }
-                //--------------------------CREATE------------------
-                if(element.ObjectID == null){
-                    try{
-                        var newTerrInst = {};
-                        newTerrInst.TerritoryId = element.SalesTerritory_ID;
-                        newTerrInst.EmployeeID = request.data.EmployeeIDExternal;
-                        newTerrInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
-                        newTerrInst.EndDate = END_DATE + "T00:00:00";
-                        newTerrInst.PartyRole = "46";                    
-                        var query = "/SalesTerritoryCollection?$filter=Id eq '" + element.SalesTerritory_ID + "'&$select=ObjectID";                       
-                        var terData = await service.tx(request).get(query);
-                        var currentObjectID = terData[0].ObjectID;
-                        var endPoint = "/SalesTerritoryCollection('" + currentObjectID + "')/SalesTerritoryTeam";
-                        var resTer = await service.tx(request).post(endPoint,newTerrInst);
-                        var uri = resTer.__metadata.uri;
-                        var index = uri.indexOf("(");
-                        var objID = uri.substr(index);     
+                        var objID = this.getObjectIDFromURI(resTer);     
                         element.ObjectID =  objID;
                         element.TerritoryObjectID =  currentObjectID;
                     }catch(e){
@@ -525,38 +454,20 @@ module.exports = function(service) {
                 this.errorHandling(request, e, errorText);
             }
             for (const element of request.data.To_Mappings) {               
-                //-------------------------UPDATE--------------------
-                if(element.IsUpdate && element.ObjectID != null){
+                //-------------------------CREATE/UPDATE--------------------
+                if((element.IsUpdate && element.ObjectID != null) || element.ObjectID == null){
                     try{
                         var newMappingInst = {};
                         newMappingInst.LocalObjectID = request.data.BusinessPartnerID;
                         newMappingInst.RemoteObjectID = element.RemoteObjectID;
                         newMappingInst.RemoteIdentifierDefiningSchemeCode = "3";
                         newMappingInst.RemoteBusinessSystemID = element.RemoteSystemID_ID;
-                        var path = "/ObjectIdentifierMappingCollection" + element.ObjectID;
-                        var resofDel = await service.tx(request).delete(path);                          
+                        if(element.ObjectID != null){
+                            var path = "/ObjectIdentifierMappingCollection" + element.ObjectID;
+                            var resofDel = await service.tx(request).delete(path);         
+                        }                 
                         var resObjMapping = await service.tx(request).post("/ObjectIdentifierMappingCollection",newMappingInst);       
-                        var uri = resObjMapping.__metadata.uri;
-                        var index = uri.indexOf("(");
-                        var objID = uri.substr(index);     
-                        element.ObjectID = objID; 
-                    }catch(e){
-                        var errorText = 'Employee update error: ';
-                        this.errorHandling(request, e, errorText);
-                    }
-                }
-                //--------------------------CREATE------------------
-                if(element.ObjectID == null){
-                    try{
-                        var newMappingInst = {};
-                        newMappingInst.LocalObjectID = request.data.BusinessPartnerID;
-                        newMappingInst.RemoteObjectID = element.RemoteObjectID;
-                        newMappingInst.RemoteIdentifierDefiningSchemeCode = "3";
-                        newMappingInst.RemoteBusinessSystemID = element.RemoteSystemID_ID;            
-                        var resObjMapping = await service.tx(request).post("/ObjectIdentifierMappingCollection",newMappingInst);       
-                        var uri = resObjMapping.__metadata.uri;
-                        var index = uri.indexOf("(");
-                        var objID = uri.substr(index);     
+                        var objID = this.getObjectIDFromURI(resObjMapping);     
                         element.ObjectID = objID; 
                     }catch(e){
                         var errorText = 'Employee update error: ';

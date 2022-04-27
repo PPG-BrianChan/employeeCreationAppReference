@@ -9,7 +9,7 @@ module.exports = cds.service.impl(async function() {
     const manageAPICallsInst = new manageAPICalls();
     cds.env.features.fetch_csrf = true;
 	const { EmpCreationForm, Job, OrgUnit, RoleCode, Roles, EmployeeUserPasswordPolicy, Country, Mapping, BusinessRoles, SalesResponsability, EmployeeOrgUnitAssigment,
-        SalesTerritoryCollection, Language, DistributionChanelCode, DivisionCode, SalesOrgs, RemoteSystem, Territories} = this.entities;
+        SalesTerritoryCollection, Language, DistributionChanelCode, DivisionCode, SalesOrgs, RemoteSystem, Territories, TargetSystem} = this.entities;
 	const service = await cds.connect.to('employeeanduser');
     const c4c_odata = await cds.connect.to('rolesAPI');
 

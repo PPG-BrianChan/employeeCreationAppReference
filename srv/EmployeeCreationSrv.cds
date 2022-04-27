@@ -39,6 +39,7 @@ service EmployeeCreationService// @(requires : ['EmployeeCreation_KBU', 'Tester'
     entity SalesOrgs as projection on employee.SalesOrgs;
     entity OrgUnit as projection on employee.OrgUnit;
     entity RemoteSystem as projection on employee.RemoteSystem;
+    entity TargetSystem as projection on employee.TargetSystem;
     entity Mapping as projection on employee.Mapping;
     entity BusinessRoles as projection on employee.BusinessRoles;
     entity EmployeeOrgUnitAssigment as projection on employee.EmployeeOrgUnitAssigment;
