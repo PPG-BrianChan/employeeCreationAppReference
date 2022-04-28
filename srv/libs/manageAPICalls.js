@@ -9,7 +9,7 @@ class ManageAPICalls {
     if(errorCode >= 400 && errorCode < 500){
         request.info(errorCode,errorText);
     }else if(errorCode >= 500){
-        request.info(errorCode,errorText);
+        request.reject(errorCode,errorText);
     }
   }
 
