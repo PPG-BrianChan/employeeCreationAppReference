@@ -34,7 +34,7 @@
     "requires": {
       "db": {
         "[development]": {
-          "kind": "hana"
+          "kind": "sql"
         },
         "[production]": {
           "kind": "hana",
