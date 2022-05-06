@@ -4,7 +4,7 @@ using { jobdefinition as extjob } from './external/jobdefinition.csn';
 using { organisationalunit as extunit } from './external/organisationalunit.csn';
 using { objectidentifiermapping as extmapping } from './external/objectidentifiermapping.csn';
 
-service EmployeeCreationService @(requires : ['EmployeeCreation_KBU', 'Tester'])
+service EmployeeCreationService //@(requires : ['EmployeeCreation_KBU', 'Tester'])
 {
     @Capabilities: {
         InsertRestrictions.Insertable: true,
@@ -34,6 +34,8 @@ service EmployeeCreationService @(requires : ['EmployeeCreation_KBU', 'Tester'])
     entity SalesTerritoryCollection as projection on employee.SalesTerritoryCollection;      
     @readonly   
     entity Roles as projection on employee.Roles;
+    @readonly   
+    entity SystemType as projection on employee.SystemType;
     @readonly
     entity OrgUnitRoles as projection on employee.EmployeeOrgaUnitAssignmentRoleCodeCollection;
     entity SalesOrgs as projection on employee.SalesOrgs;

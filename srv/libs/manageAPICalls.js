@@ -73,7 +73,7 @@ class ManageAPICalls {
     const salesResp = [];
     const orgAssigment = [];
     const today = new Date().toISOString().slice(0, 10);
-    const orgName = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
+   // const orgName = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
     if (request.data.ValidatyStartDate == null) {
       request.data.ValidatyStartDate = today;
     }
@@ -92,11 +92,11 @@ class ManageAPICalls {
       UserPasswordPolicyCode: request.data.UserPasswordPolicy_ID,
       UserLockedIndicator: false
     };
-    if ( orgName === "ClientLink-Dev_org") {
+ /*   if ( orgName === "ClientLink-Dev_org") {
         empInst.ZSalesRepElig_KUT = request.data.SalesReportingEligible; //update dev specific field
     } else {
         empInst.Z_SalesRepElig_KUT = request.data.SalesReportingEligible;
-    }
+    }*/
     if (request.data.UserPasswordPolicy_ID == null) {
       empInst.UserPasswordPolicyCode = 'S_BUSINESS_USER_WITHOUT_PASSWORD';
     }

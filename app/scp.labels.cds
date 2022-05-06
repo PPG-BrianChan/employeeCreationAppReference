@@ -19,6 +19,7 @@ annotate dm.EmpCreationForm with @title : '{i18n>EmpCreationForm}' {
     UserPassword                @title           : 'User Password';
     ValidatyEndDate             @title           : '{i18n>ValidatyEndDate}';
     ValidatyStartDate           @title           : '{i18n>ValidatyStartDate}';
+    System                      @title           : '{i18n>System}';
     Language                    @title           : '{i18n>Language}';
     Email                       @title           : '{i18n>Email}';
     Country                     @title           : '{i18n>Country}';

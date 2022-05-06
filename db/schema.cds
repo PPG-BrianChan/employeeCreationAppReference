@@ -18,7 +18,7 @@ entity EmpCreationForm : cuid, managed {
     SalesReportingEligible: Boolean;
     UserPassword : String;
     identifierBooleanPassword : TechnicalBooleanFlag default true;
-    Tenant : String;
+    key System : Association to SystemType;
     FirstName : String;
     LastName : String;
     Email : String;
@@ -120,6 +120,11 @@ entity SalesOrgs: cuid {
 };
 
 entity OrgUnit: cuid {
+    key Code : String;
+    Description : String;
+};
+
+entity SystemType {
     key Code : String;
     Description : String;
 };

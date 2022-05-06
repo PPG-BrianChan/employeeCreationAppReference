@@ -110,16 +110,28 @@ resources:
             URL: https://ui5.sap.com
             existing_destinations_policy: ignore
           - Authentication: BasicAuthentication
-            Name: EmployeeAndUser
+            Name: EmployeeAndUser_dev
             ProxyType: Internet
             Type: HTTP
             URL: https://my345039.crm.ondemand.com//sap/c4c/odata/v1/c4codataapi
             existing_destinations_policy: ignore
           - Authentication: BasicAuthentication
-            Name: c4c_odata
+            Name: c4c_odata_dev
             ProxyType: Internet
             Type: HTTP
             URL: https://my345039.crm.ondemand.com/sap/c4c/odata/ana_businessanalytics_analytics.svc
+            existing_destinations_policy: ignore
+          - Authentication: BasicAuthentication
+            Name: EmployeeAndUser_uat
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://my350470.crm.ondemand.com//sap/c4c/odata/v1/c4codataapi
+            existing_destinations_policy: ignore
+          - Authentication: BasicAuthentication
+            Name: c4c_odata_uat
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://my350470.crm.ondemand.com/sap/c4c/odata/ana_businessanalytics_analytics.svc
             existing_destinations_policy: ignore
           existing_destinations_policy: ignore
       version: 1.0.0

@@ -1,103 +1,117 @@
 {
-  "name": "employeecreationapp",
-  "version": "1.0.0",
-  "description": "A simple CAP project.",
-  "repository": "<Add your repository here>",
-  "license": "UNLICENSED",
-  "private": true,
-  "dependencies": {
-    "@sap/approuter": "^10.14.2",
-    "@sap/audit-logging": "^5.5.2",
-    "@sap/cds": ">=5.4.0",
-    "@sap/xsenv": "^3.2.1",
-    "@sap/xssec": "^3.2.13",
-    "express": "^4",
-    "hdb": "^0.18.3",
-    "jwt-decode": "^3.1.2",
-    "passport": "^0.5.2"
-  },
-  "devDependencies": {
-    "@sap/ux-specification": "^1.96.3",
-    "eslint": "^8.13.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "sqlite3": "^5.0.2"
-  },
-  "scripts": {
-    "start": "NODE_ENV=production cds run",
-    "watch-ui": "cds watch --open ui/webapp/index.html?sap-ui-xx-viewCache=false#fe-lrop-v4",
-    "undeploy": "cf undeploy EmployeeCreationApp --delete-services --delete-service-keys",
-    "lint:be": "eslint . --ext .js",
-    "lint:be:fix": "eslint . --ext .js --fix"
-  },
-  "cds": {
-    "requires": {
-      "db": {
-        "[development]": {
-          "kind": "sql"
-        },
-        "[production]": {
-          "kind": "hana",
-          "pool": {
-            "acquireTimeoutMillis": 10000
-          }
-        }
-      },
-      "uaa": {
-        "kind": "xsuaa"
-      },
-      "auth": {
-        "[development]": {
-          "strategy": "mock",
-          "users": {
-            "admin": {
-              "roles": [
-                "uaa.user",
-                "EmployeeCreation_KBU",
-                "Tester"
-              ]
+    "name": "employeecreationapp",
+    "version": "1.0.0",
+    "description": "A simple CAP project.",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+      "@sap/approuter": "^10.14.2",
+      "@sap/audit-logging": "^5.5.2",
+      "@sap/cds": ">=5.4.0",
+      "@sap/xsenv": "^3.2.1",
+      "@sap/xssec": "^3.2.13",
+      "express": "^4",
+      "hdb": "^0.18.3",
+      "jwt-decode": "^3.1.2",
+      "passport": "^0.5.2"
+    },
+    "devDependencies": {
+      "@sap/ux-specification": "^1.96.3",
+      "eslint": "^8.13.0",
+      "eslint-config-airbnb-base": "^15.0.0",
+      "eslint-plugin-import": "^2.26.0",
+      "sqlite3": "^5.0.2"
+    },
+    "scripts": {
+      "start": "NODE_ENV=production cds run",
+      "watch-ui": "cds watch --open ui/webapp/index.html?sap-ui-xx-viewCache=false#fe-lrop-v4",
+      "undeploy": "cf undeploy EmployeeCreationApp --delete-services --delete-service-keys",
+      "lint:be": "eslint . --ext .js",
+      "lint:be:fix": "eslint . --ext .js --fix"
+    },
+    "cds": {
+      "requires": {
+        "db": {
+          "[development]": {
+            "kind": "sql"
+          },
+          "[production]": {
+            "kind": "hana",
+            "pool": {
+              "acquireTimeoutMillis": 10000
             }
           }
         },
-        "[production]": {
-          "kind": "jwt-auth"
+        "uaa": {
+          "kind": "xsuaa"
+        },
+        "auth": {
+          "[development]": {
+            "strategy": "mock",
+            "users": {
+              "admin": {
+                "roles": [
+                  "uaa.user",
+                  "EmployeeCreation_KBU",
+                  "Tester"
+                ]
+              }
+            }
+          },
+          "[production]": {
+            "kind": "jwt-auth"
+          }
+        },
+        "employeeanduser_dev": {
+          "kind": "odata-v2",
+          "model": "srv/external/employeeanduser",
+          "credentials": {
+            "destination": "EmployeeAndUser_dev"
+          }
+        },
+        "employeeanduser_uat": {
+          "kind": "odata-v2",
+          "model": "srv/external/employeeanduser",
+          "credentials": {
+            "destination": "EmployeeAndUser_uat"
+          }
+        },
+        "jobdefinition": {
+          "kind": "odata-v2",
+          "model": "srv/external/jobdefinition"
+        },
+        "organisationalunit": {
+          "kind": "odata-v2",
+          "model": "srv/external/organisationalunit"
+        },
+        "rolesAPI_dev": {
+          "kind": "rest",
+          "credentials": {
+            "destination": "c4c_odata_dev"
+          }
+        },
+        "rolesAPI_uat": {
+          "kind": "rest",
+          "credentials": {
+            "destination": "c4c_odata_uat"
+          }
+        },
+        "objectidentifiermapping": {
+          "kind": "odata-v2",
+          "model": "srv/external/objectidentifiermapping"
+        },
+        "salesterritory": {
+          "kind": "odata-v2",
+          "model": "srv/external/salesterritory"
         }
       },
-      "employeeanduser": {
-        "kind": "odata-v2",
-        "model": "srv/external/employeeanduser",
-        "credentials": {
-          "destination": "EmployeeAndUser"
-        }
-      },
-      "jobdefinition": {
-        "kind": "odata-v2",
-        "model": "srv/external/jobdefinition"
-      },
-      "organisationalunit": {
-        "kind": "odata-v2",
-        "model": "srv/external/organisationalunit"
-      },
-      "rolesAPI": {
-        "kind": "rest",
-        "credentials": {
-          "destination": "c4c_odata"
-        }
-      },
-      "objectidentifiermapping": {
-        "kind": "odata-v2",
-        "model": "srv/external/objectidentifiermapping"
-      },
-      "salesterritory": {
-        "kind": "odata-v2",
-        "model": "srv/external/salesterritory"
+      "hana": {
+        "deploy-format": "hdbtable"
       }
     },
-    "hana": {
-      "deploy-format": "hdbtable"
-    }
-  },
-  "sapux": [
-    "app/ui"
-  ]
-}
+    "sapux": [
+      "app/ui"
+    ]
+  }
+  

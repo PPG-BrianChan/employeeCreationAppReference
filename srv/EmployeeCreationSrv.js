@@ -4,6 +4,8 @@ const { ManageAPICalls } = require('./libs/manageAPICalls');
 
 module.exports = cds.service.impl(async function () {
   cds.env.features.fetch_csrf = true;
+  service =  await cds.connect.to('employeeanduser_dev');
+        c4c_odata = await cds.connect.to('rolesAPI_dev');
   const {
     EmpCreationForm,
     Job,
@@ -22,10 +24,11 @@ module.exports = cds.service.impl(async function () {
     DivisionCode,
     SalesOrgs,
     RemoteSystem,
-    Territories
+    Territories,
+    SystemType
   } = this.entities;
-  const service = await cds.connect.to('employeeanduser');
-  const c4c_odata = await cds.connect.to('rolesAPI');
+  let service;
+  let c4c_odata;
 
   this.after('READ', EmpCreationForm, each => {
     if (each.EmployeeIDExternal != null) {
@@ -133,6 +136,21 @@ module.exports = cds.service.impl(async function () {
       return result;
     }
     return systemObj;
+  });
+
+  this.on('READ', SystemType, async request => {
+    const tenantObj = [
+      { Code: 'DEV', Description: 'DEV' },
+      { Code: 'UAT', Description: 'UAT' }
+    ];
+    let search = request._query.$search;
+    if (search != undefined) {
+      search = search.slice(1, search.length - 1);
+      const res = tenantObj;
+      const result = res.filter(element => element.Code.startsWith(search));
+      return result;
+    }
+    return tenantObj;
   });
 
   this.on('READ', Job, async request => {
@@ -250,6 +268,14 @@ module.exports = cds.service.impl(async function () {
   });
 
   this.before('NEW', EmpCreationForm, async request => {
+      if(request.data.System_Code == "DEV"){
+        service =  await cds.connect.to('employeeanduser_dev');
+        c4c_odata = await cds.connect.to('rolesAPI_dev');
+      }else if(request.data.System_Code == "UAT"){
+        service =  await cds.connect.to('employeeanduser_uat');
+        c4c_odata = await cds.connect.to('rolesAPI_uat');
+      }
+   /*   
     const token = request.headers.authorization;
     const decode = jwt_decode(token);
     request.data.Email = decode.email;
@@ -261,7 +287,7 @@ module.exports = cds.service.impl(async function () {
     } else {
       request.data.IsNotTesterUser = false;
       request.data.HideFirstPanel = true;
-    }
+    }*/
   });
 
   this.before('SAVE', EmpCreationForm, async request => {
