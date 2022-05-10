@@ -1,13 +1,12 @@
 namespace sap.employee;
 
-
-using { cuid, managed, temporal, sap } from '@sap/cds/common';
+using { cuid, managed, temporal, sap, sap.common.CodeList } from '@sap/cds/common';
 using { employeeanduser as external} from '../srv/external/employeeanduser.csn';
 using { jobdefinition as extjob } from '../srv/external/jobdefinition.csn';
 using { organisationalunit as extunit } from '../srv/external/organisationalunit.csn';
 using { salesterritory as extterritory } from '../srv/external/salesterritory.csn';
 
-entity EmpCreationForm : cuid, managed {
+entity EmpCreationForm : cuid, managed, SystemTypes {
     EmployeeUUID : String;
     EmployeeUUIDWithHyphen : String;
     BusinessPartnerID : String;
@@ -18,7 +17,8 @@ entity EmpCreationForm : cuid, managed {
     SalesReportingEligible: Boolean;
     UserPassword : String;
     identifierBooleanPassword : TechnicalBooleanFlag default true;
-    key System : Association to SystemType;
+ //   key System : Association to SystemType2;
+
     FirstName : String;
     LastName : String;
     Email : String;
@@ -182,3 +182,6 @@ entity TargetSystem {
     key ID : String;
     Description : String;
 }
+
+aspect SystemTypes : CodeList { @( Common : { Text : name, TextArrangement : #TextOnly } ) key code : String enum { DEV = 'DEV'; UAT = 'UAT'}};
+entity SystemType2: SystemTypes {};

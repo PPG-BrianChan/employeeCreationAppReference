@@ -4,8 +4,7 @@ const { ManageAPICalls } = require('./libs/manageAPICalls');
 
 module.exports = cds.service.impl(async function () {
   cds.env.features.fetch_csrf = true;
-  service =  await cds.connect.to('employeeanduser_dev');
-        c4c_odata = await cds.connect.to('rolesAPI_dev');
+
   const {
     EmpCreationForm,
     Job,
@@ -140,8 +139,8 @@ module.exports = cds.service.impl(async function () {
 
   this.on('READ', SystemType, async request => {
     const tenantObj = [
-      { Code: 'DEV', Description: 'DEV' },
-      { Code: 'UAT', Description: 'UAT' }
+      { code: 'DEV', name: 'DEV' },
+      { code: 'UAT', name: 'UAT' }
     ];
     let search = request._query.$search;
     if (search != undefined) {
@@ -268,11 +267,11 @@ module.exports = cds.service.impl(async function () {
   });
 
   this.before('NEW', EmpCreationForm, async request => {
-      if(request.data.System_Code == "DEV"){
+      if(request.data.code == "DEV"){
         service =  await cds.connect.to('employeeanduser_dev');
         c4c_odata = await cds.connect.to('rolesAPI_dev');
-      }else if(request.data.System_Code == "UAT"){
-        service =  await cds.connect.to('employeeanduser_uat');
+      }else if(request.data.code == "UAT"){
+     //   service =  await cds.connect.to('employeeanduser_uat');
         c4c_odata = await cds.connect.to('rolesAPI_uat');
       }
    /*   

@@ -75,13 +75,13 @@ annotate scp.EmpCreationForm {
                 ValueListProperty: 'Description'},
             ]
     };
-    System @Common.ValueListWithFixedValues : true;  
-    System @Common.ValueList: {
+    code @Common.ValueListWithFixedValues : true;  
+    code @Common.ValueList: {
         CollectionPath : 'SystemType',
         Parameters : [
             {   $Type: 'Common.ValueListParameterInOut',       
-                LocalDataProperty: System_Code, 
-                ValueListProperty: 'Code'}
+                LocalDataProperty: code, 
+                ValueListProperty: 'code'}
             ]
     };
 };

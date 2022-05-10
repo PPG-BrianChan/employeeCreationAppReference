@@ -35,7 +35,8 @@ service EmployeeCreationService //@(requires : ['EmployeeCreation_KBU', 'Tester'
     @readonly   
     entity Roles as projection on employee.Roles;
     @readonly   
-    entity SystemType as projection on employee.SystemType;
+ //   entity SystemType as projection on employee.SystemType;
+    entity SystemType as projection on employee.SystemType2;
     @readonly
     entity OrgUnitRoles as projection on employee.EmployeeOrgaUnitAssignmentRoleCodeCollection;
     entity SalesOrgs as projection on employee.SalesOrgs;
