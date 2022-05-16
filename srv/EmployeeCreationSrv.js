@@ -28,7 +28,7 @@ module.exports = cds.service.impl(async function () {
   } = this.entities;
   let service;
   let c4c_odata;
-
+  
   this.after('READ', EmpCreationForm, each => {
     if (each.EmployeeIDExternal != null) {
       if (each.UserLocked) {
@@ -78,19 +78,21 @@ module.exports = cds.service.impl(async function () {
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = await service.tx(request).run(request.query);
-      const result = res.filter(element => element.ID.startsWith(search));
+      const result = res.filter(element => element.Id.startsWith(search));
       return result;
     }
     return service.tx(request).run(request.query);
   });
 
   this.on('READ', EmployeeUserPasswordPolicy, async request => {
-    let search = request._query.$search;
-    if (search != undefined) {
-      search = search.slice(1, search.length - 1);
-      const res = await service.tx(request).run(request.query);
-      const result = res.filter(element => element.ID.startsWith(search));
-      return result;
+    if(request._query){
+        let search = request._query.$search;
+        if (search) {
+        search = search.slice(1, search.length - 1);
+        const res = await service.tx(request).run(request.query);
+        const result = res.filter(element => element.Code.startsWith(search));
+        return result;
+        }
     }
     return service.tx(request).run(request.query);
   });
@@ -100,7 +102,7 @@ module.exports = cds.service.impl(async function () {
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = await service.tx(request).run(request.query);
-      const result = res.filter(element => element.ID.startsWith(search));
+      const result = res.filter(element => element.Code.startsWith(search));
       return result;
     }
     return service.tx(request).run(request.query);
@@ -111,7 +113,7 @@ module.exports = cds.service.impl(async function () {
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = await service.tx(request).run(request.query);
-      const result = res.filter(element => element.ID.startsWith(search));
+      const result = res.filter(element => element.Code.startsWith(search));
       return result;
     }
     return service.tx(request).run(request.query);
@@ -157,7 +159,7 @@ module.exports = cds.service.impl(async function () {
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = await service.tx(request).run(request.query);
-      const result = res.filter(element => element.ID.startsWith(search));
+      const result = res.filter(element => element.JobID.startsWith(search));
       return result;
     }
     return service.tx(request).run(request.query);
@@ -225,7 +227,7 @@ module.exports = cds.service.impl(async function () {
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = await service.tx(request).run(request.query);
-      const result = res.filter(element => element.ID.startsWith(search));
+      const result = res.filter(element => element.Code.startsWith(search));
       return result;
     }
     return service.tx(request).run(request.query);
@@ -236,7 +238,7 @@ module.exports = cds.service.impl(async function () {
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = await service.tx(request).run(request.query);
-      const result = res.filter(element => element.ID.startsWith(search));
+      const result = res.filter(element => element.Code.startsWith(search));
       return result;
     }
     return service.tx(request).run(request.query);
@@ -271,10 +273,11 @@ module.exports = cds.service.impl(async function () {
         service =  await cds.connect.to('employeeanduser_dev');
         c4c_odata = await cds.connect.to('rolesAPI_dev');
       }else if(request.data.code == "UAT"){
-     //   service =  await cds.connect.to('employeeanduser_uat');
+        service =  await cds.connect.to('employeeanduser_uat');
         c4c_odata = await cds.connect.to('rolesAPI_uat');
-      }
-   /*   
+      }  
+
+      
     const token = request.headers.authorization;
     const decode = jwt_decode(token);
     request.data.Email = decode.email;
@@ -286,7 +289,7 @@ module.exports = cds.service.impl(async function () {
     } else {
       request.data.IsNotTesterUser = false;
       request.data.HideFirstPanel = true;
-    }*/
+    }
   });
 
   this.before('SAVE', EmpCreationForm, async request => {
@@ -376,11 +379,12 @@ module.exports = cds.service.impl(async function () {
   });
 
   this.before('PATCH', EmpCreationForm, async (req, next) => {
-    if ('UserPasswordPolicy_ID' in req.data) {
-      const { UserPasswordPolicy_ID } = req.data;
+      req.data.refreshCodeList = false;
+    if ('UserPasswordPolicy_Code' in req.data) {
+      const { UserPasswordPolicy_Code } = req.data;
       let identifierBoolean = true;
       const password = '';
-      if (UserPasswordPolicy_ID === 'S_BUSINESS_USER') {
+      if (UserPasswordPolicy_Code === 'S_BUSINESS_USER') {
         identifierBoolean = false;
       } else {
         identifierBoolean = true;

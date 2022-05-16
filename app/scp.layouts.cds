@@ -35,7 +35,7 @@ annotate scp.EmpCreationForm with @UI : {
         UserLogin,
         'To_BusinessRoles/Role_CROOT_ID_CONTENT',
         'To_OrgUnits/UnitID_ID',
-        'To_OrgUnits/JobID_ID',
+        'To_OrgUnits/JobID_JobID',
         'To_SalesResponsobilities/SalesOrgID_Code',
         createdAt,
         createdBy
@@ -134,10 +134,10 @@ annotate scp.EmpCreationForm with @UI : {
             {   $Type : 'UI.DataField', Value : LastName                       },
             {   $Type : 'UI.DataField', Value : Email ,                        },
             {   $Type : 'UI.DataField', Value : MobilePhone                    },
-            {   $Type : 'UI.DataField', Value : Country_ID                     },
-            {   $Type : 'UI.DataField', Value : Language_ID                    },
+            {   $Type : 'UI.DataField', Value : Country_Code                     },
+            {   $Type : 'UI.DataField', Value : Language_Code                    },
             {   $Type : 'UI.DataField', Value : ValidatyStartDate              },
-            {   $Type : 'UI.DataField', Value : UserPasswordPolicy_ID          },
+            {   $Type : 'UI.DataField', Value : UserPasswordPolicy_Code          },
             {   $Type : 'UI.DataField', Value : SalesReportingEligible                     },
                         {
                 $Type         : 'UI.DataField',
@@ -155,10 +155,10 @@ annotate scp.EmpCreationForm with @UI : {
             {   $Type : 'UI.DataField', Value : LastName   ,  ![@Common.FieldControl] : #ReadOnly    },
             {   $Type : 'UI.DataField', Value : Email     ,  ![@Common.FieldControl] : #ReadOnly    },
             {   $Type : 'UI.DataField', Value : MobilePhone  ,  ![@Common.FieldControl] : #ReadOnly    },
-            {   $Type : 'UI.DataField', Value : Country_ID        ,  ![@Common.FieldControl] : #ReadOnly    },
-            {   $Type : 'UI.DataField', Value : Language_ID           ,  ![@Common.FieldControl] : #ReadOnly    },
+            {   $Type : 'UI.DataField', Value : Country_Code        ,  ![@Common.FieldControl] : #ReadOnly    },
+            {   $Type : 'UI.DataField', Value : Language_Code           ,  ![@Common.FieldControl] : #ReadOnly    },
             {   $Type : 'UI.DataField', Value : ValidatyStartDate           ,  ![@Common.FieldControl] : #ReadOnly    },
-            {   $Type : 'UI.DataField', Value : UserPasswordPolicy_ID       ,  ![@Common.FieldControl] : #ReadOnly    },
+            {   $Type : 'UI.DataField', Value : UserPasswordPolicy_Code       ,  ![@Common.FieldControl] : #ReadOnly    },
              {   $Type : 'UI.DataField', Value : SalesReportingEligible,  ![@Common.FieldControl] : #ReadOnly  },
             {
                 $Type         : 'UI.DataField',
@@ -177,10 +177,10 @@ annotate scp.EmpCreationForm with @UI : {
             {   $Type : 'UI.DataField', Value : LastName        ,![@Common.FieldControl] : #ReadOnly               },
             {   $Type : 'UI.DataField', Value : Email ,          ![@Common.FieldControl] : #ReadOnly              },
             {   $Type : 'UI.DataField', Value : MobilePhone                    },
-            {   $Type : 'UI.DataField', Value : Country_ID                     },
-            {   $Type : 'UI.DataField', Value : Language_ID                    },
+            {   $Type : 'UI.DataField', Value : Country_Code                     },
+            {   $Type : 'UI.DataField', Value : Language_Code                    },
             {   $Type : 'UI.DataField', Value : ValidatyStartDate              },
-            {   $Type : 'UI.DataField', Value : UserPasswordPolicy_ID          },
+            {   $Type : 'UI.DataField', Value : UserPasswordPolicy_Code          },
              {   $Type : 'UI.DataField', Value : SalesReportingEligible        },
                         {
                 $Type         : 'UI.DataField',
@@ -216,7 +216,7 @@ annotate scp.EmployeeOrgUnitAssigment with @(
         },
         {
             $Type : 'UI.DataField',
-            Value : JobID_ID,
+            Value : JobID_JobID,
             Label : '{i18n>JobID}',
         },
         {
@@ -234,11 +234,11 @@ annotate scp.SalesResponsability with @(
             Label : '{i18n>SalesOrgID}',
         },{
             $Type : 'UI.DataField',
-            Value : DistributionChanelCode_ID,
+            Value : DistributionChanelCode_Code,
             Label : '{i18n>DistributionChanelCode}',
         },{
             $Type : 'UI.DataField',
-            Value : DivisionCode_ID,
+            Value : DivisionCode_Code,
             Label : '{i18n>DivisionCode}',
         },{
             $Type : 'UI.DataField',
@@ -250,7 +250,7 @@ annotate scp.Territories with @(
     UI.LineItem #i18nTerritories : [
         {
             $Type : 'UI.DataField',
-            Value : SalesTerritory_ID,
+            Value : SalesTerritory_Id,
             Label : '{i18n>SalesTerritory}',
         }]
 );
@@ -284,9 +284,18 @@ annotate scp.Mapping with {
 
 annotate scp.EmpCreationForm with @Common : {SideEffects #PasswordSodeEffects : {
     $Type            : 'Common.SideEffectsType',
-    SourceProperties : [UserPasswordPolicy_ID],
+    SourceProperties : [UserPasswordPolicy_Code],
     TargetProperties : [
         'identifierBooleanPassword',
         'UserPassword'
     ]
+}};
+
+annotate scp.EmpCreationForm with @Common : {SideEffects #PasswordSodeEffectrs : {
+    $Type            : 'Common.SideEffectsType',
+    SourceProperties : [UserLogin],
+    TargetEntities : [
+        'To_OrgUnits'
+    ]
+
 }};

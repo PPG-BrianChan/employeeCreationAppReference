@@ -23,11 +23,11 @@ entity EmpCreationForm : cuid, managed, SystemTypes {
     LastName : String;
     Email : String;
     MobilePhone : String;
-    Country : Association to EmployeeCountryCodeCollection;
-    Language : Association to EmployeeLanguageCodeCollection;
+    Country : Association to one EmployeeCountryCodeCollection;
+    Language : Association to one EmployeeLanguageCodeCollection;
     ValidatyStartDate : Date;
     ValidatyEndDate : Date;
-    UserPasswordPolicy : Association to EmployeeUserPasswordPolicyCodeCollection;
+    UserPasswordPolicy : Association to one EmployeeUserPasswordPolicyCodeCollection;
     To_OrgUnits : Composition of many EmployeeOrgUnitAssigment on To_OrgUnits.To_CreationForm = $self;
     To_SalesResponsobilities : Composition of many SalesResponsability on To_SalesResponsobilities.To_CreationForm = $self;
     To_BusinessRoles : Composition of many BusinessRoles on To_BusinessRoles.To_CreationForm = $self;
@@ -36,6 +36,7 @@ entity EmpCreationForm : cuid, managed, SystemTypes {
 
     virtual blockBtnEnabled : Boolean default false;
     virtual unblockBtnEnabled : Boolean default false;
+    refreshCodeList : Boolean;
     HideFirstPanel : Boolean;
     HideSecondPanel : Boolean default true;
     IsNotTesterUser : Boolean;
@@ -87,19 +88,25 @@ entity Mapping:cuid {
 
 
 entity EmployeeLanguageCodeCollection as projection on external.EmployeeLanguageCodeCollection{
-    key Code as ID, Description
+    key Code, Description
 };
 
 entity EmployeeCountryCodeCollection as projection on external.EmployeeCountryCodeCollection {
-    key Code as ID, Description
+    key Code, Description
 };
-
+/*
 entity EmployeeUserPasswordPolicyCodeCollection as projection on external.EmployeeUserPasswordPolicyCodeCollection {
-    key Code as ID, Description
-};
+    key Code, Description
+};*/
+
+
+entity EmployeeUserPasswordPolicyCodeCollection {
+    key Code : String;
+    Description : String
+}
 
 entity JobDefinitionCollection as projection on extjob.JobDefinitionCollection {
-    key JobID as ID, JobName as Description
+    key JobID, JobName
 };
 /*
 entity OrganisationalUnitNameAndAddressCollection as projection on extunit.OrganisationalUnitNameAndAddressCollection {
@@ -151,15 +158,15 @@ entity EmployeeOrgaUnitAssignmentRoleCodeCollection {
 };
 
 entity OrganisationalUnitDistributionChannelAndDivisionDistributionChannelCodeCollection as projection on extunit.OrganisationalUnitDistributionChannelAndDivisionDistributionChannelCodeCollection {
-    key Code as ID, Description
+    key Code, Description
 };
 
 entity OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection as projection on extunit.OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection {
-    key Code as ID, Description
+    key Code, Description
 };
 
 entity SalesTerritoryCollection as projection on extterritory.SalesTerritoryCollection {
-    key Id as ID, Name as Description
+    key Id, Name
 }
 
 entity Roles {
