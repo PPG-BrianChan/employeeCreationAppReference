@@ -6,7 +6,8 @@ using { jobdefinition as extjob } from '../srv/external/jobdefinition.csn';
 using { organisationalunit as extunit } from '../srv/external/organisationalunit.csn';
 using { salesterritory as extterritory } from '../srv/external/salesterritory.csn';
 
-entity EmpCreationForm : cuid, managed, SystemTypes {
+entity EmpCreationForm : cuid, managed {
+    System: String;
     EmployeeUUID : String;
     EmployeeUUIDWithHyphen : String;
     BusinessPartnerID : String;
@@ -17,8 +18,6 @@ entity EmpCreationForm : cuid, managed, SystemTypes {
     SalesReportingEligible: Boolean;
     UserPassword : String;
     identifierBooleanPassword : TechnicalBooleanFlag default true;
- //   key System : Association to SystemType2;
-
     FirstName : String;
     LastName : String;
     Email : String;
@@ -131,12 +130,6 @@ entity OrgUnit: cuid {
     Description : String;
 };
 
-entity SystemType {
-    key Code : String;
-    Description : String;
-};
-
-
 entity OrganisationalUnitNameAndAddressCollection as projection on extunit.OrganisationalUnitNameAndAddressCollection {
     OrganisationalUnitID,
     Name
@@ -189,6 +182,3 @@ entity TargetSystem {
     key ID : String;
     Description : String;
 }
-
-aspect SystemTypes : CodeList { @( Common : { Text : name, TextArrangement : #TextOnly } ) key code : String enum { DEV = 'DEV'; UAT = 'UAT'}};
-entity SystemType2: SystemTypes {};
