@@ -262,6 +262,8 @@ module.exports = cds.service.impl(async function () {
       request.data.IsNotTesterUser = false;
       request.data.HideFirstPanel = true;
     }
+    const today = new Date().toISOString().slice(0, 10);
+    request.data.ValidatyStartDate = today;
   });
 
   this.before('SAVE', EmpCreationForm, async request => {
