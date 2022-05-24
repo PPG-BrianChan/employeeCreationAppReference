@@ -425,11 +425,17 @@ module.exports = cds.service.impl(async function () {
 
   async function setSystem(system) {
     if (system === 'ac') {
-      service = await cds.connect.to('employeeanduser_dev');
-      c4c_odata = await cds.connect.to('rolesAPI_dev');
+      service = await cds.connect.to('c4c_user_ac');
+      c4c_odata = await cds.connect.to('c4c_odata_ac');
     } else if (system === 'auto') {
-      service = await cds.connect.to('employeeanduser_uat');
-      c4c_odata = await cds.connect.to('rolesAPI_uat');
+      service = await cds.connect.to('c4c_user_auto');
+      c4c_odata = await cds.connect.to('c4c_odata_auto');
+    } else if (system === 'aerospace') {
+      service = await cds.connect.to('c4c_user_aerospace');
+      c4c_odata = await cds.connect.to('c4c_odata_aerospace');
+    } else {
+      service = await cds.connect.to('c4c_user_ac');
+      c4c_odata = await cds.connect.to('c4c_odata_ac');
     }
   }
 });
