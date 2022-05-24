@@ -24,23 +24,25 @@
     "sqlite3": "^5.0.2"
   },
   "scripts": {
-    "start": "NODE_ENV=production cds run",
+    "start": "cds run",
     "watch-ui": "cds watch --open ui/webapp/index.html?sap-ui-xx-viewCache=false#fe-lrop-v4",
     "undeploy": "cf undeploy EmployeeCreationApp --delete-services --delete-service-keys",
     "lint:be": "eslint . --ext .js",
-    "lint:be:fix": "eslint . --ext .js --fix"
+    "lint:be:fix": "eslint . --ext .js --fix",
+    "build": "cds build",
+    "deploy": "cds deploy"
   },
   "cds": {
     "requires": {
       "db": {
         "[development]": {
-          "kind": "sql"
+          "kind": "sqlite",
+          "credentials": {
+            "database": "sqlite.db"
+          }
         },
         "[production]": {
-          "kind": "hana",
-          "pool": {
-            "acquireTimeoutMillis": 10000
-          }
+          "kind": "hana"
         }
       },
       "uaa": {
@@ -63,13 +65,6 @@
           "kind": "jwt-auth"
         }
       },
-      "employeeanduser": {
-        "kind": "odata-v2",
-        "model": "srv/external/employeeanduser",
-        "credentials": {
-          "destination": "EmployeeAndUser"
-        }
-      },
       "jobdefinition": {
         "kind": "odata-v2",
         "model": "srv/external/jobdefinition"
@@ -78,10 +73,40 @@
         "kind": "odata-v2",
         "model": "srv/external/organisationalunit"
       },
-      "rolesAPI": {
+      "c4c_user_ac": {
+        "kind": "odata-v2",
+        "credentials": {
+          "destination": "c4c_user_ac"
+        }
+      },
+      "c4c_odata_ac": {
         "kind": "rest",
         "credentials": {
-          "destination": "c4c_odata"
+          "destination": "c4c_odata_ac"
+        }
+      },
+      "c4c_user_auto": {
+        "kind": "odata-v2",
+        "credentials": {
+          "destination": "c4c_user_auto"
+        }
+      },
+      "c4c_odata_auto": {
+        "kind": "rest",
+        "credentials": {
+          "destination": "c4c_odata_auto"
+        }
+      },
+      "c4c_user_aerospace": {
+        "kind": "odata-v2",
+        "credentials": {
+          "destination": "c4c_user_aerospace"
+        }
+      },
+      "c4c_odata_aerospace": {
+        "kind": "rest",
+        "credentials": {
+          "destination": "c4c_odata_aerospace"
         }
       },
       "objectidentifiermapping": {

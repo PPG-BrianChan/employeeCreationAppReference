@@ -47,8 +47,8 @@ annotate scp.EmpCreationForm {
         CollectionPath : 'Language',
         Parameters : [
             {   $Type: 'Common.ValueListParameterInOut',       
-                LocalDataProperty: Language_ID, 
-                ValueListProperty: 'ID'},  
+                LocalDataProperty: Language_Code, 
+                ValueListProperty: 'Code'},  
             {   $Type: 'Common.ValueListParameterDisplayOnly', 
                 ValueListProperty: 'Description'},
             ]
@@ -58,8 +58,8 @@ annotate scp.EmpCreationForm {
         CollectionPath : 'Country',
         Parameters : [
             {   $Type: 'Common.ValueListParameterInOut',       
-                LocalDataProperty: Country_ID, 
-                ValueListProperty: 'ID'},  
+                LocalDataProperty: Country_Code, 
+                ValueListProperty: 'Code'},  
             {   $Type: 'Common.ValueListParameterDisplayOnly', 
                 ValueListProperty: 'Description'},
             ]
@@ -69,10 +69,19 @@ annotate scp.EmpCreationForm {
         CollectionPath : 'EmployeeUserPasswordPolicy',
         Parameters : [
             {   $Type: 'Common.ValueListParameterInOut',       
-                LocalDataProperty: UserPasswordPolicy_ID, 
-                ValueListProperty: 'ID'},  
+                LocalDataProperty: UserPasswordPolicy_Code, 
+                ValueListProperty: 'Code'},  
             {   $Type: 'Common.ValueListParameterDisplayOnly', 
                 ValueListProperty: 'Description'},
+            ]
+    };
+    code @Common.ValueListWithFixedValues : true;  
+    code @Common.ValueList: {
+        CollectionPath : 'SystemType',
+        Parameters : [
+            {   $Type: 'Common.ValueListParameterInOut',       
+                LocalDataProperty: code, 
+                ValueListProperty: 'code'}
             ]
     };
 };
@@ -84,10 +93,10 @@ annotate scp.EmployeeOrgUnitAssigment {
         CollectionPath : 'Job',
         Parameters : [
             {   $Type: 'Common.ValueListParameterInOut',       
-                LocalDataProperty: JobID_ID, 
-                ValueListProperty: 'ID'},  
+                LocalDataProperty: JobID_JobID, 
+                ValueListProperty: 'JobID'},  
             {   $Type: 'Common.ValueListParameterDisplayOnly', 
-                ValueListProperty: 'Description'},
+                ValueListProperty: 'JobName'},
             ]
     };/*
     RoleCode @Common.ValueListWithFixedValues : true;  
@@ -120,8 +129,8 @@ annotate scp.SalesResponsability with {
         CollectionPath : 'DistributionChanelCode',
         Parameters : [
             {   $Type: 'Common.ValueListParameterInOut',       
-                LocalDataProperty: DistributionChanelCode_ID, 
-                ValueListProperty: 'ID'},  
+                LocalDataProperty: DistributionChanelCode_Code, 
+                ValueListProperty: 'Code'},  
             {   $Type: 'Common.ValueListParameterDisplayOnly', 
                 ValueListProperty: 'Description'},
             ]
@@ -131,8 +140,8 @@ annotate scp.SalesResponsability with {
         CollectionPath : 'DivisionCode',
         Parameters : [
             {   $Type: 'Common.ValueListParameterInOut',       
-                LocalDataProperty: DivisionCode_ID, 
-                ValueListProperty: 'ID'},  
+                LocalDataProperty: DivisionCode_Code, 
+                ValueListProperty: 'Code'},  
             {   $Type: 'Common.ValueListParameterDisplayOnly', 
                 ValueListProperty: 'Description'},
             ]
@@ -161,10 +170,10 @@ annotate scp.Territories with {
         CollectionPath : 'SalesTerritoryCollection',
         Parameters : [
             {   $Type: 'Common.ValueListParameterInOut',       
-                LocalDataProperty: SalesTerritory_ID, 
-                ValueListProperty: 'ID'},  
+                LocalDataProperty: SalesTerritory_Id, 
+                ValueListProperty: 'Id'},  
             {   $Type: 'Common.ValueListParameterDisplayOnly', 
-                ValueListProperty: 'Description'},
+                ValueListProperty: 'Name'},
             ]
     };
 };

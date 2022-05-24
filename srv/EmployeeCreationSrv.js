@@ -4,6 +4,10 @@ const { ManageAPICalls } = require('./libs/manageAPICalls');
 
 module.exports = cds.service.impl(async function () {
   cds.env.features.fetch_csrf = true;
+
+  let service = null;
+  let c4c_odata = null;
+
   const {
     EmpCreationForm,
     Job,
@@ -24,8 +28,6 @@ module.exports = cds.service.impl(async function () {
     RemoteSystem,
     Territories
   } = this.entities;
-  const service = await cds.connect.to('employeeanduser');
-  const c4c_odata = await cds.connect.to('rolesAPI');
 
   this.after('READ', EmpCreationForm, each => {
     if (each.EmployeeIDExternal != null) {
@@ -76,19 +78,21 @@ module.exports = cds.service.impl(async function () {
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = await service.tx(request).run(request.query);
-      const result = res.filter(element => element.ID.startsWith(search));
+      const result = res.filter(element => element.Id.startsWith(search));
       return result;
     }
     return service.tx(request).run(request.query);
   });
 
   this.on('READ', EmployeeUserPasswordPolicy, async request => {
-    let search = request._query.$search;
-    if (search != undefined) {
-      search = search.slice(1, search.length - 1);
-      const res = await service.tx(request).run(request.query);
-      const result = res.filter(element => element.ID.startsWith(search));
-      return result;
+    if (request._query) {
+      let search = request._query.$search;
+      if (search) {
+        search = search.slice(1, search.length - 1);
+        const res = await service.tx(request).run(request.query);
+        const result = res.filter(element => element.Code.startsWith(search));
+        return result;
+      }
     }
     return service.tx(request).run(request.query);
   });
@@ -98,7 +102,7 @@ module.exports = cds.service.impl(async function () {
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = await service.tx(request).run(request.query);
-      const result = res.filter(element => element.ID.startsWith(search));
+      const result = res.filter(element => element.Code.startsWith(search));
       return result;
     }
     return service.tx(request).run(request.query);
@@ -109,7 +113,7 @@ module.exports = cds.service.impl(async function () {
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = await service.tx(request).run(request.query);
-      const result = res.filter(element => element.ID.startsWith(search));
+      const result = res.filter(element => element.Code.startsWith(search));
       return result;
     }
     return service.tx(request).run(request.query);
@@ -135,12 +139,27 @@ module.exports = cds.service.impl(async function () {
     return systemObj;
   });
 
+  // this.on('READ', SystemType, async request => {
+  //   const tenantObj = [
+  //     { code: 'DEV', name: 'DEV' },
+  //     { code: 'UAT', name: 'UAT' }
+  //   ];
+  //   let search = request._query.$search;
+  //   if (search != undefined) {
+  //     search = search.slice(1, search.length - 1);
+  //     const res = tenantObj;
+  //     const result = res.filter(element => element.Code.startsWith(search));
+  //     return result;
+  //   }
+  //   return tenantObj;
+  // });
+
   this.on('READ', Job, async request => {
     let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = await service.tx(request).run(request.query);
-      const result = res.filter(element => element.ID.startsWith(search));
+      const result = res.filter(element => element.JobID.startsWith(search));
       return result;
     }
     return service.tx(request).run(request.query);
@@ -208,7 +227,7 @@ module.exports = cds.service.impl(async function () {
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = await service.tx(request).run(request.query);
-      const result = res.filter(element => element.ID.startsWith(search));
+      const result = res.filter(element => element.Code.startsWith(search));
       return result;
     }
     return service.tx(request).run(request.query);
@@ -219,7 +238,7 @@ module.exports = cds.service.impl(async function () {
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = await service.tx(request).run(request.query);
-      const result = res.filter(element => element.ID.startsWith(search));
+      const result = res.filter(element => element.Code.startsWith(search));
       return result;
     }
     return service.tx(request).run(request.query);
@@ -251,10 +270,19 @@ module.exports = cds.service.impl(async function () {
 
   this.before('NEW', EmpCreationForm, async request => {
     const token = request.headers.authorization;
-    const decode = jwt_decode(token);
-    request.data.Email = decode.email;
-    request.data.FirstName = decode.given_name;
-    request.data.LastName = decode.family_name;
+
+    let decode = null;
+
+    try {
+      decode = jwt_decode(token);
+    } catch (error) {
+      decode = null;
+    }
+
+    request.data.Email = decode ? decode.email : 'unknown';
+    request.data.FirstName = decode ? decode.given_name : 'unknown';
+    request.data.LastName = decode ? decode.family_name : 'unknown';
+
     if (request.user.is('Tester')) {
       request.data.HideFirstPanel = false;
       request.data.IsNotTesterUser = true;
@@ -338,11 +366,9 @@ module.exports = cds.service.impl(async function () {
 
   this.before('NEW', Mapping, async req => {
     const tx = cds.tx();
-    const selectEmployeeCreationFormDraftQuery = SELECT.one
-      .from(EmpCreationForm.drafts)
-      .where({ 
-        ID: req.data.To_CreationForm_ID 
-      });
+    const selectEmployeeCreationFormDraftQuery = SELECT.one.from(EmpCreationForm.drafts).where({
+      ID: req.data.To_CreationForm_ID
+    });
     const employeeFormDraft = await tx.run(selectEmployeeCreationFormDraftQuery);
 
     req.data.RemoteObjectID = employeeFormDraft.UserLogin;
@@ -352,12 +378,18 @@ module.exports = cds.service.impl(async function () {
     request.data.IsUpdate = true;
   });
 
-  this.before('PATCH', EmpCreationForm, async (req, next) => {
-    if ('UserPasswordPolicy_ID' in req.data) {
-      const { UserPasswordPolicy_ID } = req.data;
+  this.before('PATCH', EmpCreationForm, async req => {
+    req.data.refreshCodeList = false;
+
+    if ('System' in req.data && req.data.System) {
+      setSystem(req.data.System);
+    }
+
+    if ('UserPasswordPolicy_Code' in req.data) {
+      const { UserPasswordPolicy_Code } = req.data;
       let identifierBoolean = true;
       const password = '';
-      if (UserPasswordPolicy_ID === 'S_BUSINESS_USER') {
+      if (UserPasswordPolicy_Code === 'S_BUSINESS_USER') {
         identifierBoolean = false;
       } else {
         identifierBoolean = true;
@@ -366,31 +398,46 @@ module.exports = cds.service.impl(async function () {
       req.data.UserPassword = password;
     }
 
-    const tx = cds.tx();
+    if ('UserLogin' in req.data) {
+      const tx = cds.tx();
     
-    const selectMappingsQuery = SELECT
-      .from(Mapping.drafts)
-      .where({
-      To_CreationForm_ID: req.data.ID
-    });
-    const mappings = await tx.run(selectMappingsQuery);
-
-    if (mappings.length > 0) {
-      const updateRemoteObjectIDQuery = UPDATE(Mapping.drafts)
-        .set({
-          RemoteObjectID: req.data.UserLogin
-        })
-        .where({
-          To_CreationForm_ID: req.data.ID
-        });
-      
-      try {
-        await tx.run(updateRemoteObjectIDQuery);
-        await tx.commit();
-      } catch (error) {
-        await tx.rollback(error);
-      }        
-
+      const selectMappingsQuery = SELECT.from(Mapping.drafts).where({
+        To_CreationForm_ID: req.data.ID
+      });
+      const mappings = await tx.run(selectMappingsQuery);
+  
+      if (mappings.length > 0) {
+        const updateRemoteObjectIDQuery = UPDATE(Mapping.drafts)
+          .set({
+            RemoteObjectID: req.data.UserLogin
+          })
+          .where({
+            To_CreationForm_ID: req.data.ID
+          });
+  
+        try {
+          await tx.run(updateRemoteObjectIDQuery);
+          await tx.commit();
+        } catch (error) {
+          await tx.rollback(error);
+        }
+      }
     }
   });
+
+  async function setSystem(system) {
+    if (system === 'ac') {
+      service = await cds.connect.to('c4c_user_ac');
+      c4c_odata = await cds.connect.to('c4c_odata_ac');
+    } else if (system === 'auto') {
+      service = await cds.connect.to('c4c_user_auto');
+      c4c_odata = await cds.connect.to('c4c_odata_auto');
+    } else if (system === 'aerospace') {
+      service = await cds.connect.to('c4c_user_aerospace');
+      c4c_odata = await cds.connect.to('c4c_odata_aerospace');
+    } else {
+      service = await cds.connect.to('c4c_user_ac');
+      c4c_odata = await cds.connect.to('c4c_odata_ac');
+    }
+  }
 });

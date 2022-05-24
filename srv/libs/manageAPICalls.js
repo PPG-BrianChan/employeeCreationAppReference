@@ -83,13 +83,13 @@ class ManageAPICalls {
       EmployeeValidityEndDate: `${END_DATE}T00:00:00`,
       FirstName: request.data.FirstName,
       LastName: request.data.LastName,
-      LanguageCode: request.data.Language_ID,
-      CountryCode: request.data.Country_ID,
+      LanguageCode: request.data.Language_Code,
+      CountryCode: request.data.Country_Code,
       MobilePhoneNumber: request.data.MobilePhone,
       UserValidityStartDate: `${request.data.ValidatyStartDate}T00:00:00`,
       UserValidityEndDate: `${END_DATE}T00:00:00`,
       Email: request.data.Email,
-      UserPasswordPolicyCode: request.data.UserPasswordPolicy_ID,
+      UserPasswordPolicyCode: request.data.UserPasswordPolicy_Code,
       UserLockedIndicator: false
     };
     if ( orgName === "ClientLink-Dev_org") {
@@ -97,7 +97,7 @@ class ManageAPICalls {
     } else {
         empInst.Z_SalesRepElig_KUT = request.data.SalesReportingEligible;
     }
-    if (request.data.UserPasswordPolicy_ID == null) {
+    if (request.data.UserPasswordPolicy_Code == null) {
       empInst.UserPasswordPolicyCode = 'S_BUSINESS_USER_WITHOUT_PASSWORD';
     }
     let arr = request.data.To_BusinessRoles;
@@ -116,7 +116,7 @@ class ManageAPICalls {
         newOrgInst.RoleCode = '222';
       }
       newOrgInst.OrgUnitID = element.UnitID_Code;
-      newOrgInst.JobID = element.JobID_ID;
+      newOrgInst.JobID = element.JobID_JobID;
       newOrgInst.StartDate = `${request.data.ValidatyStartDate}T00:00:00`;
       newOrgInst.EndDate = `${END_DATE}T00:00:00`;
       orgAssigment.push(newOrgInst);
@@ -125,8 +125,8 @@ class ManageAPICalls {
     for (const element of arr) {
       const newSalesRespInst = {};
       newSalesRespInst.SalesOrganisationID = element.SalesOrgID_Code;
-      newSalesRespInst.DistributionChannelCode = element.DistributionChanelCode_ID;
-      newSalesRespInst.DivisionCode = element.DivisionCode_ID;
+      newSalesRespInst.DistributionChannelCode = element.DistributionChanelCode_Code;
+      newSalesRespInst.DivisionCode = element.DivisionCode_Code;
       newSalesRespInst.MainIndicator = element.MainIndicator;
       salesResp.push(newSalesRespInst);
     }
@@ -175,8 +175,8 @@ class ManageAPICalls {
             var res = await service.tx(request).get(path);
             for (const element of request.data.To_SalesResponsobilities){
                 const resEl = res.find(el => el.SalesOrganisationID == element.SalesOrgID_Code && 
-                                            el.DistributionChannelCode == element.DistributionChanelCode_ID && 
-                                            el.DivisionCode == element.DivisionCode_ID && 
+                                            el.DistributionChannelCode == element.DistributionChanelCode_Code && 
+                                            el.DivisionCode == element.DivisionCode_Code && 
                                             el.MainIndicator == element.MainIndicator);
                 const objID = ManageAPICalls.getObjectIDFromURI(resEl);
                 const updatedRecord = await UPDATE(SalesResponsability)
@@ -193,7 +193,7 @@ class ManageAPICalls {
             var res = await service.tx(request).get(path);
             for (const element of request.data.To_OrgUnits){
                 var resEl = res.find(el => el.OrgUnitID == element.UnitID_Code && 
-                                        el.JobID == element.JobID_ID);
+                                        el.JobID == element.JobID_JobID);
                 var objID = ManageAPICalls.getObjectIDFromURI(resEl);   
                 const updatedRecord = await UPDATE(EmployeeOrgUnitAssigment)
                 .where({To_CreationForm_ID:request.data.ID, ID : element.ID})
@@ -207,12 +207,12 @@ class ManageAPICalls {
         try{
             for (const element of request.data.To_Territories) {
                 const newTerrInst = {};
-                newTerrInst.TerritoryId = element.SalesTerritory_ID;
+                newTerrInst.TerritoryId = element.SalesTerritory_Id;
                 newTerrInst.EmployeeID = empID;
                 newTerrInst.StartDate = `${request.data.ValidatyStartDate}T00:00:00`;
                 newTerrInst.EndDate = `${END_DATE}T00:00:00`;
                 newTerrInst.PartyRole = '46';
-                const query = `/SalesTerritoryCollection?$filter=Id eq '${element.SalesTerritory_ID}'&$select=ObjectID`;
+                const query = `/SalesTerritoryCollection?$filter=Id eq '${element.SalesTerritory_Id}'&$select=ObjectID`;
 
                 const terData = await service.tx(request).get(query);
                 const currentObjectID = terData[0].ObjectID;
@@ -397,8 +397,8 @@ class ManageAPICalls {
             try{
                 var newSalesRespInst = {};
                 newSalesRespInst.SalesOrganisationID = element.SalesOrgID_Code;
-                newSalesRespInst.DistributionChannelCode = element.DistributionChanelCode_ID;
-                newSalesRespInst.DivisionCode = element.DivisionCode_ID;
+                newSalesRespInst.DistributionChannelCode = element.DistributionChanelCode_Code;
+                newSalesRespInst.DivisionCode = element.DivisionCode_Code;
                 newSalesRespInst.MainIndicator = element.MainIndicator;
                 if(element.ObjectID != null){
                     var path = "/EmployeeSalesResponsibilityCollection" + element.ObjectID;
@@ -441,7 +441,7 @@ class ManageAPICalls {
         if((element.IsUpdate && element.ObjectID != null) || element.ObjectID == null){
             try{
                 var newTerrInst = {};
-                newTerrInst.TerritoryId = element.SalesTerritory_ID;
+                newTerrInst.TerritoryId = element.SalesTerritory_Id;
                 newTerrInst.EmployeeID = request.data.EmployeeIDExternal;
                 newTerrInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
                 newTerrInst.EndDate = END_DATE + "T00:00:00";
@@ -450,7 +450,7 @@ class ManageAPICalls {
                     var path = "/SalesTerritoryTeamCollection" + element.ObjectID;
                     var resofDel = await service.tx(request).delete(path);   
                 }                       
-                var query = "/SalesTerritoryCollection?$filter=Id eq '" + element.SalesTerritory_ID + "'&$select=ObjectID";                       
+                var query = "/SalesTerritoryCollection?$filter=Id eq '" + element.SalesTerritory_Id + "'&$select=ObjectID";                       
                 var terData = await service.tx(request).get(query);
                 var currentObjectID = terData[0].ObjectID;
                 var endPoint = "/SalesTerritoryCollection('" + currentObjectID + "')/SalesTerritoryTeam";
