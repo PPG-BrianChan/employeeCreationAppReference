@@ -35,9 +35,14 @@
   "cds": {
     "requires": {
       "db": {
-        "kind": "sqlite",
-        "credentials": {
-          "database": "sqlite.db"
+        "[development]": {
+          "kind": "sqlite",
+          "credentials": {
+            "database": "sqlite.db"
+          }
+        },
+        "[production]": {
+          "kind": "hana"
         }
       },
       "uaa": {

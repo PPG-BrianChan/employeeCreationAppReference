@@ -5,6 +5,9 @@ const { ManageAPICalls } = require('./libs/manageAPICalls');
 module.exports = cds.service.impl(async function () {
   cds.env.features.fetch_csrf = true;
 
+  let service = null;
+  let c4c_odata = null;
+
   const {
     EmpCreationForm,
     Job,
@@ -25,9 +28,6 @@ module.exports = cds.service.impl(async function () {
     RemoteSystem,
     Territories
   } = this.entities;
-
-  let service = await cds.connect.to('employeeanduser_dev');
-  let c4c_odata = await cds.connect.to('rolesAPI_dev');
 
   this.after('READ', EmpCreationForm, each => {
     if (each.EmployeeIDExternal != null) {
@@ -269,18 +269,6 @@ module.exports = cds.service.impl(async function () {
   });
 
   this.before('NEW', EmpCreationForm, async request => {
-    // const tx = cds.tx();
-    // const selectQuery = SELECT.from(EmpCreationForm.drafts).where({ ID: request.data.DraftAdministrativeData_DraftUUID })
-    // const data = await tx.run(selectQuery);
-
-    // if(request.data.code == "DEV"){
-    //   service =  await cds.connect.to('employeeanduser_dev');
-    //   c4c_odata = await cds.connect.to('rolesAPI_dev');
-    // }else if(request.data.code == "UAT"){
-    //   service =  await cds.connect.to('employeeanduser_uat');
-    //   c4c_odata = await cds.connect.to('rolesAPI_uat');
-    // }
-
     const token = request.headers.authorization;
 
     let decode = null;
@@ -294,6 +282,7 @@ module.exports = cds.service.impl(async function () {
     request.data.Email = decode ? decode.email : 'unknown';
     request.data.FirstName = decode ? decode.given_name : 'unknown';
     request.data.LastName = decode ? decode.family_name : 'unknown';
+
     if (request.user.is('Tester')) {
       request.data.HideFirstPanel = false;
       request.data.IsNotTesterUser = true;
@@ -387,14 +376,12 @@ module.exports = cds.service.impl(async function () {
     request.data.IsUpdate = true;
   });
 
-  this.before('PATCH', EmpCreationForm, async (req, next) => {
+  this.before('PATCH', EmpCreationForm, async req => {
     req.data.refreshCodeList = false;
 
-    if (req.data.System) {
+    if ('System' in req.data && req.data.System) {
       setSystem(req.data.System);
     }
-
-    const tx = cds.tx();
 
     if ('UserPasswordPolicy_Code' in req.data) {
       const { UserPasswordPolicy_Code } = req.data;
@@ -407,12 +394,16 @@ module.exports = cds.service.impl(async function () {
       }
       req.data.identifierBooleanPassword = identifierBoolean;
       req.data.UserPassword = password;
+    }
 
+    if ('UserLogin' in req.data) {
+      const tx = cds.tx();
+    
       const selectMappingsQuery = SELECT.from(Mapping.drafts).where({
         To_CreationForm_ID: req.data.ID
       });
       const mappings = await tx.run(selectMappingsQuery);
-
+  
       if (mappings.length > 0) {
         const updateRemoteObjectIDQuery = UPDATE(Mapping.drafts)
           .set({
@@ -421,7 +412,7 @@ module.exports = cds.service.impl(async function () {
           .where({
             To_CreationForm_ID: req.data.ID
           });
-
+  
         try {
           await tx.run(updateRemoteObjectIDQuery);
           await tx.commit();

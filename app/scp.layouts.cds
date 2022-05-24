@@ -27,8 +27,7 @@ annotate scp.EmpCreationForm with @UI : {
     }]
   },
 
-  SelectionFields                   : [
-    System,
+  SelectionFields              : [
     EmployeeIDExternal,
     BusinessPartnerID,
     Email,
@@ -168,7 +167,13 @@ annotate scp.EmpCreationForm with @UI : {
 
   FieldGroup #BasicInfo             : {
     $Type : 'UI.FieldGroupType',
+
     Data  : [
+      {
+        $Type : 'UI.DataField',
+        Value : System,
+        ![@UI.Hidden] : true
+      },
       {
         $Type : 'UI.DataField',
         Value : UserLogin,
@@ -184,10 +189,6 @@ annotate scp.EmpCreationForm with @UI : {
       {
         $Type : 'UI.DataField',
         Value : Email,
-      },
-      {
-        $Type : 'UI.DataField',
-        Value : System,
       },
       {
         $Type : 'UI.DataField',
