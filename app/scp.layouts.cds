@@ -161,6 +161,10 @@ annotate scp.EmpCreationForm with @UI : {
       {
         $Type : 'UI.DataField',
         Value : UserLocked
+      },
+      {
+        $Type : 'UI.DataField',
+        Value : System
       }
     ]
   },

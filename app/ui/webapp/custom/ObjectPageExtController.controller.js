@@ -7,19 +7,26 @@ sap.ui.define([
     
     onPageReady: function () {
       const oContext = this.getView().getBindingContext();
-      
+
       if (!oContext) {
         setTimeout(this.onPageReady.bind(this), 500);
       } else {
-        setTimeout(this.setSystemFromUrlParamters, 500, oContext);
+        const mData = oContext.getObject();
+        if (!mData) {
+          setTimeout(this.onPageReady.bind(this), 500);
+        } else {
+          if (!mData.System) {
+            const sSystem = this.getSystemParameterFromUrl();
+            oContext.setProperty('System', sSystem);
+          }
+        }
       }
+      
     },
 
-    setSystemFromUrlParamters: function (oContext) {
+    getSystemParameterFromUrl: function () {
       const sHash = decodeURI(window.location.hash.split('?')[1]).replace(/%20/g, ' ');
-      const sSystem = UriParameters.fromQuery(sHash).get('System');
-      
-      oContext.setProperty('System', sSystem);
+      return UriParameters.fromQuery(sHash).get('System');
     }
 
   };

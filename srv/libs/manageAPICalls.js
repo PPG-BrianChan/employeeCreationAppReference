@@ -92,11 +92,21 @@ class ManageAPICalls {
       UserPasswordPolicyCode: request.data.UserPasswordPolicy_Code,
       UserLockedIndicator: false
     };
-    if ( orgName === "ClientLink-Dev_org") {
-        empInst.ZSalesRepElig_KUT = request.data.SalesReportingEligible; //update dev specific field
-    } else {
+
+    const system = request.data.System;
+
+    if (system === 'ac') {
+      if (orgName === 'ClientLink-Dev_org') {
+        empInst.ZSalesRepElig_KUT = request.data.SalesReportingEligible;
+      } else {
         empInst.Z_SalesRepElig_KUT = request.data.SalesReportingEligible;
+      }
+    } else if (system === 'auto') {
+      empInst.Z_SalesReportingEligible_KUT = request.data.SalesReportingEligible;
+    } else if (system === 'aerospace') {
+      empInst.Salesreportingeligible_KUT = request.data.SalesReportingEligible;
     }
+
     if (request.data.UserPasswordPolicy_Code == null) {
       empInst.UserPasswordPolicyCode = 'S_BUSINESS_USER_WITHOUT_PASSWORD';
     }
