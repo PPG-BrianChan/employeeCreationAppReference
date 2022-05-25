@@ -1,12 +1,16 @@
 const cds = require('@sap/cds');
 const jwt_decode = require('jwt-decode');
 const { ManageAPICalls } = require('./libs/manageAPICalls');
+const { RemoteSystemDataMapping } = require('./libs/RemoteSystemDataMapping');
 
 module.exports = cds.service.impl(async function () {
   cds.env.features.fetch_csrf = true;
 
   let service = null;
   let c4c_odata = null;
+
+  let businessUnit = null;
+  const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
 
   const {
     EmpCreationForm,
@@ -120,15 +124,8 @@ module.exports = cds.service.impl(async function () {
   });
 
   this.on('READ', RemoteSystem, async request => {
-    const systemObj = [
-      { ID: 'TANGRAM', Description: 'TANGRAM' },
-      { ID: 'NONSAP', Description: 'NONSAP' },
-      { ID: 'DALI', Description: 'DALI' },
-      { ID: 'INTERLINK', Description: 'INTERLINK' },
-      { ID: 'Q15', Description: 'Q15' },
-      { ID: 'VANTAGEPOINT', Description: 'VANTAGEPOINT' },
-      { ID: 'SAP S/4 UAT', Description: 'VSAP S/4 UAT' }
-    ];
+    const systemObj = await RemoteSystemDataMapping.getData(businessUnit, tenant);
+
     let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
@@ -138,21 +135,6 @@ module.exports = cds.service.impl(async function () {
     }
     return systemObj;
   });
-
-  // this.on('READ', SystemType, async request => {
-  //   const tenantObj = [
-  //     { code: 'DEV', name: 'DEV' },
-  //     { code: 'UAT', name: 'UAT' }
-  //   ];
-  //   let search = request._query.$search;
-  //   if (search != undefined) {
-  //     search = search.slice(1, search.length - 1);
-  //     const res = tenantObj;
-  //     const result = res.filter(element => element.Code.startsWith(search));
-  //     return result;
-  //   }
-  //   return tenantObj;
-  // });
 
   this.on('READ', Job, async request => {
     let search = request._query.$search;
@@ -382,7 +364,7 @@ module.exports = cds.service.impl(async function () {
     req.data.refreshCodeList = false;
 
     if ('System' in req.data && req.data.System) {
-      setSystem(req.data.System);
+      _setSystem(req.data.System);
     }
 
     if ('UserPasswordPolicy_Code' in req.data) {
@@ -425,7 +407,9 @@ module.exports = cds.service.impl(async function () {
     }
   });
 
-  async function setSystem(system) {
+  async function _setSystem(system) {
+    businessUnit = system;
+
     if (system === 'ac') {
       service = await cds.connect.to('c4c_user_ac');
       c4c_odata = await cds.connect.to('c4c_odata_ac');
