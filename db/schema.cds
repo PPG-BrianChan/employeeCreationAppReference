@@ -93,16 +93,10 @@ entity EmployeeLanguageCodeCollection as projection on external.EmployeeLanguage
 entity EmployeeCountryCodeCollection as projection on external.EmployeeCountryCodeCollection {
     key Code, Description
 };
-/*
+
 entity EmployeeUserPasswordPolicyCodeCollection as projection on external.EmployeeUserPasswordPolicyCodeCollection {
     key Code, Description
-};*/
-
-
-entity EmployeeUserPasswordPolicyCodeCollection {
-    key Code : String;
-    Description : String
-}
+};
 
 entity JobDefinitionCollection as projection on extjob.JobDefinitionCollection {
     key JobID, JobName
