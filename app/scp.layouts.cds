@@ -27,7 +27,7 @@ annotate scp.EmpCreationForm with @UI : {
     }]
   },
 
-  SelectionFields              : [
+  SelectionFields                   : [
     EmployeeIDExternal,
     BusinessPartnerID,
     Email,
@@ -174,8 +174,8 @@ annotate scp.EmpCreationForm with @UI : {
 
     Data  : [
       {
-        $Type : 'UI.DataField',
-        Value : UserLogin,
+        $Type                     : 'UI.DataField',
+        Value                     : UserLogin
       },
       {
         $Type : 'UI.DataField',
@@ -206,8 +206,8 @@ annotate scp.EmpCreationForm with @UI : {
         Value : ValidatyStartDate
       },
       {
-        $Type : 'UI.DataField',
-        Value : UserPasswordPolicy_Code
+        $Type                     : 'UI.DataField',
+        Value                     : UserPasswordPolicy_Code,
       },
       {
         $Type : 'UI.DataField',
