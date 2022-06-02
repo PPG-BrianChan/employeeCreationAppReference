@@ -212,11 +212,6 @@ annotate scp.EmpCreationForm with @UI : {
       {
         $Type : 'UI.DataField',
         Value : SalesReportingEligible
-      },
-      {
-        $Type         : 'UI.DataField',
-        Value         : UserPassword,
-        ![@UI.Hidden] : identifierBooleanPassword
       }
     ]
   },
@@ -273,12 +268,6 @@ annotate scp.EmpCreationForm with @UI : {
         $Type                   : 'UI.DataField',
         Value                   : SalesReportingEligible,
         ![@Common.FieldControl] : #ReadOnly
-      },
-      {
-        $Type                   : 'UI.DataField',
-        Value                   : UserPassword,
-        ![@UI.Hidden]           : identifierBooleanPassword,
-        ![@Common.FieldControl] : #ReadOnly
       }
     ]
   },
@@ -328,11 +317,6 @@ annotate scp.EmpCreationForm with @UI : {
       {
         $Type : 'UI.DataField',
         Value : SalesReportingEligible
-      },
-      {
-        $Type         : 'UI.DataField',
-        Value         : UserPassword,
-        ![@UI.Hidden] : identifierBooleanPassword
       }
     ]
   },
@@ -435,15 +419,6 @@ annotate scp.Mapping with @(UI.LineItem #i18nMapping : [
 annotate scp.Mapping with {
   RemoteObjectID @readonly;
 };
-
-annotate scp.EmpCreationForm with @Common : {SideEffects #PasswordSodeEffects : {
-  $Type            : 'Common.SideEffectsType',
-  SourceProperties : [UserPasswordPolicy_Code],
-  TargetProperties : [
-    'identifierBooleanPassword',
-    'UserPassword'
-  ]
-}};
 
 annotate scp.EmpCreationForm with @Common : {SideEffects #PasswordSodeEffectrs : {
   $Type            : 'Common.SideEffectsType',
