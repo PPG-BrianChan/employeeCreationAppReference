@@ -288,6 +288,9 @@ module.exports = cds.service.impl(async function () {
       if (element.UnitID_Code == null) {
         request.reject(400, 'Unit ID is mandatory.');
       }
+      if (element.JobID_JobID == null) {
+        request.reject(400, 'Job ID is mandatory.');
+      }
       if (element.IsPrimary) {
         numberOfPrimary += 1;
       }
