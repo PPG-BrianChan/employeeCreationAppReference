@@ -274,6 +274,8 @@ module.exports = cds.service.impl(async function () {
     }
     const today = new Date().toISOString().slice(0, 10);
     request.data.ValidatyStartDate = today;
+    request.data.Language_Code = 'EN';
+    request.data.UserPasswordPolicy_Code = 'S_BUSINESS_USER_WITHOUT_PASSWORD';
   });
 
   this.before('SAVE', EmpCreationForm, async request => {
@@ -357,6 +359,11 @@ module.exports = cds.service.impl(async function () {
     const employeeFormDraft = await tx.run(selectEmployeeCreationFormDraftQuery);
 
     req.data.RemoteObjectID = employeeFormDraft.UserLogin;
+  });
+
+  this.before('NEW', SalesResponsability, async req => {
+    req.data.DistributionChanelCode_Code = '01';
+    req.data.DivisionCode_Code = 'TR';
   });
 
   this.before('PATCH', Mapping, async request => {
