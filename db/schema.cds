@@ -16,8 +16,6 @@ entity EmpCreationForm : cuid, managed {
     UserLocked : Boolean;
     UserLogin : String;
     SalesReportingEligible: Boolean;
-    UserPassword : String;
-    identifierBooleanPassword : TechnicalBooleanFlag default true;
     FirstName : String;
     LastName : String;
     Email : String;
@@ -165,12 +163,6 @@ entity RemoteSystem {
     key ID : String;
     Description : String;
 }
-
-
-type TechnicalBooleanFlag : Boolean @(
-    UI.Hidden,
-    Core.Computed
-);
 
 entity TargetSystem {
     key ID : String;

@@ -8,7 +8,7 @@ module.exports = cds.service.impl(async function () {
 
   let service = null;
   let c4c_odata = null;
-
+  
   let businessUnit = null;
   const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
 
@@ -365,19 +365,6 @@ module.exports = cds.service.impl(async function () {
 
     if ('System' in req.data && req.data.System) {
       _setSystem(req.data.System);
-    }
-
-    if ('UserPasswordPolicy_Code' in req.data) {
-      const { UserPasswordPolicy_Code } = req.data;
-      let identifierBoolean = true;
-      const password = '';
-      if (UserPasswordPolicy_Code === 'S_BUSINESS_USER') {
-        identifierBoolean = false;
-      } else {
-        identifierBoolean = true;
-      }
-      req.data.identifierBooleanPassword = identifierBoolean;
-      req.data.UserPassword = password;
     }
 
     if ('UserLogin' in req.data) {
