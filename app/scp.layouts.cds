@@ -419,10 +419,3 @@ annotate scp.Mapping with @(UI.LineItem #i18nMapping : [
 annotate scp.Mapping with {
   RemoteObjectID @readonly;
 };
-
-annotate scp.EmpCreationForm with @Common : {SideEffects #PasswordSodeEffectrs : {
-  $Type            : 'Common.SideEffectsType',
-  SourceProperties : [UserLogin],
-  TargetEntities   : ['To_OrgUnits']
-
-}};
