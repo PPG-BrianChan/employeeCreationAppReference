@@ -5,6 +5,7 @@ annotate scp.EmpCreationForm {
     UserLogin          @mandatory;
     UserPasswordPolicy @mandatory;
     Country            @mandatory;
+    EmployeeIdentifier @mandatory;
     Language           @Common.ValueListWithFixedValues : true;
     Language           @Common.ValueList                : {
         CollectionPath : 'Language',
