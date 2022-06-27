@@ -24,6 +24,9 @@ entity EmpCreationForm : cuid, managed {
     Language : Association to one EmployeeLanguageCodeCollection;
     ValidatyStartDate : Date;
     ValidatyEndDate : Date;
+    EmployeeIdentifier : Association to EmployeeIdentifier;
+    Region : Association to Region;
+    Subregion : Association to Subregion;
     UserPasswordPolicy : Association to one EmployeeUserPasswordPolicyCodeCollection;
     To_OrgUnits : Composition of many EmployeeOrgUnitAssigment on To_OrgUnits.To_CreationForm = $self;
     To_SalesResponsobilities : Composition of many SalesResponsability on To_SalesResponsobilities.To_CreationForm = $self;
@@ -166,5 +169,20 @@ entity RemoteSystem {
 
 entity TargetSystem {
     key ID : String;
+    Description : String;
+}
+
+entity EmployeeIdentifier {
+    key Code : String;
+    Description : String;
+}
+
+entity Region {
+    key Code : String;
+    Description : String;
+}
+
+entity Subregion {
+    key Code : String;
     Description : String;
 }

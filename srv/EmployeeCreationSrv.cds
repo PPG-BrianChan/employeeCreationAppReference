@@ -56,6 +56,9 @@ service EmployeeCreationService @(requires : [
   entity EmployeeOrgUnitAssigment   as projection on employee.EmployeeOrgUnitAssigment;
   entity SalesResponsability        as projection on employee.SalesResponsability;
   entity Territories                as projection on employee.Territories;
+  entity EmployeeIdentifier         as projection on employee.EmployeeIdentifier;
+  entity Region                     as projection on employee.Region;
+  entity Subregion                  as projection on employee.Subregion;
 
 }
 

@@ -59,6 +59,39 @@ annotate scp.EmpCreationForm {
             ValueListProperty : 'code'
         }]
     };
+    EmployeeIdentifier @Common.ValueListWithFixedValues;
+    EmployeeIdentifier @Common.ValueList : {
+        CollectionPath : 'EmployeeIdentifier',
+        Parameters     : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : EmployeeIdentifier_Code,
+                ValueListProperty : 'Code'
+            }
+        ]
+    };
+    Region @Common.ValueListWithFixedValues;
+    Region @Common.ValueList : {
+        CollectionPath : 'Region',
+        Parameters     : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : Region_Code,
+                ValueListProperty : 'Code'
+            }
+        ]
+    };
+    Subregion @Common.ValueListWithFixedValues;
+    Subregion @Common.ValueList : {
+        CollectionPath : 'Subregion',
+        Parameters     : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : Subregion_Code,
+                ValueListProperty : 'Code'
+            }
+        ]
+    };
 };
 
 
@@ -231,6 +264,9 @@ annotate scp.EmpCreationForm actions {
 }
 
 
+annotate e.EmployeeIdentifier with @cds.odata.valuelist;
+annotate e.Region with @cds.odata.valuelist;
+annotate e.Subregion with @cds.odata.valuelist;
 annotate e.Roles with @cds.odata.valuelist;
 annotate e.EmployeeLanguageCodeCollection with @cds.odata.valuelist;
 annotate e.EmployeeCountryCodeCollection with @cds.odata.valuelist;
