@@ -212,6 +212,18 @@ annotate scp.EmpCreationForm with @UI : {
       {
         $Type : 'UI.DataField',
         Value : SalesReportingEligible
+      },
+      {
+        $Type : 'UI.DataField',
+        Value : EmployeeIdentifier_Code
+      },
+      {
+        $Type : 'UI.DataField',
+        Value : Region_Code
+      },
+      {
+        $Type : 'UI.DataField',
+        Value : Subregion_Code
       }
     ]
   },
@@ -261,11 +273,28 @@ annotate scp.EmpCreationForm with @UI : {
       },
       {
         $Type                   : 'UI.DataField',
-        Value                   : UserPasswordPolicy_Code
+        Value                   : UserPasswordPolicy_Code,
+        ![@Common.FieldControl] : #ReadOnly
       },
       {
         $Type                   : 'UI.DataField',
-        Value                   : SalesReportingEligible
+        Value                   : SalesReportingEligible,
+        ![@Common.FieldControl] : #ReadOnly
+      },
+      {
+        $Type : 'UI.DataField',
+        Value : EmployeeIdentifier_Code,
+        ![@Common.FieldControl] : #ReadOnly
+      },
+      {
+        $Type : 'UI.DataField',
+        Value : Region_Code,
+        ![@Common.FieldControl] : #ReadOnly
+      },
+      {
+        $Type : 'UI.DataField',
+        Value : Subregion_Code,
+        ![@Common.FieldControl] : #ReadOnly
       }
     ]
   },
@@ -315,6 +344,18 @@ annotate scp.EmpCreationForm with @UI : {
       {
         $Type : 'UI.DataField',
         Value : SalesReportingEligible
+      },
+      {
+        $Type : 'UI.DataField',
+        Value : EmployeeIdentifier_Code
+      },
+      {
+        $Type : 'UI.DataField',
+        Value : Region_Code
+      },
+      {
+        $Type : 'UI.DataField',
+        Value : Subregion_Code
       }
     ]
   },
