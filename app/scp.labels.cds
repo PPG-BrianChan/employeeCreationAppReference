@@ -23,15 +23,9 @@ annotate dm.EmpCreationForm with @title            : '{i18n>EmpCreationForm}' {
     Language               @title                  : '{i18n>Language}';
     Email                  @title                  : '{i18n>Email}';
     Country                @title                  : '{i18n>Country}';
-    EmployeeIdentifier     @title                  : '{i18n>EmployeeIdentifier}'
-                           @Common.Text            : EmployeeIdentifier.Description
-                           @Common.TextArrangement : #TextOnly;
-    Region                 @title                  : '{i18n>Region}'
-                           @Common.Text            : Region.Description
-                           @Common.TextArrangement : #TextOnly;
-    Subregion              @title                  : '{i18n>Subregion}'
-                           @Common.Text            : Subregion.Description
-                           @Common.TextArrangement : #TextOnly;
+    EmployeeIdentifier     @title                  : '{i18n>EmployeeIdentifier}';
+    Region                 @title                  : '{i18n>Region}';
+    Subregion              @title                  : '{i18n>Subregion}';
     unblockBtnEnabled      @title                  : '{i18n>Country}';
     createdAt              @title                  : '{i18n>createdAt}'  @UI.HiddenFilter  : false;
     createdBy              @title                  : '{i18n>createdBy}'  @UI.HiddenFilter  : false;
@@ -52,18 +46,6 @@ annotate dm.EmployeeOrgUnitAssigment with {
 
 annotate dm.SalesResponsability with {
     SalesOrgID @title : '{i18n>SalesOrgID}';
-};
-
-annotate dm.EmployeeIdentifier with @title : '{i18n>EmployeeIdentifier}' {
-    Code @Common.Text : Description  @Common.TextArrangement : #TextOnly;
-};
-
-annotate dm.Region with @title : '{i18n>Region}' {
-    Code @Common.Text : Description  @Common.TextArrangement : #TextOnly;
-};
-
-annotate dm.Subregion with @title : '{i18n>Subregion}' {
-    Code @Common.Text : Description  @Common.TextArrangement : #TextOnly;
 };
 
 

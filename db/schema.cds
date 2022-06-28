@@ -24,9 +24,9 @@ entity EmpCreationForm : cuid, managed {
     Language : Association to one EmployeeLanguageCodeCollection;
     ValidatyStartDate : Date;
     ValidatyEndDate : Date;
-    EmployeeIdentifier : Association to EmployeeIdentifier;
-    Region : Association to Region;
-    Subregion : Association to Subregion;
+    EmployeeIdentifier : Association to one EmployeeIdentifier;
+    Region : Association to one Region;
+    Subregion : Association to one Subregion;
     UserPasswordPolicy : Association to one EmployeeUserPasswordPolicyCodeCollection;
     To_OrgUnits : Composition of many EmployeeOrgUnitAssigment on To_OrgUnits.To_CreationForm = $self;
     To_SalesResponsobilities : Composition of many SalesResponsability on To_SalesResponsobilities.To_CreationForm = $self;

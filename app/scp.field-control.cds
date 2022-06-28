@@ -68,6 +68,10 @@ annotate scp.EmpCreationForm {
                 $Type             : 'Common.ValueListParameterInOut',
                 LocalDataProperty : EmployeeIdentifier_Code,
                 ValueListProperty : 'Code'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'Description'
             }
         ]
     };
@@ -79,6 +83,10 @@ annotate scp.EmpCreationForm {
                 $Type             : 'Common.ValueListParameterInOut',
                 LocalDataProperty : Region_Code,
                 ValueListProperty : 'Code'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'Description'
             }
         ]
     };
@@ -90,6 +98,10 @@ annotate scp.EmpCreationForm {
                 $Type             : 'Common.ValueListParameterInOut',
                 LocalDataProperty : Subregion_Code,
                 ValueListProperty : 'Code'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'Description'
             }
         ]
     };
@@ -277,6 +289,10 @@ annotate e.OrganisationalUnitCollection with @cds.odata.valuelist;
 annotate e.EmployeeOrganisationalUnitAssignmentRoleCodeCollection with @cds.odata.valuelist;
 annotate e.OrganisationalUnitDistributionChannelAndDivisionDistributionChannelCodeCollection with @cds.odata.valuelist;
 annotate e.OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection with @cds.odata.valuelist;
+annotate scp.EmpCreationForm with @assert.integrity : false;
+annotate scp.EmployeeIdentifier with @assert.integrity : false;
+annotate scp.Region with @assert.integrity : false;
+annotate scp.Subregion with @assert.integrity : false;
 annotate scp.EmployeeOrgUnitAssigment with @assert.integrity : false;
 annotate scp.SalesResponsability with @assert.integrity : false;
 annotate scp.BusinessRoles with @assert.integrity : false;
