@@ -170,7 +170,7 @@ module.exports = cds.service.impl(async function () {
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = orgUnits;
-      const result = res.filter(element => element.Code.startsWith(search));
+      const result = res.filter(element => element.Code.toLowerCase().startsWith(search));
       return result;
     }
     return orgUnits;
@@ -198,7 +198,7 @@ module.exports = cds.service.impl(async function () {
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = orgUnits;
-      const result = res.filter(element => element.Code.startsWith(search));
+      const result = res.filter(element => element.Code.toLowerCase().startsWith(search));
       return result;
     }
     return orgUnits;
