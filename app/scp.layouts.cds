@@ -261,13 +261,11 @@ annotate scp.EmpCreationForm with @UI : {
       },
       {
         $Type                   : 'UI.DataField',
-        Value                   : UserPasswordPolicy_Code,
-        ![@Common.FieldControl] : #ReadOnly
+        Value                   : UserPasswordPolicy_Code
       },
       {
         $Type                   : 'UI.DataField',
-        Value                   : SalesReportingEligible,
-        ![@Common.FieldControl] : #ReadOnly
+        Value                   : SalesReportingEligible
       }
     ]
   },
