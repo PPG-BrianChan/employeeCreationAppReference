@@ -336,6 +336,10 @@ module.exports = cds.service.impl(async function () {
       }
     }
 
+    if (request.data.To_OrgUnits.length == 0) { 
+        request.reject(400, 'Organisational Units Assignment must have at least one record.');
+    }
+
     let numberOfPrimary = 0;
     for (const element of request.data.To_OrgUnits) {
       if (element.UnitID_Code == null) {
