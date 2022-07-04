@@ -103,6 +103,9 @@ class ManageAPICalls {
       }
     } else if (system === 'auto') {
       empInst.Z_SalesReportingEligible_KUT = request.data.SalesReportingEligible;
+      empInst.Z_EmployeeIdentifier_KUT = request.data.EmployeeIdentifier_Code;
+      empInst.Region_KUT = request.data.Region_Code;
+      empInst.SubRegion_KUT = request.data.Subregion_Code;
     } else if (system === 'aerospace') {
       empInst.Salesreportingeligible_KUT = request.data.SalesReportingEligible;
     }
@@ -285,6 +288,17 @@ class ManageAPICalls {
     if(request.data.ValidatyStartDate == null) request.data.ValidatyStartDate = today;
     if (request.data.EmployeeIDExternal != null) {
       request.data.blockBtnEnabled = true;
+
+    try{
+        var newRoleInst = {};
+        newRoleInst.UserPasswordPolicyCode = request.data.UserPasswordPolicy_Code;
+        newRoleInst.Z_SalesReportingEligible_KUT = request.data.SalesReportingEligible;
+        var new_path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')";
+        var resofPATCH = await service.tx(request).patch(new_path,newRoleInst);
+    }catch(e){
+        var errorText = 'Employee update error: ';
+        ManageAPICalls.errorHandling(request, e, errorText);
+    }
 
       // --------------------------------Business Roles  ---------------------
       // ------------------DELETE------------------
