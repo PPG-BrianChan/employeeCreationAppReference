@@ -105,7 +105,7 @@ class ManageAPICalls {
       empInst.Z_SalesReportingEligible_KUT = request.data.SalesReportingEligible;
       empInst.Z_EmployeeIdentifier_KUT = request.data.EmployeeIdentifier_Code;
       empInst.Region_KUT = request.data.Region_Code;
-      empInst.SubRegion_KUT = request.data.Subregion_Code;
+      empInst.Subregion_KUT = request.data.Subregion_Code;
     } else if (system === 'aerospace') {
       empInst.Salesreportingeligible_KUT = request.data.SalesReportingEligible;
     }

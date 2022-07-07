@@ -280,7 +280,7 @@ module.exports = cds.service.impl(async function () {
   this.on('READ', Subregion, async request => {
     const skip = request._query.$skip;
     const top = request._query.$top;
-    const query = `/EmployeeSubRegion_KUTCollection?$select=Code,Description&$format=json&$skip=${skip}&$top=${top}`;
+    const query = `/EmployeeSubregion_KUTCollection?$select=Code,Description&$format=json&$skip=${skip}&$top=${top}`;
 
     const executedRes = await service.tx(request).get(query);
     let search = request._query.$search;
