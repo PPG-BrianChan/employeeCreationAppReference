@@ -232,10 +232,12 @@ module.exports = cds.service.impl(async function () {
   this.on('READ', Roles, async request => {
     const skip = request._query.$skip;
     const top = request._query.$top;
-    const query = `/RPCCABUSINESS_ROLEQueryResults?$select=CROOT_ID_CONTENT,CDESCRIPTION_NAME&$format=json&$skip=${skip}&$top=${top}`;
+    let search = request._query.$search;
+
+    let query = `/RPCCABUSINESS_ROLEQueryResults?$select=CROOT_ID_CONTENT,CDESCRIPTION_NAME&$format=json`;
+    if (search == undefined) query += `&$skip=${skip}&$top=${top}`;
 
     const e = await c4c_odata.tx(request).get(query);
-    let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = e.d.results;
@@ -248,10 +250,12 @@ module.exports = cds.service.impl(async function () {
   this.on('READ', EmployeeIdentifier, async request => {
     const skip = request._query.$skip;
     const top = request._query.$top;
-    const query = `/EmployeeZ_EmployeeIdentifier_KUTCollection?$select=Code,Description&$format=json&$skip=${skip}&$top=${top}`;
+    let search = request._query.$search;
+
+    let query = `/EmployeeZ_EmployeeIdentifier_KUTCollection?$select=Code,Description&$format=json`;
+    if (search == undefined) query += `&$skip=${skip}&$top=${top}`;
 
     const executedRes = await service.tx(request).get(query);
-    let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = executedRes;
@@ -264,10 +268,12 @@ module.exports = cds.service.impl(async function () {
   this.on('READ', Region, async request => {
     const skip = request._query.$skip;
     const top = request._query.$top;
-    const query = `/EmployeeRegion_KUTCollection?$select=Code,Description&$format=json&$skip=${skip}&$top=${top}`;
+    let search = request._query.$search;
+
+    let query = `/EmployeeRegion_KUTCollection?$select=Code,Description&$format=json`;
+    if (search == undefined) query += `&$skip=${skip}&$top=${top}`;
 
     const executedRes = await service.tx(request).get(query);
-    let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = executedRes;
@@ -280,10 +286,12 @@ module.exports = cds.service.impl(async function () {
   this.on('READ', Subregion, async request => {
     const skip = request._query.$skip;
     const top = request._query.$top;
-    const query = `/EmployeeSubregion_KUTCollection?$select=Code,Description&$format=json&$skip=${skip}&$top=${top}`;
+    let search = request._query.$search;
+
+    let query = `/EmployeeSubregion_KUTCollection?$select=Code,Description&$format=json`;
+    if (search == undefined) query += `&$skip=${skip}&$top=${top}`;
 
     const executedRes = await service.tx(request).get(query);
-    let search = request._query.$search;
     if (search != undefined) {
       search = search.slice(1, search.length - 1);
       const res = executedRes;
