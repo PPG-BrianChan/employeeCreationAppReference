@@ -161,8 +161,8 @@ module.exports = cds.service.impl(async function () {
         }
         if (search != undefined) search = search.slice(1, search.length - 1);
         else search = '';
-        const query = `/OrganisationalUnitCollection?$expand=OrganisationalUnitNameAndAddress&$format=json&$top=${top}&$skip=${skip}&$filter=startswith(OrganisationalUnitID,'${search}')`;
-        // const query = `/OrganisationalUnitCollection?$expand=OrganisationalUnitNameAndAddress&$format=json&$top=${top}&$skip=${skip}&$filter=startswith(OrganisationalUnitID,'${search}') or startswith(OrganisationalUnitID,'${search.toUpperCase()}')`;
+        //const query = `/OrganisationalUnitCollection?$expand=OrganisationalUnitNameAndAddress&$format=json&$top=${top}&$skip=${skip}&$filter=startswith(OrganisationalUnitID,'${search}')`;
+        const query = `/OrganisationalUnitCollection?$expand=OrganisationalUnitNameAndAddress&$format=json&$top=${top}&$skip=${skip}&$filter=startswith(OrganisationalUnitID,'${search}') or startswith(OrganisationalUnitID,'${search.toUpperCase()}')`;
         const executedRes = await service.tx(request).get(query);
         const orgUnits = [];
         executedRes.forEach(element => {
