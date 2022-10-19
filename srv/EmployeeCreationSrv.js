@@ -80,6 +80,10 @@ module.exports = cds.service.impl(async function () {
     this.after('EDIT', 'EmpCreationForm', _calculateButtonAvailability);
     this.after('SAVE', 'EmpCreationForm', _calculateButtonAvailability2);
 
+    this.before('SAVE', 'EmpCreationForm', async request => {
+        debugger;
+    })
+
     this.on('READ', SalesTerritoryCollection, async request => {
         let search = request._query.$search;
         if (search != undefined) {
@@ -127,7 +131,7 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.on('READ', RemoteSystem, async request => {
-        const systemObj = await RemoteSystemDataMapping.getData(businessUnit, tenant);
+        const systemObj = await RemoteSystemDataMapping.getData(systemId, tenant);
 
         let search = request._query.$search;
         if (search != undefined) {
@@ -316,7 +320,7 @@ module.exports = cds.service.impl(async function () {
         } catch (error) {
             decode = null;
         }
-
+        request.data.IsSystemAC = request.headers.system === 'ac'; 
         request.data.Email = decode ? decode.email : 'unknown';
         request.data.FirstName = decode ? decode.given_name : 'unknown';
         request.data.LastName = decode ? decode.family_name : 'unknown';
@@ -341,8 +345,12 @@ module.exports = cds.service.impl(async function () {
             }
         }
 
+        if (request.headers.system !== 'ac' && !request.data.EmployeeIdentifier_Code) {
+            request.reject(400, 'Employee Identifier is mandatory for non-AC systems');
+        }
+
         if (request.data.To_OrgUnits.length == 0) {
-            request.reject(400, 'Organisational Units Assignment must have at least one record.');
+            request.reject(400, 'Organizational Units Assignment must have at least one record.');
         }
 
         let numberOfPrimary = 0;
@@ -435,9 +443,11 @@ module.exports = cds.service.impl(async function () {
 
         if ('System' in req.data && req.data.System) {
             _setSystem(req.data.System);
+            req.data.IsSystemAC = req.data.System === 'ac';
         }
 
         if ('UserLogin' in req.data) {
+            
             const tx = cds.tx();
 
             const selectMappingsQuery = SELECT.from(Mapping.drafts).where({
@@ -465,20 +475,23 @@ module.exports = cds.service.impl(async function () {
     });
 
     async function _setSystem(system) {
-        businessUnit = system;
-
-        if (system === 'ac') {
-            service = await cds.connect.to('c4c_user_ac');
-            c4c_odata = await cds.connect.to('c4c_odata_ac');
-        } else if (system === 'auto') {
-            service = await cds.connect.to('c4c_user_auto');
-            c4c_odata = await cds.connect.to('c4c_odata_auto');
-        } else if (system === 'aerospace') {
-            service = await cds.connect.to('c4c_user_aerospace');
-            c4c_odata = await cds.connect.to('c4c_odata_aerospace');
-        } else {
-            service = await cds.connect.to('c4c_user_ac');
-            c4c_odata = await cds.connect.to('c4c_odata_ac');
+        switch (system) {
+            case 'ac':
+                service = await cds.connect.to('c4c_user_ac');
+                c4c_odata = await cds.connect.to('c4c_odata_ac');
+                break;
+            case 'auto':
+                service = await cds.connect.to('c4c_user_auto');
+                c4c_odata = await cds.connect.to('c4c_odata_auto');
+                break;
+            case 'aerospace':
+                service = await cds.connect.to('c4c_user_aerospace');
+                c4c_odata = await cds.connect.to('c4c_odata_aerospace');
+                break;
+            default:
+                service = await cds.connect.to('c4c_user_ac');
+                c4c_odata = await cds.connect.to('c4c_odata_ac');
+                break;
         }
     }
 });

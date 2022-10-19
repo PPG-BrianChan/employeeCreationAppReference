@@ -40,6 +40,7 @@ entity EmpCreationForm : cuid, managed {
     HideFirstPanel : Boolean;
     HideSecondPanel : Boolean default true;
     IsNotTesterUser : Boolean;
+    IsSystemAC : Boolean;
 }
 
 entity EmployeeOrgUnitAssigment:cuid {
