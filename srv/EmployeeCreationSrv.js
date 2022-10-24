@@ -131,9 +131,8 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.on('READ', RemoteSystem, async request => {
-        const systemId = request.headers.system;
-        const systemObj = await RemoteSystemDataMapping.getData(systemId, tenant);
-
+        businessUnit = request.headers.system;
+        const systemObj = await RemoteSystemDataMapping.getData(businessUnit, tenant);
         let search = request._query.$search;
         if (search != undefined) {
             search = search.slice(1, search.length - 1);
