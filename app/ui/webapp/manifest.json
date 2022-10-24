@@ -7,8 +7,8 @@
     "applicationVersion": {
       "version": "1.0.0"
     },
-    "title": "{{appTitle}}",
-    "description": "{{appDescription}}",
+    "title": "Employee Creation",
+    "description": "",
     "dataSources": {
       "mainService": {
         "uri": "/employee-creation/",
@@ -93,6 +93,9 @@
         "sap.ui.controllerExtensions": {
           "sap.fe.templates.ObjectPage.ObjectPageController": {
             "controllerName": "ppg.ui.custom.ObjectPageExtController"
+          },
+          "sap.fe.templates.ListReport.ListReportController": {
+            "controllerName": "ppg.ui.custom.ListReportExtController"
           }
         }
       }

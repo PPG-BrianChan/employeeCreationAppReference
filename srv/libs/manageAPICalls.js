@@ -258,21 +258,23 @@ class ManageAPICalls {
             this.errorHandling(request, e, errorText);
         }
         const updatedRecord = await UPDATE(EmpCreationForm).where({ ID: request.data.ID }).with({
-        EmployeeIDExternal: empID,
-        EmployeeIDInternal: request.data.ID,
-        EmployeeUUID: UUID,
-        BusinessPartnerID: businessPartnerID,
-        EmployeeUUIDWithHyphen: UUIDwithHyphen,
-        HideFirstPanel: true,
-        IsNotTesterUser: true,
-        HideSecondPanel: false,
-        UserLocked: false,
-        ValidatyStartDate : request.data.ValidatyStartDate
+            EmployeeIDExternal: empID,
+            EmployeeIDInternal: request.data.ID,
+            EmployeeUUID: UUID,
+            BusinessPartnerID: businessPartnerID,
+            EmployeeUUIDWithHyphen: UUIDwithHyphen,
+            HideFirstPanel: true,
+            IsNotTesterUser: true,
+            IsSystemAC: request.data.System === 'ac',
+            HideSecondPanel: false,
+            UserLocked: false,
+            ValidatyStartDate : request.data.ValidatyStartDate
         });
         request.data.EmployeeIDExternal = empID;
         request.data.EmployeeIDInternal = request.data.ID;
         request.data.blockBtnEnabled = true;
         request.data.unblockBtnEnabled = false;
+        request.data.IsSystemAC = request.data.System === 'ac';
         request.data.HideFirstPanel = true;
         request.data.IsNotTesterUser = true;
         request.data.HideSecondPanel = false;

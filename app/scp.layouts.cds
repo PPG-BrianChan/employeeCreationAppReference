@@ -215,15 +215,18 @@ annotate scp.EmpCreationForm with @UI : {
       },
       {
         $Type : 'UI.DataField',
-        Value : EmployeeIdentifier_Code
+        Value : EmployeeIdentifier_Code,
+        @UI.Hidden : IsSystemAC
       },
       {
         $Type : 'UI.DataField',
-        Value : Region_Code
+        Value : Region_Code,
+        @UI.Hidden : IsSystemAC
       },
       {
         $Type : 'UI.DataField',
-        Value : Subregion_Code
+        Value : Subregion_Code,
+        @UI.Hidden : IsSystemAC
       }
     ]
   },
@@ -292,7 +295,8 @@ annotate scp.EmpCreationForm with @UI : {
       {
         $Type : 'UI.DataField',
         Value : Subregion_Code,
-        ![@Common.FieldControl] : #ReadOnly
+        ![@Common.FieldControl] : #ReadOnly,
+        @UI.Hidden : IsSystemAC
       }
     ]
   },
@@ -345,15 +349,18 @@ annotate scp.EmpCreationForm with @UI : {
       },
       {
         $Type : 'UI.DataField',
-        Value : EmployeeIdentifier_Code
+        Value : EmployeeIdentifier_Code,
+        @UI.Hidden : IsSystemAC
       },
       {
         $Type : 'UI.DataField',
-        Value : Region_Code
+        Value : Region_Code,
+        @UI.Hidden : IsSystemAC
       },
       {
         $Type : 'UI.DataField',
-        Value : Subregion_Code
+        Value : Subregion_Code,
+        @UI.Hidden : IsSystemAC
       }
     ]
   },

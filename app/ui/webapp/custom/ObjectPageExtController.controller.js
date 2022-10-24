@@ -4,7 +4,7 @@ sap.ui.define([
   'use strict';
 
   return {
-    
+
     onPageReady: function () {
       const oContext = this.getView().getBindingContext();
 
@@ -17,6 +17,7 @@ sap.ui.define([
         } else {
           if (!mData.System) {
             const sSystem = this.getSystemParameterFromUrl();
+            oContext.getModel().changeHttpHeaders({system: sSystem});
             oContext.setProperty('System', sSystem);
           }
         }
