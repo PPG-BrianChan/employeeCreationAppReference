@@ -1,7 +1,11 @@
 const cds = require('@sap/cds');
 const jwt_decode = require('jwt-decode');
+const { executeHttpRequest, getDestination } = require('@sap-cloud-sdk/core');
 const { ManageAPICalls } = require('./libs/manageAPICalls');
 const { RemoteSystemDataMapping } = require('./libs/RemoteSystemDataMapping');
+const destinationDataLake = {
+    destinationName: 'DataLakeDestination'
+};
 
 module.exports = cds.service.impl(async function () {
     cds.env.features.fetch_csrf = true;
@@ -10,7 +14,7 @@ module.exports = cds.service.impl(async function () {
     let c4c_odata = null;
 
     let businessUnit = null;
-    const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
+   // const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
 
     const {
         EmpCreationForm,
@@ -85,18 +89,24 @@ module.exports = cds.service.impl(async function () {
     })
 
     this.on('READ', SalesTerritoryCollection, async request => {
-        let search = request._query.$search;
+     /*   let search = request._query.$search;
         if (search != undefined) {
             search = search.slice(1, search.length - 1);
             const res = await service.tx(request).run(request.query);
             const result = res.filter(element => element.Id.startsWith(search));
             return result;
         }
-        return service.tx(request).run(request.query);
+        return service.tx(request).run(request.query);*/
+        const createRequestParameters = {
+            method: 'get',
+            url: `/SalesTerritoryCollection?$filter=Source eq 'ac'`
+        };
+        var executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
     });
 
     this.on('READ', EmployeeUserPasswordPolicy, async request => {
-        if (request._query) {
+        /*if (request._query) {
             let search = request._query.$search;
             if (search) {
                 search = search.slice(1, search.length - 1);
@@ -105,33 +115,51 @@ module.exports = cds.service.impl(async function () {
                 return result;
             }
         }
-        return service.tx(request).run(request.query);
+        return service.tx(request).run(request.query);*/
+        const createRequestParameters = {
+            method: 'get',
+            url: `/EmployeeUserPasswordPolicy?$filter=Source eq 'ac'`
+        };
+        var executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
     });
 
     this.on('READ', Country, async request => {
-        let search = request._query.$search;
+      /*  let search = request._query.$search;
         if (search != undefined) {
             search = search.slice(1, search.length - 1);
             const res = await service.tx(request).run(request.query);
             const result = res.filter(element => element.Code.startsWith(search));
             return result;
         }
-        return service.tx(request).run(request.query);
+        return service.tx(request).run(request.query);*/
+        const createRequestParameters = {
+            method: 'get',
+            url: `/Country?$filter=Source eq 'ac'`
+        };
+        var executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
     });
 
     this.on('READ', Language, async request => {
-        let search = request._query.$search;
+        /*let search = request._query.$search;
         if (search != undefined) {
             search = search.slice(1, search.length - 1);
             const res = await service.tx(request).run(request.query);
             const result = res.filter(element => element.Code.startsWith(search));
             return result;
         }
-        return service.tx(request).run(request.query);
+        return service.tx(request).run(request.query);*/
+        const createRequestParameters = {
+            method: 'get',
+            url: `/Language?$filter=Source eq 'ac'`
+        };
+        var executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
     });
-
+    
     this.on('READ', RemoteSystem, async request => {
-        businessUnit = request.headers.system;
+     /*   businessUnit = request.headers.system;
         const systemObj = await RemoteSystemDataMapping.getData(businessUnit, tenant);
         let search = request._query.$search;
         if (search != undefined) {
@@ -140,24 +168,36 @@ module.exports = cds.service.impl(async function () {
             const result = res.filter(element => element.ID.startsWith(search));
             return result;
         }
-        return systemObj;
+        return systemObj;*/
+        const createRequestParameters = {
+            method: 'get',
+            url: `RemoteSystem?$filter=BusinessUnit eq 'ac' and Tenant eq 'ClientLink-Dev_org'`
+        };
+        var executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
     });
 
     this.on('READ', Job, async request => {
-        let search = request._query.$search;
+       /* let search = request._query.$search;
         if (search != undefined) {
             search = search.slice(1, search.length - 1);
             const res = await service.tx(request).run(request.query);
             const result = res.filter(element => element.JobID.startsWith(search));
             return result;
         }
-        return service.tx(request).run(request.query);
+        return service.tx(request).run(request.query);*/
+        const createRequestParameters = {
+            method: 'get',
+            url: `/Job?$filter=Source eq 'ac'`
+        };
+        var executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
     });
 
     this.on('READ', RoleCode, request => service.tx(request).run(request.query));
 
     this.on('READ', OrgUnit, async request => {
-        let skip = request._query.$skip;
+     /*   let skip = request._query.$skip;
         let search = request._query.$search;
         const top = 2000;
         if (skip != 0) {
@@ -177,11 +217,17 @@ module.exports = cds.service.impl(async function () {
                 orgUnits.push(proxyInst);
             }
         });
-        return orgUnits;
+        return orgUnits;*/
+        const createRequestParameters = {
+            method: 'get',
+            url: `/OrgUnit?$filter=Source eq 'ac'`
+        };
+        var executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
     });
 
     this.on('READ', SalesOrgs, async request => {
-        let skip = request._query.$skip;
+     /*   let skip = request._query.$skip;
         const top = 2000;
         if (skip != 0) {
             skip = top;
@@ -205,33 +251,51 @@ module.exports = cds.service.impl(async function () {
             const result = res.filter(element => element.Code.toLowerCase().startsWith(search));
             return result;
         }
-        return orgUnits;
+        return orgUnits;*/
+        const createRequestParameters = {
+            method: 'get',
+            url: `/SalesOrgs?$filter=Source eq 'ac'`
+        };
+        var executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
     });
 
     this.on('READ', DistributionChanelCode, async request => {
-        let search = request._query.$search;
+    /*    let search = request._query.$search;
         if (search != undefined) {
             search = search.slice(1, search.length - 1);
             const res = await service.tx(request).run(request.query);
             const result = res.filter(element => element.Code.startsWith(search));
             return result;
         }
-        return service.tx(request).run(request.query);
+        return service.tx(request).run(request.query);*/
+        const createRequestParameters = {
+            method: 'get',
+            url: `/DistributionChanelCode?$filter=Source eq 'ac'`
+        };
+        var executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
     });
 
     this.on('READ', DivisionCode, async request => {
-        let search = request._query.$search;
+     /*   let search = request._query.$search;
         if (search != undefined) {
             search = search.slice(1, search.length - 1);
             const res = await service.tx(request).run(request.query);
             const result = res.filter(element => element.Code.startsWith(search));
             return result;
         }
-        return service.tx(request).run(request.query);
+        return service.tx(request).run(request.query);*/
+        const createRequestParameters = {
+            method: 'get',
+            url: `/DivisionCode?$filter=Source eq 'ac'`
+        };
+        var executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
     });
 
     this.on('READ', Roles, async request => {
-        const skip = request._query.$skip;
+     /*   const skip = request._query.$skip;
         const top = request._query.$top;
         let search = request._query.$search;
 
@@ -245,11 +309,17 @@ module.exports = cds.service.impl(async function () {
             const result = res.filter(element => element.CROOT_ID_CONTENT.startsWith(search));
             return result;
         }
-        return e.d.results;
+        return e.d.results;*/
+        const createRequestParameters = {
+            method: 'get',
+            url: `/Roles?$filter=Source eq 'ac'`
+        };
+        var executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
     });
 
     this.on('READ', EmployeeIdentifier, async request => {
-        const skip = request._query.$skip;
+    /*    const skip = request._query.$skip;
         const top = request._query.$top;
         let search = request._query.$search;
 
@@ -263,11 +333,17 @@ module.exports = cds.service.impl(async function () {
             const result = res.filter(element => element.Description.startsWith(search));
             return result;
         }
-        return executedRes;
+        return executedRes;*/
+        const createRequestParameters = {
+            method: 'get',
+            url: `/EmployeeIdentifier?$filter=Source eq 'ac'`
+        };
+        var executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
     });
 
     this.on('READ', Region, async request => {
-        const skip = request._query.$skip;
+      /*  const skip = request._query.$skip;
         const top = request._query.$top;
         let search = request._query.$search;
 
@@ -281,11 +357,17 @@ module.exports = cds.service.impl(async function () {
             const result = res.filter(element => element.Description.startsWith(search));
             return result;
         }
-        return executedRes;
+        return executedRes;*/
+        const createRequestParameters = {
+            method: 'get',
+            url: `/Region?$filter=Source eq 'ac'`
+        };
+        var executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
     });
 
     this.on('READ', Subregion, async request => {
-        const skip = request._query.$skip;
+      /*  const skip = request._query.$skip;
         const top = request._query.$top;
         let search = request._query.$search;
 
@@ -299,7 +381,13 @@ module.exports = cds.service.impl(async function () {
             const result = res.filter(element => element.Description.startsWith(search));
             return result;
         }
-        return executedRes;
+        return executedRes;*/
+        const createRequestParameters = {
+            method: 'get',
+            url: `/Subregion?$filter=Source eq 'ac'`
+        };
+        var executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
     });
 
     this.on('blockUser', EmpCreationForm, async request => {
