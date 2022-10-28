@@ -33,9 +33,9 @@ annotate scp.EmpCreationForm with @UI : {
     Email,
     MobilePhone,
     UserLogin,
-    'To_BusinessRoles/Role_CROOT_ID_CONTENT',
-    'To_OrgUnits/UnitID_ID',
-    'To_OrgUnits/JobID_JobID',
+    'To_BusinessRoles/Role_Code',
+    'To_OrgUnits/UnitID_Code',
+    'To_OrgUnits/JobID_Code',
     'To_SalesResponsobilities/SalesOrgID_Code',
     createdAt,
     createdBy
@@ -402,7 +402,7 @@ annotate scp.EmployeeOrgUnitAssigment with @(UI.LineItem #i18nOrgUnits : [
   },
   {
     $Type : 'UI.DataField',
-    Value : JobID_JobID,
+    Value : JobID_Code,
     Label : '{i18n>JobID}',
   },
   {
@@ -437,13 +437,13 @@ annotate scp.SalesResponsability with @(UI.LineItem #i18nSalesResp : [
 
 annotate scp.Territories with @(UI.LineItem #i18nTerritories : [{
   $Type : 'UI.DataField',
-  Value : SalesTerritory_Id,
+  Value : SalesTerritory_Code,
   Label : '{i18n>SalesTerritory}',
 }]);
 
 annotate scp.BusinessRoles with @(UI.LineItem #i18nBusinessRoles : [{
   $Type : 'UI.DataField',
-  Value : Role_CROOT_ID_CONTENT,
+  Value : Role_Code,
   Label : '{i18n>Role}',
 }, ]);
 
@@ -455,7 +455,7 @@ annotate scp.Mapping with @(UI.LineItem #i18nMapping : [
   },
   {
     $Type : 'UI.DataField',
-    Value : RemoteSystemID_ID,
+    Value : RemoteSystemID_Code,
     Label : '{i18n>RemoteSystemID}',
   },
 ]);

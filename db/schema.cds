@@ -174,7 +174,7 @@ entity Roles {
 };
 
 entity RemoteSystem {
-    key ID : String;
+    key Code : String;
     Description : String;
 }
 
