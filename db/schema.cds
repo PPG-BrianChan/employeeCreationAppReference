@@ -100,8 +100,11 @@ entity EmployeeUserPasswordPolicyCodeCollection as projection on external.Employ
     key Code, Description
 };
 
-entity JobDefinitionCollection as projection on extjob.JobDefinitionCollection {
-    key JobID, JobName
+entity JobDefinitionCollection{// as projection on extjob.JobDefinitionCollection {
+   // key JobID, JobName
+    key Code        : String;
+    Description : String;
+    Source      : String;
 };
 /*
 entity OrganisationalUnitNameAndAddressCollection as projection on extunit.OrganisationalUnitNameAndAddressCollection {
@@ -154,17 +157,24 @@ entity OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection as
     key Code, Description
 };
 
-entity SalesTerritoryCollection as projection on extterritory.SalesTerritoryCollection {
-    key Id, Name
+entity SalesTerritoryCollection{// as projection on extterritory.SalesTerritoryCollection {
+  //  key Id, Name
+    key Code        : String;
+    Description : String;
+    Source      : String;
 }
 
 entity Roles {
-    key CROOT_ID_CONTENT : String;
-    CDESCRIPTION_NAME : String;
+  /*  key CROOT_ID_CONTENT : String;
+    CDESCRIPTION_NAME : String;*/
+    key Code        : String;   
+    Description : String;
+    Source      : String;
+    
 };
 
 entity RemoteSystem {
-    key ID : String;
+    key Code : String;
     Description : String;
 }
 

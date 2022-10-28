@@ -1,7 +1,11 @@
 const cds = require('@sap/cds');
 const jwt_decode = require('jwt-decode');
+const { executeHttpRequest, getDestination } = require('@sap-cloud-sdk/core');
 const { ManageAPICalls } = require('./libs/manageAPICalls');
 const { RemoteSystemDataMapping } = require('./libs/RemoteSystemDataMapping');
+const destinationDataLake = {
+    destinationName: 'DataLakeDestination'
+};
 
 module.exports = cds.service.impl(async function () {
     cds.env.features.fetch_csrf = true;
@@ -11,6 +15,7 @@ module.exports = cds.service.impl(async function () {
 
     let businessUnit = null;
     const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
+  // const tenant = 'ClientLink-Dev_org';
 
     const {
         EmpCreationForm,
@@ -85,222 +90,113 @@ module.exports = cds.service.impl(async function () {
     })
 
     this.on('READ', SalesTerritoryCollection, async request => {
-        let search = request._query.$search;
-        if (search != undefined) {
-            search = search.slice(1, search.length - 1);
-            const res = await service.tx(request).run(request.query);
-            const result = res.filter(element => element.Id.startsWith(search));
-            return result;
-        }
-        return service.tx(request).run(request.query);
+
+        const data = await _getData(request, 'SalesTerritoryCollection')
+        return data;
     });
 
     this.on('READ', EmployeeUserPasswordPolicy, async request => {
-        if (request._query) {
-            let search = request._query.$search;
-            if (search) {
-                search = search.slice(1, search.length - 1);
-                const res = await service.tx(request).run(request.query);
-                const result = res.filter(element => element.Code.startsWith(search));
-                return result;
-            }
-        }
-        return service.tx(request).run(request.query);
+
+        const data = await _getData(request, 'EmployeeUserPasswordPolicy')
+        return data;
     });
 
     this.on('READ', Country, async request => {
-        let search = request._query.$search;
-        if (search != undefined) {
-            search = search.slice(1, search.length - 1);
-            const res = await service.tx(request).run(request.query);
-            const result = res.filter(element => element.Code.startsWith(search));
-            return result;
-        }
-        return service.tx(request).run(request.query);
+
+        const data = await _getData(request, 'Country')
+        return data;
     });
 
     this.on('READ', Language, async request => {
-        let search = request._query.$search;
-        if (search != undefined) {
-            search = search.slice(1, search.length - 1);
-            const res = await service.tx(request).run(request.query);
-            const result = res.filter(element => element.Code.startsWith(search));
-            return result;
-        }
-        return service.tx(request).run(request.query);
+        
+        const data = await _getData(request, 'Language')
+        return data;
     });
-
+    
     this.on('READ', RemoteSystem, async request => {
-        businessUnit = request.headers.system;
-        const systemObj = await RemoteSystemDataMapping.getData(businessUnit, tenant);
-        let search = request._query.$search;
-        if (search != undefined) {
-            search = search.slice(1, search.length - 1);
-            const res = systemObj;
-            const result = res.filter(element => element.ID.startsWith(search));
-            return result;
-        }
-        return systemObj;
+
+       // url: `RemoteSystem?$filter=BusinessUnit eq 'ac' and Tenant eq 'ClientLink-Dev_org'`
+        const data = await _getData(request, 'RemoteSystem')
+        return data;
     });
 
     this.on('READ', Job, async request => {
-        let search = request._query.$search;
-        if (search != undefined) {
-            search = search.slice(1, search.length - 1);
-            const res = await service.tx(request).run(request.query);
-            const result = res.filter(element => element.JobID.startsWith(search));
-            return result;
-        }
-        return service.tx(request).run(request.query);
+ 
+        const data = await _getData(request, 'Job')
+        return data;
     });
 
     this.on('READ', RoleCode, request => service.tx(request).run(request.query));
 
     this.on('READ', OrgUnit, async request => {
-        let skip = request._query.$skip;
-        let search = request._query.$search;
-        const top = 2000;
-        if (skip != 0) {
-            skip = top;
-        }
-        if (search != undefined) search = search.slice(1, search.length - 1);
-        else search = '';
-        //const query = `/OrganisationalUnitCollection?$expand=OrganisationalUnitNameAndAddress&$format=json&$top=${top}&$skip=${skip}&$filter=startswith(OrganisationalUnitID,'${search}')`;
-        const query = `/OrganisationalUnitCollection?$expand=OrganisationalUnitNameAndAddress&$format=json&$top=${top}&$skip=${skip}&$filter=startswith(OrganisationalUnitID,'${search}') or startswith(OrganisationalUnitID,'${search.toUpperCase()}')`;
-        const executedRes = await service.tx(request).get(query);
-        const orgUnits = [];
-        executedRes.forEach(element => {
-            if (element.MarkAsDeleted == false) {
-                const proxyInst = {};
-                proxyInst.Code = element.OrganisationalUnitID;
-                proxyInst.Description = element.OrganisationalUnitNameAndAddress[0].Name;
-                orgUnits.push(proxyInst);
-            }
-        });
-        return orgUnits;
+
+        const data = await _getData(request, 'OrgUnit')
+        return data;
     });
 
     this.on('READ', SalesOrgs, async request => {
-        let skip = request._query.$skip;
-        const top = 2000;
-        if (skip != 0) {
-            skip = top;
-        }
-        const query = `/OrganisationalUnitCollection?$expand=OrganisationalUnitFunctions,OrganisationalUnitNameAndAddress&$format=json&$top=${top}&$skip=${skip}`;
-        const executedRes = await service.tx(request).get(query);
-        const orgUnits = [];
-        executedRes.forEach(element => {
-            if (element.MarkAsDeleted == false && element.OrganisationalUnitFunctions[0].SalesOrganisationIndicator) {
-                const proxyInst = {};
-                proxyInst.Code = element.OrganisationalUnitID;
-                proxyInst.Description = element.OrganisationalUnitNameAndAddress[0].Name;
-                proxyInst.SalesOrgIndicator = element.OrganisationalUnitFunctions[0].SalesOrganisationIndicator;
-                orgUnits.push(proxyInst);
-            }
-        });
-        let search = request._query.$search;
-        if (search != undefined) {
-            search = search.slice(1, search.length - 1);
-            const res = orgUnits;
-            const result = res.filter(element => element.Code.toLowerCase().startsWith(search));
-            return result;
-        }
-        return orgUnits;
+     
+        const data = await _getData(request, 'SalesOrgs')
+        return data;
     });
 
     this.on('READ', DistributionChanelCode, async request => {
-        let search = request._query.$search;
-        if (search != undefined) {
-            search = search.slice(1, search.length - 1);
-            const res = await service.tx(request).run(request.query);
-            const result = res.filter(element => element.Code.startsWith(search));
-            return result;
-        }
-        return service.tx(request).run(request.query);
+
+        const data = await _getData(request, 'DistributionChanelCode')
+        return data;
     });
 
     this.on('READ', DivisionCode, async request => {
-        let search = request._query.$search;
-        if (search != undefined) {
-            search = search.slice(1, search.length - 1);
-            const res = await service.tx(request).run(request.query);
-            const result = res.filter(element => element.Code.startsWith(search));
-            return result;
-        }
-        return service.tx(request).run(request.query);
+
+        const data = await _getData(request, 'DivisionCode')
+        return data;
     });
 
     this.on('READ', Roles, async request => {
-        const skip = request._query.$skip;
-        const top = request._query.$top;
-        let search = request._query.$search;
 
-        let query = `/RPCCABUSINESS_ROLEQueryResults?$select=CROOT_ID_CONTENT,CDESCRIPTION_NAME&$format=json`;
-        if (search == undefined) query += `&$skip=${skip}&$top=${top}`;
-
-        const e = await c4c_odata.tx(request).get(query);
-        if (search != undefined) {
-            search = search.slice(1, search.length - 1);
-            const res = e.d.results;
-            const result = res.filter(element => element.CROOT_ID_CONTENT.startsWith(search));
-            return result;
-        }
-        return e.d.results;
+        const data = await _getData(request, 'Roles')
+        return data;
     });
 
     this.on('READ', EmployeeIdentifier, async request => {
-        const skip = request._query.$skip;
-        const top = request._query.$top;
-        let search = request._query.$search;
 
-        let query = `/EmployeeZ_EmployeeIdentifier_KUTCollection?$select=Code,Description&$format=json`;
-        if (search == undefined) query += `&$skip=${skip}&$top=${top}`;
-
-        const executedRes = await service.tx(request).get(query);
-        if (search != undefined) {
-            search = search.slice(1, search.length - 1);
-            const res = executedRes;
-            const result = res.filter(element => element.Description.startsWith(search));
-            return result;
-        }
-        return executedRes;
+        const data = await _getData(request, 'EmployeeIdentifier')
+        return data;
     });
 
     this.on('READ', Region, async request => {
-        const skip = request._query.$skip;
-        const top = request._query.$top;
-        let search = request._query.$search;
-
-        let query = `/EmployeeRegion_KUTCollection?$select=Code,Description&$format=json`;
-        if (search == undefined) query += `&$skip=${skip}&$top=${top}`;
-
-        const executedRes = await service.tx(request).get(query);
-        if (search != undefined) {
-            search = search.slice(1, search.length - 1);
-            const res = executedRes;
-            const result = res.filter(element => element.Description.startsWith(search));
-            return result;
-        }
-        return executedRes;
+        
+        const data = await _getData(request, 'Region')
+        return data;
     });
 
     this.on('READ', Subregion, async request => {
-        const skip = request._query.$skip;
-        const top = request._query.$top;
-        let search = request._query.$search;
 
-        let query = `/EmployeeSubregion_KUTCollection?$select=Code,Description&$format=json`;
-        if (search == undefined) query += `&$skip=${skip}&$top=${top}`;
-
-        const executedRes = await service.tx(request).get(query);
-        if (search != undefined) {
-            search = search.slice(1, search.length - 1);
-            const res = executedRes;
-            const result = res.filter(element => element.Description.startsWith(search));
-            return result;
-        }
-        return executedRes;
+        const data = await _getData(request, 'Subregion')
+        return data;
     });
+
+    async function _getData(request, collectionName) {
+        let search = request._query.$search;    
+        let system = request.headers.system;
+        console.log(search)
+        let path = "";
+        if (search != undefined) {
+            path = `&$search=${search}`
+        }
+
+        let createRequestParameters = {
+            method: 'get',
+            url: `/${collectionName}?$filter=Source eq '${system}'${path}`
+        };
+
+        if(collectionName == 'RemoteSystem'){
+            createRequestParameters.url = `RemoteSystem?$filter=BusinessUnit eq '${system}' and Tenant eq '${tenant}'`
+        }
+
+        const executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        return executedData.data.value;
+    }
 
     this.on('blockUser', EmpCreationForm, async request => {
         await ManageAPICalls.lockUser(request, EmpCreationForm, service);
@@ -340,7 +236,7 @@ module.exports = cds.service.impl(async function () {
 
     this.before('SAVE', EmpCreationForm, async request => {
         for (const element of request.data.To_BusinessRoles) {
-            if (element.Role_CROOT_ID_CONTENT == null) {
+            if (element.Role_Code == null) {
                 request.reject(400, 'Business Role is mandatory.');
             }
         }
@@ -358,7 +254,7 @@ module.exports = cds.service.impl(async function () {
             if (element.UnitID_Code == null) {
                 request.reject(400, 'Unit ID is mandatory.');
             }
-            if (element.JobID_JobID == null) {
+            if (element.JobID_Code == null) {
                 request.reject(400, 'Job ID is mandatory.');
             }
             if (element.IsPrimary) {

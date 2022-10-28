@@ -115,12 +115,12 @@ annotate scp.EmployeeOrgUnitAssigment {
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : JobID_JobID,
-                ValueListProperty : 'JobID'
+                LocalDataProperty : JobID_Code,
+                ValueListProperty : 'Code'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'JobName'
+                ValueListProperty : 'Description'
             },
         ]
     }; /*
@@ -212,12 +212,12 @@ annotate scp.Territories with {
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : SalesTerritory_Id,
-                ValueListProperty : 'Id'
+                LocalDataProperty : SalesTerritory_Code,
+                ValueListProperty : 'Code'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'Name'
+                ValueListProperty : 'Description'
             },
         ]
     };
@@ -231,12 +231,12 @@ annotate scp.BusinessRoles with {
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : Role_CROOT_ID_CONTENT,
-                ValueListProperty : 'CROOT_ID_CONTENT'
+                LocalDataProperty : Role_Code,
+                ValueListProperty : 'Code'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'CDESCRIPTION_NAME'
+                ValueListProperty : 'Description'
             },
         ]
     };
@@ -250,8 +250,8 @@ annotate scp.Mapping with {
         Parameters      : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : RemoteSystemID_ID,
-                ValueListProperty : 'ID'
+                LocalDataProperty : RemoteSystemID_Code,
+                ValueListProperty : 'Code'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
