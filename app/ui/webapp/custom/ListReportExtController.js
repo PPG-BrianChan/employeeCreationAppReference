@@ -22,9 +22,10 @@ sap.ui.define([],
                     oModel = oTable.getModel();
                 let sSelectedIds = '';
                 aSelectedItems.forEach( selectedItem => {
-                    let sSelectedId = selectedItem.getBindingContext().getObject().BusinessPartnerID;
-                    if (sSelectedId) 
-                     sSelectedIds +=  + ',';
+                    let oBPobject = selectedItem.getBindingContext().getObject(),
+                        sSelectedId = oBPobject.ID;
+                    if (oBPobject.BusinessPartnnerID) 
+                     sSelectedIds += sSelectedId + ',';
                 });
                 if (sSelectedIds.length > 0) {
                     var oContext = oModel.bindContext("/lockUsers(...)", null, {idList: sSelectedIds});
@@ -38,9 +39,10 @@ sap.ui.define([],
                     oModel = oTable.getModel();
                 let sSelectedIds = '';
                 aSelectedItems.forEach( selectedItem => {
-                    let sSelectedId = selectedItem.getBindingContext().getObject().BusinessPartnerID;
-                    if (sSelectedId) 
-                     sSelectedIds +=  + ',';
+                    let oBPobject = selectedItem.getBindingContext().getObject(),
+                        sSelectedId = oBPobject.ID;
+                    if (oBPobject.BusinessPartnnerID) 
+                     sSelectedIds += sSelectedId + ',';
                 });
                 if (sSelectedIds.length > 0) {
                     var oContext = oModel.bindContext("/unlockUsers(...)", null, {idList: sSelectedIds});

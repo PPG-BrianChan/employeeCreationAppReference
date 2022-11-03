@@ -13,10 +13,6 @@ sap.ui.define([
       getSystemParameterFromUrl: function () {
         const sHash = decodeURI(window.location.hash.split('?')[1]).replace(/%20/g, ' ');
         return UriParameters.fromQuery(sHash).get('System');
-      },
-
-      test: function () {
-          console.log("apapapapap")
       }
   
     };
