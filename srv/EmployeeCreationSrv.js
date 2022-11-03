@@ -209,6 +209,15 @@ module.exports = cds.service.impl(async function () {
         await ManageAPICalls.unlockUser(request, EmpCreationForm, service);
     });
 
+    this.on('lockUsers', async request => {
+        console.log("lockUserData" + JSON.stringify(request.data));
+        //await ManageAPICalls.lockUser(request, EmpCreationForm, service);
+    });
+
+    this.on('unlockUsers', async request => {
+        //await ManageAPICalls.unlockUser(request, EmpCreationForm, service);
+    });
+
     this.before('NEW', EmpCreationForm, async request => {
         const token = request.headers.authorization;
 
