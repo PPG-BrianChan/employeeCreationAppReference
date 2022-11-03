@@ -1,188 +1,194 @@
 {
-  "_version": "1.32.0",
-  "sap.app": {
-    "id": "ppg.ui",
-    "type": "application",
-    "i18n": "i18n/i18n.properties",
-    "applicationVersion": {
-      "version": "1.0.0"
-    },
-    "title": "Employee Creation",
-    "description": "",
-    "dataSources": {
-      "mainService": {
-        "uri": "/employee-creation/",
-        "type": "OData",
-        "settings": {
-          "odataVersion": "4.0"
-        }
-      }
-    },
-    "offline": false,
-    "resources": "resources.json",
-    "sourceTemplate": {
-      "id": "ui5template.fiorielements.v4.lrop",
-      "version": "1.0.0"
-    },
-    "crossNavigation": {
-      "inbounds": {
-        "ppg-poc-employee-display-inbound": {
-          "signature": {
-            "parameters": {},
-            "additionalParameters": "allowed"
-          },
-          "semanticObject": "EmpCreationForm",
-          "action": "display",
-          "title": "{{appTitle}}",
-          "subTitle": "",
-          "icon": "sap-icon://my-sales-order"
-        }
-      }
-    }
-  },
-  "sap.ui": {
-    "technology": "UI5",
-    "icons": {
-      "icon": "",
-      "favIcon": "",
-      "phone": "",
-      "phone@2": "",
-      "tablet": "",
-      "tablet@2": ""
-    },
-    "deviceTypes": {
-      "desktop": true,
-      "tablet": true,
-      "phone": true
-    }
-  },
-  "sap.ui5": {
-    "resources": {
-      "js": [],
-      "css": []
-    },
-    "dependencies": {
-      "minUI5Version": "1.97.2",
-      "libs": {
-        "sap.ui.core": {},
-        "sap.fe.templates": {}
-      }
-    },
-    "models": {
-      "@i18n": {
-        "type": "sap.ui.model.resource.ResourceModel",
-        "uri": "i18n/i18n.properties"
-      },
-      "i18n": {
-        "type": "sap.ui.model.resource.ResourceModel",
-        "uri": "i18n/i18n.properties"
-      },
-      "": {
-        "dataSource": "mainService",
-        "preload": true,
-        "settings": {
-          "synchronizationMode": "None",
-          "operationMode": "Server",
-          "autoExpandSelect": true,
-          "earlyRequests": true
-        }
-      }
-    },
-    "extends": {
-      "extensions": {
-        "sap.ui.controllerExtensions": {
-          "sap.fe.templates.ObjectPage.ObjectPageController": {
-            "controllerName": "ppg.ui.custom.ObjectPageExtController"
-          },
-          "sap.fe.templates.ListReport.ListReportController": {
-            "controllerName": "ppg.ui.custom.ListReportExtController"
-          }
-        }
-      }
-    },
-    "routing": {
-      "routes": [
-        {
-          "pattern": ":?query:",
-          "name": "EmpCreationFormList",
-          "target": "EmpCreationFormList"
+    "_version": "1.32.0",
+    "sap.app": {
+        "id": "ppg.ui",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "1.0.0"
         },
-        {
-          "pattern": "EmpCreationForm({key}):?query:",
-          "name": "EmpCreationFormObjectPage",
-          "target": "EmpCreationFormObjectPage"
+        "title": "Employee Creation",
+        "description": "",
+        "dataSources": {
+            "mainService": {
+                "uri": "/employee-creation/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "4.0"
+                }
+            }
+        },
+        "offline": false,
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "ui5template.fiorielements.v4.lrop",
+            "version": "1.0.0"
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "ppg-poc-employee-display-inbound": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "EmpCreationForm",
+                    "action": "display",
+                    "title": "{{appTitle}}",
+                    "subTitle": "",
+                    "icon": "sap-icon://my-sales-order"
+                }
+            }
         }
-      ],
-      "targets": {
-        "EmpCreationFormList": {
-          "type": "Component",
-          "id": "EmpCreationFormList",
-          "name": "sap.fe.templates.ListReport",
-          "options": {
-            "settings": {
-              "entitySet": "EmpCreationForm",
-              "variantManagement": "Page",
-              "controlConfiguration": {
-                "@com.sap.vocabularies.UI.v1.LineItem": {
-                  "actions": {
-                    "REPLACE_WITH_ACTION_ID": {
-                      "id": "REPLACE_WITH_ACTION_IDButton",
-                      "text": "{i18n>restoreButton}",
-                      "press": "ppg.ui.custom.ListReportExtController.ButtonClick",
-                      "requiresSelection": false
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "resources": {
+            "js": [],
+            "css": []
+        },
+        "dependencies": {
+            "minUI5Version": "1.97.2",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.fe.templates": {}
+            }
+        },
+        "models": {
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            }
+        },
+        "extends": {
+            "extensions": {
+                "sap.ui.controllerExtensions": {
+                    "sap.fe.templates.ObjectPage.ObjectPageController": {
+                        "controllerName": "ppg.ui.custom.ObjectPageExtController"
+                    },
+                    "sap.fe.templates.ListReport.ListReportController": {
+                        "controllerName": "ppg.ui.custom.ListReportExtController"
                     }
-                  }
                 }
-              },
-              "navigation": {
-                "EmpCreationForm": {
-                  "detail": {
-                    "route": "EmpCreationFormObjectPage"
-                  }
-                }
-              },
-              "initialLoad": "Enabled"
             }
-          }
         },
-        "EmpCreationFormObjectPage": {
-          "type": "Component",
-          "id": "EmpCreationFormObjectPage",
-          "name": "sap.fe.templates.ObjectPage",
-          "options": {
-            "settings": {
-              "editableHeaderContent": false,
-              "entitySet": "EmpCreationForm",
-              "inboundParameters": {
-                "System": {
-                  "useForCreate": true
+        "routing": {
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "EmpCreationFormList",
+                    "target": "EmpCreationFormList"
+                },
+                {
+                    "pattern": "EmpCreationForm({key}):?query:",
+                    "name": "EmpCreationFormObjectPage",
+                    "target": "EmpCreationFormObjectPage"
                 }
-              }
+            ],
+            "targets": {
+                "EmpCreationFormList": {
+                    "type": "Component",
+                    "id": "EmpCreationFormList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "entitySet": "EmpCreationForm",
+                            "variantManagement": "Page",
+                            "controlConfiguration": {
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "actions": {
+                                        "REPLACE_WITH_ACTION_ID": {
+                                            "id": "REPLACE_WITH_ACTION_IDButton",
+                                            "text": "{i18n>restoreButton}",
+                                            "press": "ppg.ui.custom.ListReportExtController.ButtonClick",
+                                            "requiresSelection": false
+                                        },
+                                        "DataFieldForAction::EmployeeCreationService.blockUser": {
+                                            "enableOnSelect": "multi"
+                                        },
+                                        "DataFieldForAction::EmployeeCreationService.unblockUser": {
+                                            "enableOnSelect": "multi"
+                                        }
+                                    }
+                                }
+                            },
+                            "navigation": {
+                                "EmpCreationForm": {
+                                    "detail": {
+                                        "route": "EmpCreationFormObjectPage"
+                                    }
+                                }
+                            },
+                            "initialLoad": "Enabled"
+                        }
+                    }
+                },
+                "EmpCreationFormObjectPage": {
+                    "type": "Component",
+                    "id": "EmpCreationFormObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "entitySet": "EmpCreationForm",
+                            "inboundParameters": {
+                                "System": {
+                                    "useForCreate": true
+                                }
+                            }
+                        }
+                    }
+                }
             }
-          }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
         }
-      }
     },
-    "contentDensities": {
-      "compact": true,
-      "cozy": true
+    "sap.platform.abap": {
+        "_version": "1.1.0",
+        "uri": ""
+    },
+    "sap.platform.hcp": {
+        "_version": "1.1.0",
+        "uri": ""
+    },
+    "sap.fiori": {
+        "_version": "1.1.0",
+        "registrationIds": [],
+        "archeType": "transactional"
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "employee.service"
     }
-  },
-  "sap.platform.abap": {
-    "_version": "1.1.0",
-    "uri": ""
-  },
-  "sap.platform.hcp": {
-    "_version": "1.1.0",
-    "uri": ""
-  },
-  "sap.fiori": {
-    "_version": "1.1.0",
-    "registrationIds": [],
-    "archeType": "transactional"
-  },
-  "sap.cloud": {
-    "public": true,
-    "service": "employee.service"
-  }
 }

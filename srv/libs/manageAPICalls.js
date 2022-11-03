@@ -14,6 +14,7 @@ class ManageAPICalls {
   }
 
   static getObjectIDFromURI(el){
+    console.log("ELEMENT" + JSON.stringify(el));
     let metadata;
     if(el.$metadata != undefined){
         metadata = el.$metadata;
@@ -26,6 +27,7 @@ class ManageAPICalls {
   }
 
   static async lockUser(request, EmpCreationForm, service) {
+      console.log("LOCK USER START");
     try {
       const { ID } = request.params[0];
       const creationForm = await SELECT.one.from(EmpCreationForm).where({ ID });
@@ -187,11 +189,22 @@ class ManageAPICalls {
         try {
             var path = `/EmployeeCollection('${UUID}')/EmployeeSalesResponsibility`;
             var res = await service.tx(request).get(path);
+            console.log("ELEMENT_SR" + JSON.stringify(request.data.To_SalesResponsobilities));
+            console.log("ELEMENT_RES" + JSON.stringify(res));
             for (const element of request.data.To_SalesResponsobilities){
+                
+                let mainIndicator = false;
+                if(element.MainIndicator == null){
+                    mainIndicator = false;
+                }else{
+                    mainIndicator = element.MainIndicator;
+                }
+                
                 const resEl = res.find(el => el.SalesOrganisationID == element.SalesOrgID_Code && 
                                             el.DistributionChannelCode == element.DistributionChanelCode_Code && 
                                             el.DivisionCode == element.DivisionCode_Code && 
-                                            el.MainIndicator == element.MainIndicator);
+                                            el.MainIndicator == mainIndicator);
+                console.log("ELEMENT_S" + JSON.stringify(element));
                 const objID = ManageAPICalls.getObjectIDFromURI(resEl);
                 const updatedRecord = await UPDATE(SalesResponsability)
                 .where({To_CreationForm_ID:request.data.ID, ID : element.ID})

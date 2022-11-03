@@ -15,7 +15,7 @@ module.exports = cds.service.impl(async function () {
 
     let businessUnit = null;
     const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
-  // const tenant = 'ClientLink-Dev_org';
+   //const tenant = 'ClientLink-Dev_org';
 
     const {
         EmpCreationForm,
@@ -96,8 +96,9 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.on('READ', EmployeeUserPasswordPolicy, async request => {
-
+        
         const data = await _getData(request, 'EmployeeUserPasswordPolicy')
+        console.log("CHECK" + JSON.stringify(data))
         return data;
     });
 
@@ -177,9 +178,10 @@ module.exports = cds.service.impl(async function () {
     });
 
     async function _getData(request, collectionName) {
+       // var t = await getDestination('DataLakeDestination')
         let search = request._query.$search;    
         let system = request.headers.system;
-        console.log(search)
+        //console.log(search)
         let path = "";
         if (search != undefined) {
             path = `&$search=${search}`
@@ -195,6 +197,7 @@ module.exports = cds.service.impl(async function () {
         }
 
         const executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
+        console.log(JSON.stringify(executedData.data.value))
         return executedData.data.value;
     }
 

@@ -149,12 +149,14 @@ entity EmployeeOrgaUnitAssignmentRoleCodeCollection {
     Description : String;
 };
 
-entity OrganisationalUnitDistributionChannelAndDivisionDistributionChannelCodeCollection as projection on extunit.OrganisationalUnitDistributionChannelAndDivisionDistributionChannelCodeCollection {
-    key Code, Description
+entity OrganisationalUnitDistributionChannelAndDivisionDistributionChannelCodeCollection{// as projection on extunit.OrganisationalUnitDistributionChannelAndDivisionDistributionChannelCodeCollection {
+    key Code : String;
+    Description : String;
 };
 
-entity OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection as projection on extunit.OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection {
-    key Code, Description
+entity OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection{// as projection on extunit.OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection {
+    key Code : String;
+    Description : String;
 };
 
 entity SalesTerritoryCollection{// as projection on extterritory.SalesTerritoryCollection {
