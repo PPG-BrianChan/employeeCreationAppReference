@@ -131,11 +131,11 @@
                                             "press": "ppg.ui.custom.ListReportExtController.ButtonClick",
                                             "requiresSelection": false
                                         },
-                                        "DataFieldForAction::EmployeeCreationService.blockUser": {
-                                            "enableOnSelect": "multi"
-                                        },
-                                        "DataFieldForAction::EmployeeCreationService.unblockUser": {
-                                            "enableOnSelect": "multi"
+                                        "LOCK_USER_ID": {
+                                            "id": "LOCK_USER_IDButton",
+                                            "text": "{i18n>lockButton}",
+                                            "press": "ppg.ui.custom.ListReportExtController.lockButtonClick",
+                                            "requiresSelection": true
                                         }
                                     }
                                 }

@@ -261,7 +261,7 @@ annotate scp.Mapping with {
     };
 };
 
-annotate scp.EmpCreationForm actions {
+/* annotate scp.EmpCreationForm actions {
     @(
         cds.odata.bindingparameter.name : '_it',
         Core.OperationAvailable         : _it.unblockBtnEnabled,
@@ -274,7 +274,7 @@ annotate scp.EmpCreationForm actions {
         Common.SideEffects              : {TargetProperties : ['_it/*']}
     )
     blockUser;
-}
+} */
 
 
 annotate e.EmployeeIdentifier with @cds.odata.valuelist;
