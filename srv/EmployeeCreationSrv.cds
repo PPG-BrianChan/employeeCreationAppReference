@@ -62,6 +62,9 @@ service EmployeeCreationService
   entity Region                     as projection on employee.Region;
   entity Subregion                  as projection on employee.Subregion;
 
+  function lockUsers(idsList: String) returns String;
+  function unlockUsers(idsList: String) returns String;
+
 }
 
 annotate EmployeeCreationService.EmpCreationForm with @odata.draft.enabled;
