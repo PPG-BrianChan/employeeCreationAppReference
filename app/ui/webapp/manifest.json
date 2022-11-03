@@ -133,8 +133,14 @@
                                         },
                                         "LOCK_USER_ID": {
                                             "id": "LOCK_USER_IDButton",
-                                            "text": "{i18n>lockButton}",
+                                            "text": "{i18n>blockUser}",
                                             "press": "ppg.ui.custom.ListReportExtController.lockButtonClick",
+                                            "requiresSelection": true
+                                        },
+                                        "UNLOCK_USER_ID": {
+                                            "id": "LOCK_USER_IDButton",
+                                            "text": "{i18n>unblockUser}",
+                                            "press": "ppg.ui.custom.ListReportExtController.unlockButtonClick",
                                             "requiresSelection": true
                                         }
                                     }
@@ -162,6 +168,20 @@
                             "inboundParameters": {
                                 "System": {
                                     "useForCreate": true
+                                }
+                            },
+                            "content": {
+								"header": {
+									"actions": {
+                                        "LOCK_USER_ID": {
+											"press": "ppg.ui.custom.ObjectPageExt.lockButtonClick",
+											"text": "{i18n>blockUser}"
+										},
+                                        "UNLOCK_USER_ID": {
+											"press": "ppg.ui.custom.ObjectPageExt.unlockButtonClick",
+											"text": "{i18n>unblockUser}"
+										}
+                                    }
                                 }
                             }
                         }

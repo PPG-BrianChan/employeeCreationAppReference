@@ -30,6 +30,22 @@ sap.ui.define([],
                     var oContext = oModel.bindContext("/lockUsers(...)", null, {idList: sSelectedIds});
                     oContext.execute();
                 }
+            },
+
+            unlockButtonClick: function () {
+                const oTable = this._view.byId("ppg.ui::EmpCreationFormList--fe::table::EmpCreationForm::LineItem-innerTable"),
+                    aSelectedItems = oTable.getSelectedItems(),
+                    oModel = oTable.getModel();
+                let sSelectedIds = '';
+                aSelectedItems.forEach( selectedItem => {
+                    let sSelectedId = selectedItem.getBindingContext().getObject().BusinessPartnerID;
+                    if (sSelectedId) 
+                     sSelectedIds +=  + ',';
+                });
+                if (sSelectedIds.length > 0) {
+                    var oContext = oModel.bindContext("/unlockUsers(...)", null, {idList: sSelectedIds});
+                    oContext.execute();
+                }
             }
         };
     });
