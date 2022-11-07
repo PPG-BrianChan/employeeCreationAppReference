@@ -1,5 +1,6 @@
 const cds = require('@sap/cds');
 const jwt_decode = require('jwt-decode');
+const CircularJSON = require('circular-json');
 const { executeHttpRequest, getDestination } = require('@sap-cloud-sdk/core');
 const { ManageAPICalls } = require('./libs/manageAPICalls');
 const { RemoteSystemDataMapping } = require('./libs/RemoteSystemDataMapping');
@@ -15,7 +16,7 @@ module.exports = cds.service.impl(async function () {
 
     let businessUnit = null;
     const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
-   //const tenant = 'ClientLink-Dev_org';
+   //const tenant = 'ClientLink-QA_org';
 
     const {
         EmpCreationForm,
@@ -122,7 +123,7 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.on('READ', Job, async request => {
- 
+        
         const data = await _getData(request, 'Job')
         return data;
     });
@@ -210,11 +211,143 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.on('lockUsers', async request => {
-        console.log("lockUserData" + JSON.stringify(request.data));
-        //await ManageAPICalls.lockUser(request, EmpCreationForm, service);
+        console.log("LOCKUSER" + CircularJSON.stringify(request))
+        try{
+            let idList = request.data.idsList;
+            let idArray;
+            let user = 'User';
+            if(idList.indexOf(",") != -1){
+                let idListWithoutComma = idList.slice(0,-1)
+                idArray = idListWithoutComma.split(",")
+                let user = 'Users';
+            }else{
+                idArray = idList.split(",")
+            }
+
+            for (let element of idArray){
+                console.log("el"+element)
+                const creationForm = await SELECT.one.from(EmpCreationForm).where({ ID : element});
+                console.log("EXECUTED"+JSON.stringify(creationForm))
+
+                const currentObjectID = creationForm.EmployeeUUID;
+                const system = creationForm.System;
+                const dest = ManageAPICalls._getDestination(system);
+                const endPoint = `/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('${currentObjectID}')`;
+                console.log("endPoint"+ endPoint)       
+
+                const createRequestParameters = {
+                    method: 'patch',
+                    url: endPoint,
+                    data: {
+                        "UserLockedIndicator": true
+                    },
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                }
+                console.log("createRequestParameters"+ JSON.stringify(createRequestParameters))
+                console.log("dest"+ dest)
+                const executedData = await executeHttpRequest({destinationName: dest}, createRequestParameters, {
+                    fetchCsrfToken: true
+                });
+                
+                console.log("executedData" + CircularJSON.stringify(executedData))
+                //await request.info('User locked');
+                await UPDATE(EmpCreationForm).where({ ID : element }).with({ UserLocked: true });
+                return {
+                    Code: "200",
+                    Message: `${user} locked`
+                };
+            }
+        }catch(e){
+            let errorText;
+            let errorCode;
+            if(error.innererror != undefined && error.innererror.response != undefined){
+                errorText = text + error.innererror.response.body.error.message.value;
+                errorCode = error.innererror.response.status;
+            }
+            if(errorText && errorCode){
+                return {
+                    Code: errorCode,
+                    Message: errorText
+                };
+            }
+            return {
+                Code: "500",
+                Message: "Error via locking users"
+            };
+        }
+
+        //await ManageAPICalls.lockUser(request, idArray, EmpCreationForm);
     });
 
     this.on('unlockUsers', async request => {
+        console.log("UNLOCKUSER" + CircularJSON.stringify(request))
+        try{
+            let idList = request.data.idsList;
+            let idArray;
+            let user = 'User';
+            if(idList.indexOf(",") != -1){
+                let idListWithoutComma = idList.slice(0,-1)
+                idArray = idListWithoutComma.split(",")
+                user = 'Users';
+            }else{
+                idArray = idList.split(",")
+            }
+            
+            for (let element of idArray){
+                console.log("el"+element)
+                const creationForm = await SELECT.one.from(EmpCreationForm).where({ ID : element});
+                console.log("EXECUTED"+JSON.stringify(creationForm))
+
+                const currentObjectID = creationForm.EmployeeUUID;
+                const system = creationForm.System;
+                const dest = ManageAPICalls._getDestination(system);
+                const endPoint = `/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('${currentObjectID}')`;
+                console.log("endPoint"+ endPoint)       
+
+                const createRequestParameters = {
+                    method: 'patch',
+                    url: endPoint,
+                    data: {
+                        "UserLockedIndicator": false
+                    },
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                }
+                console.log("createRequestParameters"+ JSON.stringify(createRequestParameters))
+                console.log("dest"+ dest)
+                const executedData = await executeHttpRequest({destinationName: dest}, createRequestParameters, {
+                    fetchCsrfToken: true
+                });
+                
+                console.log("executedData" + CircularJSON.stringify(executedData))
+                //await request.info('User locked');
+                await UPDATE(EmpCreationForm).where({ ID : element }).with({ UserLocked: false });
+                return {
+                    Code: "200",
+                    Message: `${user} unlocked`
+                };
+            }
+        }catch(e){
+            let errorText;
+            let errorCode;
+            if(error.innererror != undefined && error.innererror.response != undefined){
+                errorText = text + error.innererror.response.body.error.message.value;
+                errorCode = error.innererror.response.status;
+            }
+            if(errorText && errorCode){
+                return {
+                    Code: errorCode,
+                    Message: errorText
+                };
+            }
+            return {
+                Code: "500",
+                Message: "Error via unlocking users"
+            };
+        }
         //await ManageAPICalls.unlockUser(request, EmpCreationForm, service);
     });
 
@@ -383,23 +516,29 @@ module.exports = cds.service.impl(async function () {
     });
 
     async function _setSystem(system) {
+        let destinationName = '';
         switch (system) {
             case 'ac':
                 service = await cds.connect.to('c4c_user_ac');
                 c4c_odata = await cds.connect.to('c4c_odata_ac');
+                destinationName = 'c4c_user_ac';
                 break;
             case 'auto':
                 service = await cds.connect.to('c4c_user_auto');
                 c4c_odata = await cds.connect.to('c4c_odata_auto');
+                destinationName = 'c4c_user_auto';
                 break;
             case 'aerospace':
                 service = await cds.connect.to('c4c_user_aerospace');
                 c4c_odata = await cds.connect.to('c4c_odata_aerospace');
+                destinationName = 'c4c_user_aerospace';
                 break;
             default:
                 service = await cds.connect.to('c4c_user_ac');
                 c4c_odata = await cds.connect.to('c4c_odata_ac');
+                destinationName = 'c4c_user_ac';
                 break;
         }
+        return destinationName;
     }
 });

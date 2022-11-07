@@ -5,9 +5,10 @@ sap.ui.define([],
             lockButtonClick: function () {
                 const oModel = this._view.getModel(),
                     oBPobject = this._view.getBindingContext().getObject(),
-                    sBusinessPartnnerID = oBPobject.ID;
-                if (oBPobject.BusinessPartnnerID) {
-                    const oContext = oModel.bindContext("/lockUsers(...)", null, {idList: sBusinessPartnnerID});
+                    sBusinessPartnerID = oBPobject.ID;
+                if (oBPobject.BusinessPartnerID) {
+                    var oContext = oModel.bindContext('/lockUsers(...)');
+                    oContext.setParameter('idsList', sBusinessPartnerID);
                     oContext.execute();
                 }
             },
@@ -15,9 +16,10 @@ sap.ui.define([],
             unlockButtonClick: function () {
                 const oModel = this._view.getModel(),
                     oBPobject = this._view.getBindingContext().getObject(),
-                    sBusinessPartnnerID = oBPobject.ID;
-                if (oBPobject.BusinessPartnnerID) {
-                    const oContext = oModel.bindContext("/unlockUsers(...)", null, {idList: sBusinessPartnnerID});
+                    sBusinessPartnerID = oBPobject.ID;
+                if (oBPobject.BusinessPartnerID) {
+                    var oContext = oModel.bindContext('/unlockUsers(...)');
+                    oContext.setParameter('idsList', sBusinessPartnerID);
                     oContext.execute();
                 }
             }
