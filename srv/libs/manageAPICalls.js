@@ -13,6 +13,22 @@ class ManageAPICalls {
     }
   }
 
+  static _getDestination(system) {
+    let destinationName = '';
+    switch (system) {
+        case 'ac':
+            destinationName = 'c4c_ac';
+            break;
+        case 'auto':
+            destinationName = 'c4c_auto';
+            break;
+        case 'aerospace':
+            destinationName = 'c4c_aerospace';
+            break;
+    }
+    return destinationName;
+  }
+
   static getObjectIDFromURI(el){
     console.log("ELEMENT" + JSON.stringify(el));
     let metadata;
@@ -26,9 +42,11 @@ class ManageAPICalls {
     return uri.substr(index);  
   }
 
-  static async lockUser(request, EmpCreationForm, service) {
+  static async lockUser(/*request, EmpCreationForm,*/request, idArray, EmpCreationForm) {
       console.log("LOCK USER START");
-    try {
+      console.log("LOCK USER SERVICE");
+   /* try {
+      
       const { ID } = request.params[0];
       const creationForm = await SELECT.one.from(EmpCreationForm).where({ ID });
       const c4cID = creationForm.EmployeeIDExternal;
@@ -45,14 +63,58 @@ class ManageAPICalls {
     } catch (e) {
       const errorText = 'User locking error: ';
       ManageAPICalls.errorHandling(request, e, errorText);
-    }
+    }*/
+        try {
+            for (let element of idArray){
+                const creationForm = await SELECT.one.from(EmpCreationForm).where({ ID : element});
+                console.log("EXECUTED"+JSON.stringify(creationForm))
+
+                const c4cID = creationForm.EmployeeIDExternal;
+                const dataE = {
+                    UserLockedIndicator: true
+                };
+              //  const query = `/EmployeeCollection?$filter=EmployeeID eq '${c4cID}'&$select=ObjectID`;
+               // const empData = await service.tx(request).get(query);
+               // const currentObjectID = empData[0].ObjectID;
+                const currentObjectID = creationForm.EmployeeUUID;
+                const system = creationForm.System;
+                const dest = this._getDestination(system);
+                const endPoint = `/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('${currentObjectID}')`;
+                //await service.tx(request).patch(endPoint, data);
+                console.log("endPoint"+ endPoint)
+                
+
+                const createRequestParameters = {
+                    method: 'patch',
+                    url: endPoint,
+                    data: {
+                        "UserLockedIndicator": true
+                    },
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                }
+                console.log("createRequestParameters"+ JSON.stringify(createRequestParameters))
+                console.log("dest"+ dest)
+                const executedData = await executeHttpRequest({destinationName: dest}, createRequestParameters, {
+                    fetchCsrfToken: true
+                });
+                
+                console.log("executedData" + CircularJSON.stringify(executedData))
+                request.info('User locked');
+                await UPDATE(EmpCreationForm).where({ ID : element }).with({ UserLocked: true });
+            }
+          } catch (e) {
+            const errorText = 'User locking error: ';
+            ManageAPICalls.errorHandling(request, e, errorText);
+          }
   };
 
   static async unlockUser(request, EmpCreationForm, service) {
     try {
       const { ID } = request.params[0];
       const creationForm = await SELECT.one.from(EmpCreationForm).where({ ID });
-      const c4cID = creationForm.EmployeeIDExternal;
+    /*  const c4cID = creationForm.EmployeeIDExternal;
       const data = {
         UserLockedIndicator: false
       };
@@ -60,7 +122,7 @@ class ManageAPICalls {
       const empData = await service.tx(request).get(query);
       const currentObjectID = empData[0].ObjectID;
       const endPoint = `/EmployeeCollection('${currentObjectID}')`;
-      const resTer = await service.tx(request).patch(endPoint, data);
+      const resTer = await service.tx(request).patch(endPoint, data);*/
       request.info('User unlocked');
       const updatedRecord = await UPDATE(EmpCreationForm).where({ ID }).with({ UserLocked: false });
     } catch (e) {

@@ -26,7 +26,9 @@ sap.ui.define([],
                         sSelectedId = oBPobject.ID;
                     if (oBPobject.BusinessPartnerID) 
                      sSelectedIds += sSelectedId + ',';
+                     console.log("OBjectFields" + JSON.stringify(oBPobject));
                 });
+                console.log("IDs" + sSelectedIds);
                 if (sSelectedIds.length > 0) {
                     var oContext = oModel.bindContext("/lockUsers(...)");
                     oContext.setParameter('idsList', sSelectedIds);
