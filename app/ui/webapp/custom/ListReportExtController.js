@@ -24,12 +24,20 @@ sap.ui.define([],
                 aSelectedItems.forEach( selectedItem => {
                     let oBPobject = selectedItem.getBindingContext().getObject(),
                         sSelectedId = oBPobject.ID;
-                    if (oBPobject.BusinessPartnnerID) 
+                    if (oBPobject.BusinessPartnerID) 
                      sSelectedIds += sSelectedId + ',';
                 });
                 if (sSelectedIds.length > 0) {
-                    var oContext = oModel.bindContext("/lockUsers(...)", null, {idList: sSelectedIds});
-                    oContext.execute();
+                    var oContext = oModel.bindContext("/lockUsers(...)");
+                    oContext.setParameter('idsList', sSelectedIds);
+                    oContext.execute().then(
+                        response => {
+                            sap.m.MessageToast.show("User locked");
+                            oTable.getBinding("items").refresh();
+                        },
+                        error => {
+                            sap.m.MessageBox.error(error);
+                        });
                 }
             },
 
@@ -41,12 +49,20 @@ sap.ui.define([],
                 aSelectedItems.forEach( selectedItem => {
                     let oBPobject = selectedItem.getBindingContext().getObject(),
                         sSelectedId = oBPobject.ID;
-                    if (oBPobject.BusinessPartnnerID) 
+                    if (oBPobject.BusinessPartnerID) 
                      sSelectedIds += sSelectedId + ',';
                 });
                 if (sSelectedIds.length > 0) {
-                    var oContext = oModel.bindContext("/unlockUsers(...)", null, {idList: sSelectedIds});
-                    oContext.execute();
+                    var oContext = oModel.bindContext("/unlockUsers(...)");
+                    oContext.setParameter('idsList', sSelectedIds);
+                    oContext.execute().then(
+                        response => {
+                            sap.m.MessageToast.show("User unlocked");
+                            oTable.getBinding("items").refresh();
+                        },
+                        error => {
+                            sap.m.MessageBox.error(error);
+                        });
                 }
             }
         };
