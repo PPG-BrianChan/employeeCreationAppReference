@@ -34,7 +34,7 @@ sap.ui.define([],
                     oContext.setParameter('idsList', sSelectedIds);
                     oContext.execute().then(
                         response => {
-                            sap.m.MessageToast.show("User locked");
+                            sap.m.MessageToast.show("Users locked");
                             oTable.getBinding("items").refresh();
                         },
                         error => {
@@ -59,7 +59,7 @@ sap.ui.define([],
                     oContext.setParameter('idsList', sSelectedIds);
                     oContext.execute().then(
                         response => {
-                            sap.m.MessageToast.show("User unlocked");
+                            sap.m.MessageToast.show("Users unlocked");
                             oTable.getBinding("items").refresh();
                         },
                         error => {

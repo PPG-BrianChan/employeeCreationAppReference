@@ -11,7 +11,7 @@ sap.ui.define([],
                     oContext.setParameter('idsList', sBusinessPartnerID);
                     oContext.execute().then(
                         response => {
-                            sap.m.MessageToast.show("User locked");
+                            sap.m.MessageToast.show("Users locked");
                             this._view.getBindingContext().refresh();
                         },
                         error => {
@@ -29,7 +29,7 @@ sap.ui.define([],
                     oContext.setParameter('idsList', sBusinessPartnerID);
                     oContext.execute().then(
                         response => {
-                            sap.m.MessageToast.show("User unlocked");
+                            sap.m.MessageToast.show("Users unlocked");
                             this._view.getBindingContext().refresh();
                         },
                         error => {
