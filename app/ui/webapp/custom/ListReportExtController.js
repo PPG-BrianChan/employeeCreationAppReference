@@ -38,7 +38,7 @@ sap.ui.define([],
                             oTable.getBinding("items").refresh();
                         },
                         error => {
-                            sap.m.MessageBox.error(error);
+                            sap.m.MessageBox.error(error.message);
                         });
                 }
             },
@@ -63,7 +63,7 @@ sap.ui.define([],
                             oTable.getBinding("items").refresh();
                         },
                         error => {
-                            sap.m.MessageBox.error(error);
+                            sap.m.MessageBox.error(error.message);
                         });
                 }
             }

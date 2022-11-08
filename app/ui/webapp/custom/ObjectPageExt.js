@@ -15,7 +15,7 @@ sap.ui.define([],
                             this._view.getBindingContext().refresh();
                         },
                         error => {
-                            sap.m.MessageBox.error(error);
+                            sap.m.MessageBox.error(error.message);
                         });
                 }
             },
@@ -33,7 +33,7 @@ sap.ui.define([],
                             this._view.getBindingContext().refresh();
                         },
                         error => {
-                            sap.m.MessageBox.error(error);
+                            sap.m.MessageBox.error(error.message);
                         });
                 }
             }
