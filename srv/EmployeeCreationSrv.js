@@ -253,29 +253,32 @@ module.exports = cds.service.impl(async function () {
                 
                 console.log("executedData" + CircularJSON.stringify(executedData))
                 //await request.info('User locked');
-                await UPDATE(EmpCreationForm).where({ ID : element }).with({ UserLocked: true });
-                return {
-                    Code: "200",
-                    Message: `${user} locked`
-                };
+                await UPDATE(EmpCreationForm).where({ ID : element }).with({ UserLocked: true });               
             }
-        }catch(e){
+            return {
+                Code: "200",
+                Message: `${user} locked`
+            };
+        }catch(error){
+            console.log("ERROR_TEXT"+CircularJSON.stringify(error))
             let errorText;
             let errorCode;
-            if(error.innererror != undefined && error.innererror.response != undefined){
+            if(error != undefined && error.innererror != undefined && error.innererror.response != undefined){
                 errorText = text + error.innererror.response.body.error.message.value;
                 errorCode = error.innererror.response.status;
             }
             if(errorText && errorCode){
-                return {
+             /*   return {
                     Code: errorCode,
                     Message: errorText
-                };
+                };*/
+                request.reject(errorCode, errorText);
             }
-            return {
+           /* return {
                 Code: "500",
                 Message: "Error via locking users"
-            };
+            };*/
+            request.reject(500, "Error via unlocking users");
         }
 
         //await ManageAPICalls.lockUser(request, idArray, EmpCreationForm);
@@ -324,29 +327,32 @@ module.exports = cds.service.impl(async function () {
                 
                 console.log("executedData" + CircularJSON.stringify(executedData))
                 //await request.info('User locked');
-                await UPDATE(EmpCreationForm).where({ ID : element }).with({ UserLocked: false });
-                return {
-                    Code: "200",
-                    Message: `${user} unlocked`
-                };
+                await UPDATE(EmpCreationForm).where({ ID : element }).with({ UserLocked: false });               
             }
-        }catch(e){
+            return {
+                Code: "200",
+                Message: `${user} unlocked`
+            };
+        }catch(error){
+            console.log("ERROR_TEXT"+CircularJSON.stringify(error));
             let errorText;
             let errorCode;
-            if(error.innererror != undefined && error.innererror.response != undefined){
+            if(error != undefined && error.innererror != undefined && error.innererror.response != undefined){
                 errorText = text + error.innererror.response.body.error.message.value;
                 errorCode = error.innererror.response.status;
             }
             if(errorText && errorCode){
-                return {
+               /* return {
                     Code: errorCode,
                     Message: errorText
-                };
+                };*/
+                request.reject(errorCode, errorText);
             }
-            return {
+           /* return {
                 Code: "500",
                 Message: "Error via unlocking users"
-            };
+            };*/
+            request.reject(500, "Error via unlocking users");
         }
         //await ManageAPICalls.unlockUser(request, EmpCreationForm, service);
     });
