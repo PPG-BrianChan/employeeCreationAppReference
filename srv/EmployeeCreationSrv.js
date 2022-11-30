@@ -12,7 +12,6 @@ module.exports = cds.service.impl(async function () {
     cds.env.features.fetch_csrf = true;
 
     let service = null;
-    let c4c_odata = null;
 
     let businessUnit = null;
     const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
@@ -128,7 +127,7 @@ module.exports = cds.service.impl(async function () {
         return data;
     });
 
-    this.on('READ', RoleCode, request => service.tx(request).run(request.query));
+    //this.on('READ', RoleCode, request => service.tx(request).run(request.query));
 
     this.on('READ', OrgUnit, async request => {
 
@@ -201,7 +200,7 @@ module.exports = cds.service.impl(async function () {
         console.log(JSON.stringify(executedData.data.value))
         return executedData.data.value;
     }
-
+/*
     this.on('blockUser', EmpCreationForm, async request => {
         await ManageAPICalls.lockUser(request, EmpCreationForm, service);
     });
@@ -209,7 +208,7 @@ module.exports = cds.service.impl(async function () {
     this.on('unblockUser', EmpCreationForm, async request => {
         await ManageAPICalls.unlockUser(request, EmpCreationForm, service);
     });
-
+*/
     this.on('lockUsers', async request => {
         console.log("LOCKUSER" + CircularJSON.stringify(request))
         try{
@@ -522,29 +521,19 @@ module.exports = cds.service.impl(async function () {
     });
 
     async function _setSystem(system) {
-        let destinationName = '';
         switch (system) {
             case 'ac':
-                service = await cds.connect.to('c4c_user_ac');
-                c4c_odata = await cds.connect.to('c4c_odata_ac');
-                destinationName = 'c4c_user_ac';
+                service = await cds.connect.to('c4c_ac');
                 break;
             case 'auto':
-                service = await cds.connect.to('c4c_user_auto');
-                c4c_odata = await cds.connect.to('c4c_odata_auto');
-                destinationName = 'c4c_user_auto';
+                service = await cds.connect.to('c4c_auto');
                 break;
             case 'aerospace':
-                service = await cds.connect.to('c4c_user_aerospace');
-                c4c_odata = await cds.connect.to('c4c_odata_aerospace');
-                destinationName = 'c4c_user_aerospace';
+                service = await cds.connect.to('c4c_aerospace');
                 break;
             default:
-                service = await cds.connect.to('c4c_user_ac');
-                c4c_odata = await cds.connect.to('c4c_odata_ac');
-                destinationName = 'c4c_user_ac';
+                service = await cds.connect.to('c4c_ac');
                 break;
         }
-        return destinationName;
     }
 });

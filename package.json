@@ -76,40 +76,22 @@
         "kind": "odata-v2",
         "model": "srv/external/organisationalunit"
       },
-      "c4c_user_ac": {
+      "c4c_ac": {
         "kind": "odata-v2",
         "credentials": {
-          "destination": "c4c_user_ac"
+          "destination": "c4c_ac"
         }
       },
-      "c4c_odata_ac": {
-        "kind": "rest",
-        "credentials": {
-          "destination": "c4c_odata_ac"
-        }
-      },
-      "c4c_user_auto": {
+      "c4c_auto": {
         "kind": "odata-v2",
         "credentials": {
-          "destination": "c4c_user_auto"
+          "destination": "c4c_auto"
         }
       },
-      "c4c_odata_auto": {
-        "kind": "rest",
-        "credentials": {
-          "destination": "c4c_odata_auto"
-        }
-      },
-      "c4c_user_aerospace": {
+      "c4c_aerospace": {
         "kind": "odata-v2",
         "credentials": {
-          "destination": "c4c_user_aerospace"
-        }
-      },
-      "c4c_odata_aerospace": {
-        "kind": "rest",
-        "credentials": {
-          "destination": "c4c_odata_aerospace"
+          "destination": "c4c_aerospace"
         }
       },
       "objectidentifiermapping": {

@@ -1,8 +1,4 @@
 using {sap.employee as employee} from '../db/schema';
-using {employeeanduser as external} from './external/employeeanduser.csn';
-using {jobdefinition as extjob} from './external/jobdefinition.csn';
-using {organisationalunit as extunit} from './external/organisationalunit.csn';
-using {objectidentifiermapping as extmapping} from './external/objectidentifiermapping.csn';
 
 service EmployeeCreationService 
 /*@(requires : [

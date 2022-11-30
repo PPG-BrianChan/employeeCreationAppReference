@@ -221,7 +221,7 @@ class ManageAPICalls {
     console.log("EMP_INST" + JSON.stringify(empInst));
     let executedRes;
     try {
-      executedRes = await service.tx(request).post('/EmployeeCollection', empInst);
+      executedRes = await service.tx(request).post('/sap/c4c/odata/v1/c4codataapi/EmployeeCollection', empInst);
     } catch (e) {
       const errorText = 'Employee creation error: ';
       ManageAPICalls.errorHandling(request, e, errorText);
@@ -234,7 +234,7 @@ class ManageAPICalls {
         const UUIDwithHyphen = executedRes.UUID;
 
         try {
-            var path = `/EmployeeCollection('${UUID}')/EmployeeUserBusinessRoleAssignment`;
+            var path = `/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('${UUID}')/EmployeeUserBusinessRoleAssignment`;
             var res = await service.tx(request).get(path);
             for (const element of request.data.To_BusinessRoles) {
                 var resEl = res.find(el => el.BusinessRoleID == element.Role_Code);
@@ -249,7 +249,7 @@ class ManageAPICalls {
         }
 
         try {
-            var path = `/EmployeeCollection('${UUID}')/EmployeeSalesResponsibility`;
+            var path = `/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('${UUID}')/EmployeeSalesResponsibility`;
             var res = await service.tx(request).get(path);
             console.log("ELEMENT_SR" + JSON.stringify(request.data.To_SalesResponsobilities));
             console.log("ELEMENT_RES" + JSON.stringify(res));
@@ -278,7 +278,7 @@ class ManageAPICalls {
         }
 
         try {
-            var path = `/EmployeeCollection('${UUID}')/EmployeeOrganisationalUnitAssignment`;
+            var path = `/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('${UUID}')/EmployeeOrganisationalUnitAssignment`;
             var res = await service.tx(request).get(path);
             for (const element of request.data.To_OrgUnits){
                 var resEl = res.find(el => el.OrgUnitID == element.UnitID_Code && 
@@ -301,11 +301,11 @@ class ManageAPICalls {
                 newTerrInst.StartDate = `${request.data.ValidatyStartDate}T00:00:00`;
                 newTerrInst.EndDate = `${END_DATE}T00:00:00`;
                 newTerrInst.PartyRole = '46';
-                const query = `/SalesTerritoryCollection?$filter=Id eq '${element.SalesTerritory_Code}'&$select=ObjectID`;
+                const query = `/sap/c4c/odata/v1/c4codataapi/SalesTerritoryCollection?$filter=Id eq '${element.SalesTerritory_Code}'&$select=ObjectID`;
 
                 const terData = await service.tx(request).get(query);
                 const currentObjectID = terData[0].ObjectID;
-                const endPoint = `/SalesTerritoryCollection('${currentObjectID}')/SalesTerritoryTeam`;
+                const endPoint = `/sap/c4c/odata/v1/c4codataapi/SalesTerritoryCollection('${currentObjectID}')/SalesTerritoryTeam`;
                 const resTer = await service.tx(request).post(endPoint, newTerrInst);
                 const objID = ManageAPICalls.getObjectIDFromURI(resTer);
                 const updatedRecord = await UPDATE(Territories)
@@ -323,7 +323,7 @@ class ManageAPICalls {
             newMappingInst.RemoteObjectID = element.RemoteObjectID;
             newMappingInst.RemoteIdentifierDefiningSchemeCode = '3';
             newMappingInst.RemoteBusinessSystemID = element.RemoteSystemID_Code;
-            const resObjMapping = await service.tx(request).post('/ObjectIdentifierMappingCollection', newMappingInst);
+            const resObjMapping = await service.tx(request).post('/sap/c4c/odata/v1/c4codataapi/ObjectIdentifierMappingCollection', newMappingInst);
             const objID = ManageAPICalls.getObjectIDFromURI(resObjMapping);  
             const updatedMapping = await UPDATE(Mapping)
                 .where({ To_CreationForm_ID: request.data.ID, ID: element.ID })
@@ -385,7 +385,7 @@ class ManageAPICalls {
             newRoleInst.Salesreportingeligible_KUT = request.data.SalesReportingEligible;
         }
 
-        var new_path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')";
+        var new_path = "/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('"+ request.data.EmployeeUUID +"')";
         var resofPATCH = await service.tx(request).patch(new_path,newRoleInst);
     }catch(e){
         var errorText = 'Employee update error: ';
@@ -395,7 +395,7 @@ class ManageAPICalls {
       // --------------------------------Business Roles  ---------------------
       // ------------------DELETE------------------
       try {
-        var path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeUserBusinessRoleAssignment";
+        var path = "/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeUserBusinessRoleAssignment";
         var res = await service.tx(request).get(path);
         var arr = request.data.To_BusinessRoles;
         for (const elem of res){
@@ -405,7 +405,7 @@ class ManageAPICalls {
             if(resEl == undefined){
                 var uri = elem.$metadata.uri;
                 var index = uri.indexOf("(");
-                var new_path = "/EmployeeUserBusinessRoleAssignmentCollection" + uri_del.substr(index_del);
+                var new_path = "/sap/c4c/odata/v1/c4codataapi/EmployeeUserBusinessRoleAssignmentCollection" + uri_del.substr(index_del);
                 var resofDel = await service.tx(request).delete(new_path);     
             }          
         }
@@ -421,10 +421,10 @@ class ManageAPICalls {
                 newRoleInst.UserID = request.data.UserLogin.toUpperCase();
                 newRoleInst.BusinessRoleID = element.Role_Code;
                 if(element.ObjectID != null){
-                    var path = "/EmployeeUserBusinessRoleAssignmentCollection" + element.ObjectID;
+                    var path = "/sap/c4c/odata/v1/c4codataapi/EmployeeUserBusinessRoleAssignmentCollection" + element.ObjectID;
                     var resofDel = await service.tx(request).delete(path);     
                 }
-                var new_path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeUserBusinessRoleAssignment";
+                var new_path = "/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeUserBusinessRoleAssignment";
                 console.log("NEW_ROLE" + JSON.stringify(newRoleInst));
                 var resofPOST = await service.tx(request).post(new_path,newRoleInst);     
                 var objID = ManageAPICalls.getObjectIDFromURI(resofPOST);  
@@ -440,7 +440,7 @@ class ManageAPICalls {
       //--------------------------------Org Unit Assignment ---------------------
         //------------------DELETE------------------
         try{           
-            var path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeOrganisationalUnitAssignment";
+            var path = "/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeOrganisationalUnitAssignment";
             var res = await service.tx(request).get(path);
             var arr = request.data.To_OrgUnits;
             for (const elem of res){
@@ -450,7 +450,7 @@ class ManageAPICalls {
                 if(resEl == undefined){
                     var uri = elem.$metadata.uri;
                     var index = uri.indexOf("(");
-                    var new_path = "/EmployeeOrganisationalUnitAssignmentCollection" + uri_del.substr(index_del);
+                    var new_path = "/sap/c4c/odata/v1/c4codataapi/EmployeeOrganisationalUnitAssignmentCollection" + uri_del.substr(index_del);
                     var resofDel = await service.tx(request).delete(new_path);     
                 }          
             }
@@ -473,10 +473,10 @@ class ManageAPICalls {
                     newOrgInst.StartDate = request.data.ValidatyStartDate + "T00:00:00";
                     newOrgInst.EndDate = END_DATE + "T00:00:00";
                     if(element.ObjectID != null){
-                        var path = "/EmployeeOrganisationalUnitAssignmentCollection" + element.ObjectID;
+                        var path = "/sap/c4c/odata/v1/c4codataapi/EmployeeOrganisationalUnitAssignmentCollection" + element.ObjectID;
                         var resofDel = await service.tx(request).delete(path);     
                     }
-                    var new_path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeOrganisationalUnitAssignment";
+                    var new_path = "/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeOrganisationalUnitAssignment";
                     var resofPOST = await service.tx(request).post(new_path,newOrgInst);     
                     var objID = ManageAPICalls.getObjectIDFromURI(resofPOST);  
                     element.ObjectID =  objID;
@@ -490,7 +490,7 @@ class ManageAPICalls {
       // --------------------------------Sales responsobility ---------------------
       //------------------DELETE------------------
       try{           
-        var path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeSalesResponsibility";
+        var path = "/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeSalesResponsibility";
         var res = await service.tx(request).get(path);
         var arr = request.data.To_SalesResponsobilities;
         for (const elem of res){
@@ -500,7 +500,7 @@ class ManageAPICalls {
             if(resEl == undefined){
                 var uri = elem.$metadata.uri;
                 var index = uri.indexOf("(");
-                var new_path = "/EmployeeSalesResponsibilityCollection" + uri_del.substr(index_del);
+                var new_path = "/sap/c4c/odata/v1/c4codataapi/EmployeeSalesResponsibilityCollection" + uri_del.substr(index_del);
                 var resofDel = await service.tx(request).delete(new_path);     
             }          
         }
@@ -518,10 +518,10 @@ class ManageAPICalls {
                 newSalesRespInst.DivisionCode = element.DivisionCode_Code;
                 newSalesRespInst.MainIndicator = element.MainIndicator;
                 if(element.ObjectID != null){
-                    var path = "/EmployeeSalesResponsibilityCollection" + element.ObjectID;
+                    var path = "/sap/c4c/odata/v1/c4codataapi/EmployeeSalesResponsibilityCollection" + element.ObjectID;
                     var resofDel = await service.tx(request).delete(path);   
                 }  
-                var new_path = "/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeSalesResponsibility";
+                var new_path = "/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeSalesResponsibility";
                 var resofPOST = await service.tx(request).post(new_path,newSalesRespInst);     
                 var objID = ManageAPICalls.getObjectIDFromURI(resofPOST);  
                 element.ObjectID =  objID;
@@ -535,7 +535,7 @@ class ManageAPICalls {
       // --------------------------------Territories ---------------------
      //------------------DELETE------------------
      try{           
-        var path = "/SalesTerritoryTeamCollection?$top=50&$filter=EmployeeID eq '" + request.data.EmployeeIDExternal + "'";
+        var path = "/sap/c4c/odata/v1/c4codataapi/SalesTerritoryTeamCollection?$top=50&$filter=EmployeeID eq '" + request.data.EmployeeIDExternal + "'";
         var res = await service.tx(request).get(path);
         var arr = request.data.To_Territories;
         for (const elem of res){
@@ -545,7 +545,7 @@ class ManageAPICalls {
             if(resEl == undefined){
                 var uri = elem.$metadata.uri;
                 var index = uri.indexOf("(");
-                var new_path = "/SalesTerritoryTeamCollection" + uri_del.substr(index_del);
+                var new_path = "/sap/c4c/odata/v1/c4codataapi/SalesTerritoryTeamCollection" + uri_del.substr(index_del);
                 var resofDel = await service.tx(request).delete(new_path);     
             }          
         }
@@ -564,13 +564,13 @@ class ManageAPICalls {
                 newTerrInst.EndDate = END_DATE + "T00:00:00";
                 newTerrInst.PartyRole = "46";
                 if(element.ObjectID != null){
-                    var path = "/SalesTerritoryTeamCollection" + element.ObjectID;
+                    var path = "/sap/c4c/odata/v1/c4codataapi/SalesTerritoryTeamCollection" + element.ObjectID;
                     var resofDel = await service.tx(request).delete(path);   
                 }                       
-                var query = "/SalesTerritoryCollection?$filter=Id eq '" + element.SalesTerritory_Code + "'&$select=ObjectID";                       
+                var query = "/sap/c4c/odata/v1/c4codataapi/SalesTerritoryCollection?$filter=Id eq '" + element.SalesTerritory_Code + "'&$select=ObjectID";                       
                 var terData = await service.tx(request).get(query);
                 var currentObjectID = terData[0].ObjectID;
-                var endPoint = "/SalesTerritoryCollection('" + currentObjectID + "')/SalesTerritoryTeam";
+                var endPoint = "/sap/c4c/odata/v1/c4codataapi/SalesTerritoryCollection('" + currentObjectID + "')/SalesTerritoryTeam";
                 var resTer = await service.tx(request).post(endPoint,newTerrInst);
                 var objID = ManageAPICalls.getObjectIDFromURI(resTer);     
                 element.ObjectID =  objID;
@@ -585,7 +585,7 @@ class ManageAPICalls {
       // --------------------------------Mapping ---------------------
       //------------------DELETE------------------
       try{           
-        var path = "/ObjectIdentifierMappingCollection?$filter=LocalObjectUUID eq guid'" + request.data.EmployeeUUIDWithHyphen + "'";
+        var path = "/sap/c4c/odata/v1/c4codataapi/ObjectIdentifierMappingCollection?$filter=LocalObjectUUID eq guid'" + request.data.EmployeeUUIDWithHyphen + "'";
         var res = await service.tx(request).get(path);
         var arr = request.data.To_Mappings;
         for (const elem of res){
@@ -595,7 +595,7 @@ class ManageAPICalls {
             if(resEl == undefined){
                 var uri = elem.$metadata.uri;
                 var index = uri.indexOf("(");
-                var new_path = "/ObjectIdentifierMappingCollection" + uri_del.substr(index_del);
+                var new_path = "/sap/c4c/odata/v1/c4codataapi/ObjectIdentifierMappingCollection" + uri_del.substr(index_del);
                 var resofDel = await service.tx(request).delete(new_path);     
             }          
         }
@@ -613,10 +613,10 @@ class ManageAPICalls {
                 newMappingInst.RemoteIdentifierDefiningSchemeCode = "3";
                 newMappingInst.RemoteBusinessSystemID = element.RemoteSystemID_Code;
                 if(element.ObjectID != null){
-                    var path = "/ObjectIdentifierMappingCollection" + element.ObjectID;
+                    var path = "/sap/c4c/odata/v1/c4codataapi/ObjectIdentifierMappingCollection" + element.ObjectID;
                     var resofDel = await service.tx(request).delete(path);         
                 }                 
-                var resObjMapping = await service.tx(request).post("/ObjectIdentifierMappingCollection",newMappingInst);       
+                var resObjMapping = await service.tx(request).post("/sap/c4c/odata/v1/c4codataapi/ObjectIdentifierMappingCollection",newMappingInst);       
                 var objID = ManageAPICalls.getObjectIDFromURI(resObjMapping);     
                 element.ObjectID = objID; 
             }catch(e){
