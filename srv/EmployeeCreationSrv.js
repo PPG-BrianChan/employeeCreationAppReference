@@ -14,8 +14,8 @@ module.exports = cds.service.impl(async function () {
     let service = null;
 
     let businessUnit = null;
-    const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
-   //const tenant = 'ClientLink-QA_org';
+    //const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
+   const tenant = 'ClientLink-DEV_org';
 
     const {
         EmpCreationForm,
@@ -178,10 +178,9 @@ module.exports = cds.service.impl(async function () {
     });
 
     async function _getData(request, collectionName) {
-       // var t = await getDestination('DataLakeDestination')
         let search = request._query.$search;    
         let system = request.headers.system;
-        //console.log(search)
+
         let path = "";
         if (search != undefined) {
             path = `&$search=${search}`
@@ -200,160 +199,42 @@ module.exports = cds.service.impl(async function () {
         console.log(JSON.stringify(executedData.data.value))
         return executedData.data.value;
     }
-/*
-    this.on('blockUser', EmpCreationForm, async request => {
-        await ManageAPICalls.lockUser(request, EmpCreationForm, service);
-    });
 
-    this.on('unblockUser', EmpCreationForm, async request => {
-        await ManageAPICalls.unlockUser(request, EmpCreationForm, service);
-    });
-*/
     this.on('lockUsers', async request => {
-        console.log("LOCKUSER" + CircularJSON.stringify(request))
+
         try{
-            let idList = request.data.idsList;
-            let idArray;
-            let user = 'User';
-            if(idList.indexOf(",") != -1){
-                let idListWithoutComma = idList.slice(0,-1)
-                idArray = idListWithoutComma.split(",")
-                let user = 'Users';
-            }else{
-                idArray = idList.split(",")
-            }
+            const requestParams = ManageAPICalls._convertIdStringToArray(request);
+            console.log("idArray_" + CircularJSON.stringify(requestParams.idArray))
 
-            for (let element of idArray){
-                console.log("el"+element)
-                const creationForm = await SELECT.one.from(EmpCreationForm).where({ ID : element});
-                console.log("EXECUTED"+JSON.stringify(creationForm))
+            await ManageAPICalls.makeRequestForLockingOrUnlocking(EmpCreationForm, requestParams , true);
 
-                const currentObjectID = creationForm.EmployeeUUID;
-                const system = creationForm.System;
-                const dest = ManageAPICalls._getDestination(system);
-                const endPoint = `/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('${currentObjectID}')`;
-                console.log("endPoint"+ endPoint)       
-
-                const createRequestParameters = {
-                    method: 'patch',
-                    url: endPoint,
-                    data: {
-                        "UserLockedIndicator": true
-                    },
-                    headers: {
-                        'content-type': 'application/json'
-                    }
-                }
-                console.log("createRequestParameters"+ JSON.stringify(createRequestParameters))
-                console.log("dest"+ dest)
-                const executedData = await executeHttpRequest({destinationName: dest}, createRequestParameters, {
-                    fetchCsrfToken: true
-                });
-                
-                console.log("executedData" + CircularJSON.stringify(executedData))
-                //await request.info('User locked');
-                await UPDATE(EmpCreationForm).where({ ID : element }).with({ UserLocked: true });               
-            }
             return {
                 Code: "200",
-                Message: `${user} locked`
+                Message: `${requestParams.user} locked`
             };
+
         }catch(error){
-            console.log("ERROR_TEXT"+CircularJSON.stringify(error))
-            let errorText;
-            let errorCode;
-            if(error != undefined && error.innererror != undefined && error.innererror.response != undefined){
-                errorText = text + error.innererror.response.body.error.message.value;
-                errorCode = error.innererror.response.status;
-            }
-            if(errorText && errorCode){
-             /*   return {
-                    Code: errorCode,
-                    Message: errorText
-                };*/
-                request.reject(errorCode, errorText);
-            }
-           /* return {
-                Code: "500",
-                Message: "Error via locking users"
-            };*/
-            request.reject(500, "Error via unlocking users");
+
+            await ManageAPICalls._errorHandlingLockAndUnlock(request, error, "Error via locking users");
         }
 
-        //await ManageAPICalls.lockUser(request, idArray, EmpCreationForm);
     });
 
     this.on('unlockUsers', async request => {
-        console.log("UNLOCKUSER" + CircularJSON.stringify(request))
+        
         try{
-            let idList = request.data.idsList;
-            let idArray;
-            let user = 'User';
-            if(idList.indexOf(",") != -1){
-                let idListWithoutComma = idList.slice(0,-1)
-                idArray = idListWithoutComma.split(",")
-                user = 'Users';
-            }else{
-                idArray = idList.split(",")
-            }
+            const requestParams = ManageAPICalls._convertIdStringToArray(request);
             
-            for (let element of idArray){
-                console.log("el"+element)
-                const creationForm = await SELECT.one.from(EmpCreationForm).where({ ID : element});
-                console.log("EXECUTED"+JSON.stringify(creationForm))
+            await ManageAPICalls.makeRequestForLockingOrUnlocking(EmpCreationForm, requestParams, false);
 
-                const currentObjectID = creationForm.EmployeeUUID;
-                const system = creationForm.System;
-                const dest = ManageAPICalls._getDestination(system);
-                const endPoint = `/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('${currentObjectID}')`;
-                console.log("endPoint"+ endPoint)       
-
-                const createRequestParameters = {
-                    method: 'patch',
-                    url: endPoint,
-                    data: {
-                        "UserLockedIndicator": false
-                    },
-                    headers: {
-                        'content-type': 'application/json'
-                    }
-                }
-                console.log("createRequestParameters"+ JSON.stringify(createRequestParameters))
-                console.log("dest"+ dest)
-                const executedData = await executeHttpRequest({destinationName: dest}, createRequestParameters, {
-                    fetchCsrfToken: true
-                });
-                
-                console.log("executedData" + CircularJSON.stringify(executedData))
-                //await request.info('User locked');
-                await UPDATE(EmpCreationForm).where({ ID : element }).with({ UserLocked: false });               
-            }
             return {
                 Code: "200",
-                Message: `${user} unlocked`
+                Message: `${requestParams.user} unlocked`
             };
         }catch(error){
-            console.log("ERROR_TEXT"+CircularJSON.stringify(error));
-            let errorText;
-            let errorCode;
-            if(error != undefined && error.innererror != undefined && error.innererror.response != undefined){
-                errorText = text + error.innererror.response.body.error.message.value;
-                errorCode = error.innererror.response.status;
-            }
-            if(errorText && errorCode){
-               /* return {
-                    Code: errorCode,
-                    Message: errorText
-                };*/
-                request.reject(errorCode, errorText);
-            }
-           /* return {
-                Code: "500",
-                Message: "Error via unlocking users"
-            };*/
-            request.reject(500, "Error via unlocking users");
+
+            await ManageAPICalls._errorHandlingLockAndUnlock(request, error, "Error via unlocking users");
         }
-        //await ManageAPICalls.unlockUser(request, EmpCreationForm, service);
     });
 
     this.before('NEW', EmpCreationForm, async request => {

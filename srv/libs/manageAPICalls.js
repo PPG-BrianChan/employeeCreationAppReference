@@ -1,3 +1,5 @@
+const CircularJSON = require('circular-json');
+const { executeHttpRequest } = require('@sap-cloud-sdk/core');
 class ManageAPICalls {
   static errorHandling(request, error, text) {
     let errorText = error;
@@ -11,6 +13,66 @@ class ManageAPICalls {
     }else if(errorCode >= 500){
         request.reject(errorCode,errorText);
     }
+  }
+
+  static async _errorHandlingLockAndUnlock(request, error, text) {
+    let errorText;
+    let errorCode;
+    if(error != undefined && error.innererror != undefined && error.innererror.response != undefined){
+        errorText = text + error.innererror.response.body.error.message.value;
+        errorCode = error.innererror.response.status;
+    }
+    if(errorText && errorCode){
+        request.reject(errorCode, errorText);
+    }
+
+    request.reject(500, text);
+  }
+
+  static _convertIdStringToArray(request) {
+    let idList = request.data.idsList;
+    let idArray;
+    let user = 'User';
+    if(idList.indexOf(",") != -1){
+        let idListWithoutComma = idList.slice(0,-1)
+        idArray = idListWithoutComma.split(",")
+        user = 'Users';
+    }else{
+        idArray = idList.split(",")
+    }
+    return {user: user, idArray: idArray}
+  }
+
+  static async makeRequestForLockingOrUnlocking(EmpCreationForm, requestParams, lockIndicator) {
+
+    for (let element of requestParams.idArray){
+
+        const creationForm = await SELECT.one.from(EmpCreationForm).where({ ID : element});
+
+        const currentObjectID = creationForm.EmployeeUUID;
+        const dest = ManageAPICalls._getDestination(creationForm.System);
+        
+        const createRequestParameters = {
+            method: 'patch',
+            url: `/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('${currentObjectID}')`,
+            data: {
+                "UserLockedIndicator": lockIndicator
+            },
+            headers: {
+                'content-type': 'application/json'
+            }
+        }
+
+        await executeHttpRequest({destinationName: dest}, createRequestParameters, {
+            fetchCsrfToken: true
+        });
+          
+        await ManageAPICalls._updateEmployeeAfterLockingOrUnlocking(EmpCreationForm, element, lockIndicator)              
+    }
+  }
+
+  static async _updateEmployeeAfterLockingOrUnlocking(EmpCreationForm, id, lockIndicator) {
+    await UPDATE(EmpCreationForm).where({ ID : id }).with({ UserLocked: lockIndicator });
   }
 
   static _getDestination(system) {
@@ -41,95 +103,6 @@ class ManageAPICalls {
     const index = uri.indexOf("(");
     return uri.substr(index);  
   }
-
-  static async lockUser(/*request, EmpCreationForm,*/request, idArray, EmpCreationForm) {
-      console.log("LOCK USER START");
-      console.log("LOCK USER SERVICE");
-   /* try {
-      
-      const { ID } = request.params[0];
-      const creationForm = await SELECT.one.from(EmpCreationForm).where({ ID });
-      const c4cID = creationForm.EmployeeIDExternal;
-      const data = {
-        UserLockedIndicator: true
-      };
-      const query = `/EmployeeCollection?$filter=EmployeeID eq '${c4cID}'&$select=ObjectID`;
-      const empData = await service.tx(request).get(query);
-      const currentObjectID = empData[0].ObjectID;
-      const endPoint = `/EmployeeCollection('${currentObjectID}')`;
-      await service.tx(request).patch(endPoint, data);
-      request.info('User locked');
-      await UPDATE(EmpCreationForm).where({ ID }).with({ UserLocked: true });
-    } catch (e) {
-      const errorText = 'User locking error: ';
-      ManageAPICalls.errorHandling(request, e, errorText);
-    }*/
-        try {
-            for (let element of idArray){
-                const creationForm = await SELECT.one.from(EmpCreationForm).where({ ID : element});
-                console.log("EXECUTED"+JSON.stringify(creationForm))
-
-                const c4cID = creationForm.EmployeeIDExternal;
-                const dataE = {
-                    UserLockedIndicator: true
-                };
-              //  const query = `/EmployeeCollection?$filter=EmployeeID eq '${c4cID}'&$select=ObjectID`;
-               // const empData = await service.tx(request).get(query);
-               // const currentObjectID = empData[0].ObjectID;
-                const currentObjectID = creationForm.EmployeeUUID;
-                const system = creationForm.System;
-                const dest = this._getDestination(system);
-                const endPoint = `/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('${currentObjectID}')`;
-                //await service.tx(request).patch(endPoint, data);
-                console.log("endPoint"+ endPoint)
-                
-
-                const createRequestParameters = {
-                    method: 'patch',
-                    url: endPoint,
-                    data: {
-                        "UserLockedIndicator": true
-                    },
-                    headers: {
-                        'content-type': 'application/json'
-                    }
-                }
-                console.log("createRequestParameters"+ JSON.stringify(createRequestParameters))
-                console.log("dest"+ dest)
-                const executedData = await executeHttpRequest({destinationName: dest}, createRequestParameters, {
-                    fetchCsrfToken: true
-                });
-                
-                console.log("executedData" + CircularJSON.stringify(executedData))
-                request.info('User locked');
-                await UPDATE(EmpCreationForm).where({ ID : element }).with({ UserLocked: true });
-            }
-          } catch (e) {
-            const errorText = 'User locking error: ';
-            ManageAPICalls.errorHandling(request, e, errorText);
-          }
-  };
-
-  static async unlockUser(request, EmpCreationForm, service) {
-    try {
-      const { ID } = request.params[0];
-      const creationForm = await SELECT.one.from(EmpCreationForm).where({ ID });
-    /*  const c4cID = creationForm.EmployeeIDExternal;
-      const data = {
-        UserLockedIndicator: false
-      };
-      const query = `/EmployeeCollection?$filter=EmployeeID eq '${c4cID}'&$select=ObjectID`;
-      const empData = await service.tx(request).get(query);
-      const currentObjectID = empData[0].ObjectID;
-      const endPoint = `/EmployeeCollection('${currentObjectID}')`;
-      const resTer = await service.tx(request).patch(endPoint, data);*/
-      request.info('User unlocked');
-      const updatedRecord = await UPDATE(EmpCreationForm).where({ ID }).with({ UserLocked: false });
-    } catch (e) {
-      const errorText = 'User unlocking error: ';
-      ManageAPICalls.errorHandling(request, e, errorText);
-    }
-  };
 
   static createEmpData(request){
     const END_DATE = '9999-12-31';

@@ -261,21 +261,6 @@ annotate scp.Mapping with {
     };
 };
 
-/* annotate scp.EmpCreationForm actions {
-    @(
-        cds.odata.bindingparameter.name : '_it',
-        Core.OperationAvailable         : _it.unblockBtnEnabled,
-        Common.SideEffects              : {TargetProperties : ['_it/*']}
-    )
-    unblockUser;
-    @(
-        cds.odata.bindingparameter.name : '_it',
-        Core.OperationAvailable         : _it.blockBtnEnabled,
-        Common.SideEffects              : {TargetProperties : ['_it/*']}
-    )
-    blockUser;
-} */
-
 
 annotate e.EmployeeIdentifier with @cds.odata.valuelist;
 annotate e.Region with @cds.odata.valuelist;

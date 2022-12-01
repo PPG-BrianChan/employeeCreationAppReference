@@ -11,10 +11,7 @@ service EmployeeCreationService
     UpdateRestrictions.Updatable  : true,
     DeleteRestrictions.Deletable  : false
   }
-  entity EmpCreationForm            as projection on employee.EmpCreationForm actions {
-    action blockUser()   returns String;
-    action unblockUser() returns String;
-  };
+  entity EmpCreationForm            as projection on employee.EmpCreationForm
 
   @readonly
   entity Language                   as projection on employee.EmployeeLanguageCodeCollection;
