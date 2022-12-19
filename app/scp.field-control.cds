@@ -123,18 +123,7 @@ annotate scp.EmployeeOrgUnitAssigment {
                 ValueListProperty : 'Description'
             },
         ]
-    }; /*
-     RoleCode @Common.ValueListWithFixedValues : true;
-     RoleCode @Common.ValueList: {
-         CollectionPath : 'RoleCode',
-         Parameters : [
-             {   $Type: 'Common.ValueListParameterInOut',
-                 LocalDataProperty: RoleCode_Code,
-                 ValueListProperty: 'ID'},
-             {   $Type: 'Common.ValueListParameterDisplayOnly',
-                 ValueListProperty: 'Description'},
-             ]
-     };*/
+    }; 
     UnitID @Common.ValueListWithFixedValues : true;
     UnitID @Common.ValueList                : {
         CollectionPath : 'OrgUnit',

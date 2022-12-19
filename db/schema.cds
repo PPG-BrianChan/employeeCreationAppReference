@@ -1,10 +1,10 @@
 namespace sap.employee;
 
 using { cuid, managed, temporal, sap, sap.common.CodeList } from '@sap/cds/common';
-using { employeeanduser as external} from '../srv/external/employeeanduser.csn';
+/*using { employeeanduser as external} from '../srv/external/employeeanduser.csn';
 using { jobdefinition as extjob } from '../srv/external/jobdefinition.csn';
 using { organisationalunit as extunit } from '../srv/external/organisationalunit.csn';
-using { salesterritory as extterritory } from '../srv/external/salesterritory.csn';
+using { salesterritory as extterritory } from '../srv/external/salesterritory.csn';*/
 
 entity EmpCreationForm : cuid, managed {
     System: String;
@@ -34,8 +34,6 @@ entity EmpCreationForm : cuid, managed {
     To_Mappings : Composition of many Mapping on To_Mappings.To_CreationForm = $self;
     To_Territories : Composition of many Territories on To_Territories.To_CreationForm = $self;
 
-    virtual blockBtnEnabled : Boolean default false;
-    virtual unblockBtnEnabled : Boolean default false;
     refreshCodeList : Boolean;
     HideFirstPanel : Boolean;
     HideSecondPanel : Boolean default true;
@@ -88,34 +86,24 @@ entity Mapping:cuid {
 }
 
 
-entity EmployeeLanguageCodeCollection as projection on external.EmployeeLanguageCodeCollection{
-    key Code, Description
-};
-
-entity EmployeeCountryCodeCollection as projection on external.EmployeeCountryCodeCollection {
-    key Code, Description
-};
-
-entity EmployeeUserPasswordPolicyCodeCollection as projection on external.EmployeeUserPasswordPolicyCodeCollection {
-    key Code, Description
-};
-
-entity JobDefinitionCollection{// as projection on extjob.JobDefinitionCollection {
-   // key JobID, JobName
+entity EmployeeLanguageCodeCollection{
     key Code        : String;
     Description : String;
-    Source      : String;
 };
-/*
-entity OrganisationalUnitNameAndAddressCollection as projection on extunit.OrganisationalUnitNameAndAddressCollection {
-    key OrganisationalUnitID as ID, Name as Description
-};*/
 
-entity OrganisationalUnitCollection as projection on extunit.OrganisationalUnitCollection{
-   key OrganisationalUnitID as ID,
-    MarkAsDeleted,
-    OrganisationalUnitNameAndAddress as To_Names : redirected to OrganisationalUnitNameAndAddressCollection,
-    OrganisationalUnitFunctions as To_Functions: redirected to extunit.OrganisationalUnitFunctionsCollection
+entity EmployeeCountryCodeCollection{
+    key Code        : String;
+    Description : String;
+};
+
+entity EmployeeUserPasswordPolicyCodeCollection{
+    key Code        : String;
+    Description : String;
+};
+
+entity JobDefinitionCollection{
+    key Code        : String;
+    Description : String;
 };
 
 entity SalesOrgs: cuid {
@@ -129,19 +117,9 @@ entity OrgUnit: cuid {
     Description : String;
 };
 
-entity OrganisationalUnitNameAndAddressCollection as projection on extunit.OrganisationalUnitNameAndAddressCollection {
-    OrganisationalUnitID,
-    Name
-};
-
-entity OrganisationalUnitFunctionsCollection as projection on extunit.OrganisationalUnitFunctionsCollection {
-    OrganisationalUnitID,
-    SalesOrganisationIndicator
-};
-
-
-entity EmployeeOrganisationalUnitAssignmentRoleCodeCollection as projection on external.EmployeeOrganisationalUnitAssignmentRoleCodeCollection {
-    key Code as ID, Description
+entity EmployeeOrganisationalUnitAssignmentRoleCodeCollection{
+    key Code        : String;
+    Description : String;
 };
 
 entity EmployeeOrgaUnitAssignmentRoleCodeCollection {
@@ -149,29 +127,24 @@ entity EmployeeOrgaUnitAssignmentRoleCodeCollection {
     Description : String;
 };
 
-entity OrganisationalUnitDistributionChannelAndDivisionDistributionChannelCodeCollection{// as projection on extunit.OrganisationalUnitDistributionChannelAndDivisionDistributionChannelCodeCollection {
+entity OrganisationalUnitDistributionChannelAndDivisionDistributionChannelCodeCollection{
     key Code : String;
     Description : String;
 };
 
-entity OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection{// as projection on extunit.OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection {
+entity OrganisationalUnitDistributionChannelAndDivisionDivisionCodeCollection{
     key Code : String;
     Description : String;
 };
 
-entity SalesTerritoryCollection{// as projection on extterritory.SalesTerritoryCollection {
-  //  key Id, Name
+entity SalesTerritoryCollection{
     key Code        : String;
     Description : String;
-    Source      : String;
 }
 
 entity Roles {
-  /*  key CROOT_ID_CONTENT : String;
-    CDESCRIPTION_NAME : String;*/
     key Code        : String;   
     Description : String;
-    Source      : String;
     
 };
 

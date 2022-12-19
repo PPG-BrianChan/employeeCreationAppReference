@@ -321,8 +321,6 @@ class ManageAPICalls {
         });
         request.data.EmployeeIDExternal = empID;
         request.data.EmployeeIDInternal = request.data.ID;
-        request.data.blockBtnEnabled = true;
-        request.data.unblockBtnEnabled = false;
         request.data.IsSystemAC = request.data.System === 'ac';
         request.data.HideFirstPanel = true;
         request.data.IsNotTesterUser = true;
@@ -339,7 +337,7 @@ class ManageAPICalls {
     const orgName = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
     if(request.data.ValidatyStartDate == null) request.data.ValidatyStartDate = today;
     if (request.data.EmployeeIDExternal != null) {
-      request.data.blockBtnEnabled = true;
+
 
     try{
         var newRoleInst = {};

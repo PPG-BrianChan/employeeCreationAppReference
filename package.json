@@ -68,14 +68,6 @@
           "kind": "jwt-auth"
         }
       },
-      "jobdefinition": {
-        "kind": "odata-v2",
-        "model": "srv/external/jobdefinition"
-      },
-      "organisationalunit": {
-        "kind": "odata-v2",
-        "model": "srv/external/organisationalunit"
-      },
       "c4c_ac": {
         "kind": "odata-v2",
         "credentials": {
@@ -93,14 +85,6 @@
         "credentials": {
           "destination": "c4c_aerospace"
         }
-      },
-      "objectidentifiermapping": {
-        "kind": "odata-v2",
-        "model": "srv/external/objectidentifiermapping"
-      },
-      "salesterritory": {
-        "kind": "odata-v2",
-        "model": "srv/external/salesterritory"
       }
     },
     "hana": {

@@ -26,7 +26,6 @@ annotate dm.EmpCreationForm with @title            : '{i18n>EmpCreationForm}' {
     EmployeeIdentifier     @title                  : '{i18n>EmployeeIdentifier}';
     Region                 @title                  : '{i18n>Region}';
     Subregion              @title                  : '{i18n>Subregion}';
-    unblockBtnEnabled      @title                  : '{i18n>Country}';
     createdAt              @title                  : '{i18n>createdAt}'  @UI.HiddenFilter  : false;
     createdBy              @title                  : '{i18n>createdBy}'  @UI.HiddenFilter  : false;
     modifiedAt             @title                  : '{i18n>modifiedAt}'  @UI.HiddenFilter : false;

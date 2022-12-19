@@ -14,8 +14,8 @@ module.exports = cds.service.impl(async function () {
     let service = null;
 
     let businessUnit = null;
-    //const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
-   const tenant = 'ClientLink-DEV_org';
+    const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
+    //const tenant = 'ClientLink-DEV_org';
 
     const {
         EmpCreationForm,
@@ -40,50 +40,6 @@ module.exports = cds.service.impl(async function () {
         Subregion,
         Territories
     } = this.entities;
-
-    this.after('READ', EmpCreationForm, each => {
-        if (each.EmployeeIDExternal != null) {
-            if (each.UserLocked) {
-                each.unblockBtnEnabled = true;
-                each.blockBtnEnabled = false;
-            } else {
-                each.unblockBtnEnabled = false;
-                each.blockBtnEnabled = true;
-            }
-        } else {
-            each.unblockBtnEnabled = false;
-            each.blockBtnEnabled = false;
-        }
-    });
-
-    const _calculateButtonAvailability = any => {
-        if (any.EmployeeIDExternal != null && any.IsActiveEntity) {
-            if (any.UserLocked) {
-                any.unblockBtnEnabled = true;
-                any.blockBtnEnabled = false;
-            } else {
-                any.unblockBtnEnabled = false;
-                any.blockBtnEnabled = true;
-            }
-        } else {
-            any.unblockBtnEnabled = false;
-            any.blockBtnEnabled = false;
-        }
-    };
-
-    const _calculateButtonAvailability2 = any => {
-        if (any.UserLocked) {
-            any.unblockBtnEnabled = true;
-            any.blockBtnEnabled = false;
-        } else {
-            any.unblockBtnEnabled = false;
-            any.blockBtnEnabled = true;
-        }
-    };
-
-    this.after('each', 'EmpCreationForm', _calculateButtonAvailability);
-    this.after('EDIT', 'EmpCreationForm', _calculateButtonAvailability);
-    this.after('SAVE', 'EmpCreationForm', _calculateButtonAvailability2);
 
     this.before('SAVE', 'EmpCreationForm', async request => {
         debugger;
@@ -116,7 +72,6 @@ module.exports = cds.service.impl(async function () {
     
     this.on('READ', RemoteSystem, async request => {
 
-       // url: `RemoteSystem?$filter=BusinessUnit eq 'ac' and Tenant eq 'ClientLink-Dev_org'`
         const data = await _getData(request, 'RemoteSystem')
         return data;
     });
@@ -126,8 +81,6 @@ module.exports = cds.service.impl(async function () {
         const data = await _getData(request, 'Job')
         return data;
     });
-
-    //this.on('READ', RoleCode, request => service.tx(request).run(request.query));
 
     this.on('READ', OrgUnit, async request => {
 
@@ -192,7 +145,7 @@ module.exports = cds.service.impl(async function () {
         };
 
         if(collectionName == 'RemoteSystem'){
-            createRequestParameters.url = `RemoteSystem?$filter=BusinessUnit eq '${system}' and Tenant eq '${tenant}'`
+            createRequestParameters.url = `RemoteSystem?$filter=BusinessUnit eq '${system}' and Tenant eq  '${tenant}'`
         }
 
         const executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
