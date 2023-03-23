@@ -19,6 +19,12 @@ sap.ui.define([
             const sSystem = this.getSystemParameterFromUrl();
             oContext.getModel().changeHttpHeaders({system: sSystem});
             oContext.setProperty('System', sSystem);
+          }else{
+            //Insertion:Upon refresh, Http Headers have to be passed in again
+            const headerSystem = oContext.getModel().getHttpHeaders().system
+            if(headerSystem === undefined){
+              oContext.getModel().changeHttpHeaders({system: mData.System});
+            }
           }
         }
       }

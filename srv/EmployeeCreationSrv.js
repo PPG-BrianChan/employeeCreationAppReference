@@ -1,7 +1,7 @@
 const cds = require('@sap/cds');
 const jwt_decode = require('jwt-decode');
 const CircularJSON = require('circular-json');
-const { executeHttpRequest, getDestination } = require('@sap-cloud-sdk/core');
+const { executeHttpRequest, getDestination, oDataUri } = require('@sap-cloud-sdk/core');
 const { ManageAPICalls } = require('./libs/manageAPICalls');
 const { RemoteSystemDataMapping } = require('./libs/RemoteSystemDataMapping');
 const destinationDataLake = {
@@ -52,7 +52,7 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.on('READ', EmployeeUserPasswordPolicy, async request => {
-        
+
         const data = await _getData(request, 'EmployeeUserPasswordPolicy')
         console.log("CHECK" + JSON.stringify(data))
         return data;
@@ -65,11 +65,11 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.on('READ', Language, async request => {
-        
+
         const data = await _getData(request, 'Language')
         return data;
     });
-    
+
     this.on('READ', RemoteSystem, async request => {
 
         const data = await _getData(request, 'RemoteSystem')
@@ -77,7 +77,7 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.on('READ', Job, async request => {
-        
+
         const data = await _getData(request, 'Job')
         return data;
     });
@@ -89,7 +89,7 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.on('READ', SalesOrgs, async request => {
-     
+
         const data = await _getData(request, 'SalesOrgs')
         return data;
     });
@@ -119,7 +119,7 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.on('READ', Region, async request => {
-        
+
         const data = await _getData(request, 'Region')
         return data;
     });
@@ -131,12 +131,16 @@ module.exports = cds.service.impl(async function () {
     });
 
     async function _getData(request, collectionName) {
-        let search = request._query.$search;    
+        let search = request._query.$search;
         let system = request.headers.system;
+        let filter = request._query.$filter;
 
         let path = "";
         if (search != undefined) {
             path = `&$search=${search}`
+        }
+        if (filter != undefined) {
+            path = ` and ${filter}`
         }
 
         let createRequestParameters = {
@@ -144,29 +148,32 @@ module.exports = cds.service.impl(async function () {
             url: `/${collectionName}?$filter=Source eq '${system}'${path}`
         };
 
-        if(collectionName == 'RemoteSystem'){
+        if (collectionName == 'RemoteSystem') {
             createRequestParameters.url = `RemoteSystem?$filter=BusinessUnit eq '${system}' and Tenant eq  '${tenant}'`
         }
 
+        //Insertion:Add top and skip handling 
+        createRequestParameters.url += `&$top=${request._query.$top}&$skip=${request._query.$skip}&$count=true`
+
         const executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
-        console.log(JSON.stringify(executedData.data.value))
+
         return executedData.data.value;
     }
 
     this.on('lockUsers', async request => {
 
-        try{
+        try {
             const requestParams = ManageAPICalls._convertIdStringToArray(request);
             console.log("idArray_" + CircularJSON.stringify(requestParams.idArray))
 
-            await ManageAPICalls.makeRequestForLockingOrUnlocking(EmpCreationForm, requestParams , true);
+            await ManageAPICalls.makeRequestForLockingOrUnlocking(EmpCreationForm, requestParams, true);
 
             return {
                 Code: "200",
                 Message: `${requestParams.user} locked`
             };
 
-        }catch(error){
+        } catch (error) {
 
             await ManageAPICalls._errorHandlingLockAndUnlock(request, error, "Error via locking users");
         }
@@ -174,17 +181,17 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.on('unlockUsers', async request => {
-        
-        try{
+
+        try {
             const requestParams = ManageAPICalls._convertIdStringToArray(request);
-            
+
             await ManageAPICalls.makeRequestForLockingOrUnlocking(EmpCreationForm, requestParams, false);
 
             return {
                 Code: "200",
                 Message: `${requestParams.user} unlocked`
             };
-        }catch(error){
+        } catch (error) {
 
             await ManageAPICalls._errorHandlingLockAndUnlock(request, error, "Error via unlocking users");
         }
@@ -200,7 +207,7 @@ module.exports = cds.service.impl(async function () {
         } catch (error) {
             decode = null;
         }
-        request.data.IsSystemAC = request.headers.system === 'ac'; 
+        request.data.IsSystemAC = request.headers.system === 'ac';
         request.data.Email = decode ? decode.email : 'unknown';
         request.data.FirstName = decode ? decode.given_name : 'unknown';
         request.data.LastName = decode ? decode.family_name : 'unknown';
@@ -327,7 +334,7 @@ module.exports = cds.service.impl(async function () {
         }
 
         if ('UserLogin' in req.data) {
-            
+
             const tx = cds.tx();
 
             const selectMappingsQuery = SELECT.from(Mapping.drafts).where({
