@@ -183,6 +183,22 @@
 										}
                                     }
                                 }
+                            },
+                            "controlConfiguration":{
+                                "To_SalesResponsobilities/@com.sap.vocabularies.UI.v1.LineItem#i18nSalesResp":{
+                                    "columns":{
+                                        "CustomColumnOnObjectPage": {
+                                            "header": "{i18n>Instructions}",
+                                            "template": "ppg.ui.custom.salesResponsibilities",
+                                            "availability": "Default",
+                                            "position": {
+                                                "placement": "After",
+                                                "anchor": "DataField::MainIndicator"
+                                            },
+                                            "importance" : "HIGH"
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
