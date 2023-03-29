@@ -458,7 +458,7 @@ class ManageAPICalls {
             }
             element.IsUpdate = false;
         }
-      // --------------------------------Sales responsobility ---------------------
+      // --------------------------------Sales responsibility ---------------------
       //------------------DELETE------------------
       try{           
         var path = "/sap/c4c/odata/v1/c4codataapi/EmployeeCollection('"+ request.data.EmployeeUUID +"')/EmployeeSalesResponsibility";
