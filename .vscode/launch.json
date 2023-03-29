@@ -26,6 +26,24 @@
         "NODE_ENV": "development",
         "run.config": "{\"handlerId\":\"cap_run_config_handler_id\",\"runnableId\":\"{\\\"projectPath\\\":\\\"/home/user/projects/EmployeeCreationApp\\\",\\\"profileName\\\":\\\"development\\\"}\"}"
       }
+    },
+    {
+      "command": "cds run --with-mocks --in-memory?",
+      "name": "cds run",
+      "request": "launch",
+      "type": "node-terminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "command": "cds-ts run --with-mocks --in-memory?",
+      "name": "ts run",
+      "request": "launch",
+      "type": "node-terminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
     }
   ]
 }

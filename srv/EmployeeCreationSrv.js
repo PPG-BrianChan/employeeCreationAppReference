@@ -15,7 +15,7 @@ module.exports = cds.service.impl(async function () {
 
     let businessUnit = null;
     const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
-    //const tenant = 'ClientLink-DEV_org';
+    // const tenant = 'ClientLink-DEV_org';
 
     const {
         EmpCreationForm,
@@ -131,29 +131,44 @@ module.exports = cds.service.impl(async function () {
     });
 
     async function _getData(request, collectionName) {
-        let search = request._query.$search;
-        let system = request.headers.system;
-        let filter = request._query.$filter;
+
+        let search = (request._query?.$search !== undefined && request._query?.$search !== null) ? request._query.$search : "";
+        let system = (request.headers?.system !== undefined && request.headers?.system !== null) ? request.headers.system : "";
+        let filter = (request._query?.$filter !== undefined && request._query?.$filter !== null) ? request._query.$filter : "";
 
         let path = "";
-        if (search != undefined) {
+        if (search != undefined && search !== "") {
             path = `&$search=${search}`
         }
-        if (filter != undefined) {
+        if (filter != undefined && filter !== "") {
             path = ` and ${filter}`
         }
 
-        let createRequestParameters = {
-            method: 'get',
-            url: `/${collectionName}?$filter=Source eq '${system}'${path}`
-        };
+        let createRequestParameters;
+        if (system != undefined && system !== "") {
+            createRequestParameters = {
+                method: 'get',
+                url: `/${collectionName}?$filter=Source eq '${system}'${path}`
+            };
+        } else {
+            createRequestParameters = {
+                method: 'get',
+                url: `/${collectionName}${path}`
+            };
+        }
 
         if (collectionName == 'RemoteSystem') {
-            createRequestParameters.url = `RemoteSystem?$filter=BusinessUnit eq '${system}' and Tenant eq  '${tenant}'`
+            if (system != undefined && system !== "") {
+                createRequestParameters.url = `RemoteSystem?$filter=BusinessUnit eq '${system}' and Tenant eq  '${tenant}'`
+            } else {
+                createRequestParameters.url = `RemoteSystem?$filter=Tenant eq  '${tenant}'`
+            }
         }
 
         //Insertion:Add top and skip handling 
-        createRequestParameters.url += `&$top=${request._query.$top}&$skip=${request._query.$skip}&$count=true`
+        if (request._query?.$top !== null && request._query?.$top !== undefined) {
+            createRequestParameters.url += `&$top=${request._query.$top}&$skip=${request._query.$skip}&$count=true`
+        }
 
         const executedData = await executeHttpRequest(destinationDataLake, createRequestParameters);
 
@@ -278,6 +293,14 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.before('SAVE', EmpCreationForm, async request => {
+        //Insertion : Fix for tx null
+        if (service === null) {
+            if ('System' in request.data && request.data.System) {
+                await _setSystem(request.data.System);
+                request.data.IsSystemAC = request.data.System === 'ac';
+            }
+        }
+
         await ManageAPICalls.updateEmployee(
             request,
             service,

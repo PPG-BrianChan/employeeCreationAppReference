@@ -195,7 +195,7 @@
                                                 "placement": "After",
                                                 "anchor": "DataField::MainIndicator"
                                             },
-                                            "importance" : "HIGH"
+                                            "importance" : "High"
                                         }
                                     }
                                 }
