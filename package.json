@@ -39,10 +39,7 @@
     "requires": {
       "db": {
         "[development]": {
-          "kind": "sqlite",
-          "credentials": {
-            "database": "sqlite.db"
-          }
+          "kind": "hana-cloud"
         },
         "[production]": {
           "kind": "hana"

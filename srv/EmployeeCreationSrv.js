@@ -14,8 +14,8 @@ module.exports = cds.service.impl(async function () {
     let service = null;
 
     let businessUnit = null;
-    const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
-    // const tenant = 'ClientLink-DEV_org';
+    // const tenant = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
+    const tenant = 'ClientLink-DEV_org';
 
     const {
         EmpCreationForm,

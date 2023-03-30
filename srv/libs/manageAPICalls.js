@@ -110,7 +110,8 @@ class ManageAPICalls {
     const salesResp = [];
     const orgAssigment = [];
     const today = new Date().toISOString().slice(0, 10);
-    const orgName = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
+    // const orgName = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
+    const orgName = "ClientLink-DEV_org"
     if (request.data.ValidatyStartDate == null) {
       request.data.ValidatyStartDate = today;
     }
@@ -334,7 +335,8 @@ class ManageAPICalls {
   static async updateEmployee(request, service, EmpCreationForm, BusinessRoles, SalesResponsability, EmployeeOrgUnitAssigment, Territories, Mapping) {
     const END_DATE = '9999-12-31';
     var today = new Date().toISOString().slice(0, 10);
-    const orgName = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
+    // const orgName = JSON.parse(process.env.VCAP_APPLICATION).organization_name;
+    const orgName = "ClientLink-DEV_org"
     if(request.data.ValidatyStartDate == null) request.data.ValidatyStartDate = today;
     if (request.data.EmployeeIDExternal != null) {
 

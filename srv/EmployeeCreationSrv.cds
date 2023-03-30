@@ -1,10 +1,10 @@
 using {sap.employee as employee} from '../db/schema';
 
 service EmployeeCreationService 
-@(requires : [
-  'EmployeeCreation_KBU',
-  'Tester' 
-]) 
+// @(requires : [
+//   'EmployeeCreation_KBU',
+//   'Tester' 
+// ]) 
 {
   @Capabilities : {
     InsertRestrictions.Insertable : true,
